@@ -6,9 +6,20 @@ using System.Threading.Tasks;
 
 namespace MalpracticeMakesPerfect
 {
-    internal abstract class Recipe
+    internal class Recipe
     {
-        protected Item[] inputs = new Item[2];
-        protected List<Item> outputs = new List<Item>();
+        protected Item[] inputs;
+        protected List<Item> outputs;
+
+        /// <summary>
+        /// Creates recipe
+        /// </summary>
+        /// <param name="inputs">The items being combined</param>
+        /// <param name="outputs">The resulting item</param>
+        public Recipe(Item[] inputs, List<Item> outputs)
+        {
+            this.inputs = inputs;
+            this.outputs = outputs;
+        }
     }
 }

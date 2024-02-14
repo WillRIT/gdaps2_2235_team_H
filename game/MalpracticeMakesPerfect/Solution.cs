@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace MalpracticeMakesPerfect
 {
-    internal abstract class Solution
+    internal class Solution
     {
         protected List<Item> items;
         protected double score;
+
+        public Solution(List<Item> items, double score)
+        {
+            this.items = items;
+            this.score = score;
+        }
     }
 }

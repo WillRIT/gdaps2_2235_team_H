@@ -3,7 +3,7 @@
   <Class Name="MalpracticeMakesPerfect.Inventory">
     <Position X="3" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAgAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAABAAAAAAAAAAAgAAgAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Inventory.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -21,7 +21,7 @@
       </Enum>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AEAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AEAAAAAABAAAAAAAAAAAAAEAAAAAAAAAACAAAAAAAQA=</HashCode>
       <FileName>Item.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -29,9 +29,9 @@
     <Position X="4.75" Y="5" Width="1.5" />
     <AssociationLine Name="inputs" Type="MalpracticeMakesPerfect.Item" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="6.25" Y="5.434" />
-        <Point X="6.75" Y="5.434" />
-        <Point X="6.75" Y="2.997" />
+        <Point X="6.25" Y="5.552" />
+        <Point X="6.75" Y="5.552" />
+        <Point X="6.75" Y="3.833" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -50,11 +50,11 @@
         <Point X="9.125" Y="4.75" />
         <Point X="9.125" Y="4.375" />
         <Point X="9.438" Y="4.375" />
-        <Point X="9.438" Y="3.353" />
+        <Point X="9.438" Y="3.805" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAgAAAABAAQAAAAAAAAAAAAAAAAgAAAAAAIAAAAAAA=</HashCode>
+      <HashCode>AAAgAAAABAAQAAAAAAAAAAAAAAAQgAAAAAAIAAAAAAA=</HashCode>
       <FileName>Scenario.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -71,10 +71,10 @@
       <Field Name="items" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="MalpracticeMakesPerfect.DatabaseManager" Collapsed="true">
-    <Position X="8.5" Y="1" Width="1.5" />
+  <Class Name="MalpracticeMakesPerfect.DatabaseManager">
+    <Position X="8" Y="0.75" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DatabaseManager.cs</FileName>
     </TypeIdentifier>
   </Class>
