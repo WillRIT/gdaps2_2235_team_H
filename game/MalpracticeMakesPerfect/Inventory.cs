@@ -11,6 +11,11 @@ namespace MalpracticeMakesPerfect
         private List<Item> items;
         private List<Recipe> recipes;
 
+        /// <summary>
+        /// Creates inventory
+        /// </summary>
+        /// <param name="items">Items in inventory</param>
+        /// <param name="recipes">All possible combinations of items</param>
         public Inventory(List<Item> items, List<Recipe> recipes)
         {
             this.items = items;
