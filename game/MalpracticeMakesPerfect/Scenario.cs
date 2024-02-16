@@ -11,12 +11,12 @@ namespace MalpracticeMakesPerfect
 {
     internal class Scenario
     {
-        protected string sceneMessage;
-        protected int slotNum;
-        protected Item[] itemSlots; //the slots that you can place items in
-        protected List<Solution> solutions;
-        protected Texture2D personSprite;
-        protected string godModeText;
+        private string sceneMessage;
+        private int slotNum;
+        private Item[] itemSlots; //the slots that you can place items in
+        private List<Solution> solutions;
+        private Texture2D personSprite;
+        private string godModeText;
 
         /// <summary>
         /// Creates a scenario

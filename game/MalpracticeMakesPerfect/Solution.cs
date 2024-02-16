@@ -8,8 +8,8 @@ namespace MalpracticeMakesPerfect
 {
     internal class Solution
     {
-        protected List<Item> items;
-        protected double score;
+        private List<Item> items;
+        private double score;
 
         /// <summary>
         /// Creates a solution

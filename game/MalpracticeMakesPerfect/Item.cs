@@ -9,13 +9,13 @@ namespace MalpracticeMakesPerfect
 {
     internal class Item
     {
-        protected string itemName;
-        protected string itemDesc;
-        protected double itemCost;
-        protected bool inInventory;
-        protected Texture2D itemSprite;
+        private string itemName;
+        private string itemDesc;
+        private double itemCost;
+        private bool inInventory;
+        private Texture2D itemSprite;
 
-        protected enum itemAspects { };
+        private enum itemAspects { };
 
         /// <summary>
         /// Create item

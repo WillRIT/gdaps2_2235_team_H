@@ -8,8 +8,8 @@ namespace MalpracticeMakesPerfect
 {
     internal class Recipe
     {
-        protected Item[] inputs;
-        protected List<Item> outputs;
+        private Item[] inputs;
+        private List<Item> outputs;
 
         /// <summary>
         /// Creates recipe
