@@ -8,6 +8,11 @@ namespace MalpracticeMakesPerfect
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Texture2D jam;
+        private Texture2D Joobi;
+
+        private Rectangle item;
+
 
         public Game1()
         {
@@ -26,6 +31,7 @@ namespace MalpracticeMakesPerfect
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
 
             // TODO: use this.Content to load your game content here
         }
