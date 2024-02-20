@@ -9,19 +9,18 @@ namespace MalpracticeMakesPerfect
     internal class Inventory
     {
         private List<Item> items;
-        private List<Item> availableItems;
         private List<Recipe> recipes;
+        private Slot[] hotbar = new Slot[6];
+        private List<Slot> shopItems;
 
         /// <summary>
         /// Creates inventory
         /// </summary>
         /// <param name="items">Every item</param>
-        /// <param name="availableItems">All items available to the player</param>
         /// <param name="recipes">All possible combinations of items</param>
-        public Inventory(List<Item> items, List<Item> availableItems,List<Recipe> recipes)
+        public Inventory(List<Item> items,List<Recipe> recipes)
         {
             this.items = items;
-            this.availableItems = availableItems;
             this.recipes = recipes;
         }
 
@@ -41,12 +40,9 @@ namespace MalpracticeMakesPerfect
         /// Adds an item to the inventory if it doesn't already exist there
         /// </summary>
         /// <param name="item">Item to be added</param>
-        public void AddItem(Item item)
+        public void AddItem(Item item, int slotIndex)
         {
-            if (!items.Contains(item))
-            {
-                items.Add(item);
-            }
+
         }
     }
 }
