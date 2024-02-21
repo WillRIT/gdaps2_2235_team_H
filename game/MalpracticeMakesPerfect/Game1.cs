@@ -11,7 +11,8 @@ namespace MalpracticeMakesPerfect
         private Texture2D jam;
         private Texture2D Joobi;
 
-        private Rectangle item;
+        private Rectangle item = new Rectangle(100, 100, 100, 100);   
+        private MouseState mouse;
 
 
         public Game1()
@@ -19,7 +20,7 @@ namespace MalpracticeMakesPerfect
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            MouseState mouseState = new MouseState();
+            
         }
 
         protected override void Initialize()
@@ -42,7 +43,13 @@ namespace MalpracticeMakesPerfect
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if ()
+            mouse = Mouse.GetState();
+
+            if(mouse.LeftButton == ButtonState.Pressed && item.Contains(mouse.Position)) 
+            {
+                item.X = mouse.X;
+                item.Y = mouse.Y;
+            }
 
 
             base.Update(gameTime);
