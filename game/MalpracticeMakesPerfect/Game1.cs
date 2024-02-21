@@ -65,6 +65,14 @@ namespace MalpracticeMakesPerfect
                         currentState = GameMode.Game;
                     }
                     break;
+                case GameMode.Game:
+                    break;
+                case GameMode.GameOver:
+                    if (SingleKeyPress(Keys.Space, currentKbState))
+                    {
+                        currentState = GameMode.Menu;
+                    }
+                    break;
             }
 
             previousKbState = currentKbState;
@@ -85,7 +93,11 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(menuFont, "Malpractice Makes Perfect", new Vector2(20, 20), Color.Black);
                     _spriteBatch.DrawString(menuFont, "Team Borderline Doctors", new Vector2(20, 50), Color.Black);
                     _spriteBatch.DrawString(menuFont, "Press space to begin", new Vector2(20, 70), Color.Black);
-
+                    break;
+                case GameMode.Game:
+                    break;
+                case GameMode.GameOver:
+                    _spriteBatch.DrawString(menuFont, "loss :[", new Vector2(20, 20), Color.Black);
                     break;
             }
             _spriteBatch.End();
