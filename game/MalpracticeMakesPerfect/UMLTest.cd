@@ -1,19 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="MalpracticeMakesPerfect.Inventory">
-    <Position X="2.5" Y="1.75" Width="1.5" />
+    <Position X="2.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAABAAAAAAAAAAAgAAgAAACAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAABAAAAAAAgAAAgAAgAIAAAgAAAACAEAAAAAAAAAQA=</HashCode>
       <FileName>Inventory.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Field Name="items" />
-      <Field Name="availableItems" />
       <Field Name="recipes" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MalpracticeMakesPerfect.Item">
-    <Position X="5.5" Y="1.25" Width="1.5" />
+    <Position X="5.5" Y="3" Width="1.5" />
     <NestedTypes>
       <Enum Name="MalpracticeMakesPerfect.Item.itemAspects" Collapsed="true">
         <TypeIdentifier>
@@ -22,26 +21,26 @@
       </Enum>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AEAAAAAABAAAAAAAAAAAAAEAAAAAAAAAACAAAAAAAQA=</HashCode>
+      <HashCode>AEAEAAAABAAAAgAAAAAAAAEAAAAAAAAAAAAAAAAAAQA=</HashCode>
       <FileName>Item.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MalpracticeMakesPerfect.Recipe">
-    <Position X="4.75" Y="5" Width="1.5" />
+    <Position X="4.75" Y="6.75" Width="1.5" />
     <AssociationLine Name="inputs" Type="MalpracticeMakesPerfect.Item" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="6.25" Y="5.552" />
-        <Point X="6.5" Y="5.552" />
-        <Point X="6.5" Y="4.75" />
-        <Point X="6.25" Y="4.75" />
-        <Point X="6.25" Y="3.834" />
+        <Point X="6.25" Y="7.302" />
+        <Point X="6.5" Y="7.302" />
+        <Point X="6.5" Y="6.5" />
+        <Point X="6.25" Y="6.5" />
+        <Point X="6.25" Y="6.165" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="outputs" Type="MalpracticeMakesPerfect.Item" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="5.125" Y="5" />
-        <Point X="5.125" Y="3.5" />
-        <Point X="5.5" Y="3.5" />
+        <Point X="5.125" Y="6.75" />
+        <Point X="5.125" Y="5.756" />
+        <Point X="5.5" Y="5.756" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -54,21 +53,21 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MalpracticeMakesPerfect.Scenario">
-    <Position X="8" Y="4.75" Width="1.5" />
+    <Position X="8" Y="6.5" Width="1.5" />
     <AssociationLine Name="itemSlots" Type="MalpracticeMakesPerfect.Item" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="8" Y="6.524" />
-        <Point X="7.625" Y="6.524" />
-        <Point X="7.625" Y="3.688" />
-        <Point X="7" Y="3.688" />
+        <Point X="8" Y="8.274" />
+        <Point X="7.625" Y="8.274" />
+        <Point X="7.625" Y="5.986" />
+        <Point X="7" Y="5.986" />
       </Path>
     </AssociationLine>
     <AssociationLine Name="solutions" Type="MalpracticeMakesPerfect.Solution" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="8.875" Y="4.75" />
-        <Point X="8.875" Y="4.375" />
-        <Point X="9.438" Y="4.375" />
-        <Point X="9.438" Y="3.805" />
+        <Point X="8.875" Y="6.5" />
+        <Point X="8.875" Y="6.125" />
+        <Point X="9.438" Y="6.125" />
+        <Point X="9.438" Y="5.555" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -81,7 +80,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MalpracticeMakesPerfect.Solution">
-    <Position X="8.25" Y="2.25" Width="1.5" />
+    <Position X="8.25" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAgIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Solution.cs</FileName>
@@ -91,18 +90,28 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="MalpracticeMakesPerfect.DatabaseManager">
-    <Position X="8" Y="0.75" Width="2" />
+    <Position X="8.75" Y="2.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DatabaseManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MalpracticeMakesPerfect.Game1">
-    <Position X="10.75" Y="2.75" Width="1.5" />
+    <Position X="10.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAwAAAAAAAAAAAAAAAAACAIAAAAAAAAQ=</HashCode>
+      <HashCode>AAQAAAgAAAAwAwAAAAAAAAAAAAAAAAACAIIAAAAAAAQ=</HashCode>
       <FileName>Game1.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="MalpracticeMakesPerfect.Slot">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABEAAAAAAAAAgAAAAQAAAAAgAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Slot.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="item" />
+    </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,16 +14,20 @@ namespace MalpracticeMakesPerfect
         private List<Recipe> recipes;
         private Slot[] hotbar = new Slot[6];
         private List<Slot> shopItems;
+        private Rectangle position;
+        private Texture2D asset;
 
         /// <summary>
         /// Creates inventory
         /// </summary>
         /// <param name="items">Every item</param>
         /// <param name="recipes">All possible combinations of items</param>
-        public Inventory(List<Item> items,List<Recipe> recipes)
+        public Inventory(List<Item> items,List<Recipe> recipes, Rectangle position, Texture2D asset)
         {
             this.items = items;
             this.recipes = recipes;
+            this.position = position;
+            this.asset = asset;
         }
 
         /// <summary>
@@ -43,6 +49,11 @@ namespace MalpracticeMakesPerfect
         public void AddItem(Item item, int slotIndex)
         {
 
+        }
+
+        public void DrawScene(SpriteBatch sb)
+        {
+            sb.Draw(asset, position, Color.White);
         }
     }
 }
