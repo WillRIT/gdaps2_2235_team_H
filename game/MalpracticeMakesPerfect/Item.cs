@@ -1,19 +1,32 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 
 namespace MalpracticeMakesPerfect
 {
-    internal class Item
+    public class Item : Draggable
     {
         private string itemName;
         private string itemDesc;
         private double itemCost;
         private bool inInventory;
         private Texture2D itemSprite;
+        private Vector2 pos;
+        private Vector2 origin;
+
+        public Vector2 Position
+        {
+            get { return pos; } 
+            set {  pos = value; }
+        }
+
+        public Rectangle Rectangle => new((int)(Position.X - origin.X), (int)(Position.Y - origin.Y), itemSprite.Width, itemSprite.Height);
 
         private enum itemAspects { };
 
@@ -34,6 +47,10 @@ namespace MalpracticeMakesPerfect
             this.itemSprite = itemSprite;
         }
 
+        public void Draw(SpriteBatch sb)
+        {
+            sb.Draw(itemSprite, Position, Color.DarkBlue);
+        }
 
     }
 }

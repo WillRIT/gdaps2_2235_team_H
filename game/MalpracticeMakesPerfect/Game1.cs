@@ -11,8 +11,7 @@ namespace MalpracticeMakesPerfect
         private Texture2D jam;
         private Texture2D Joobi;
 
-        private Rectangle item = new Rectangle(100, 100, 100, 100);   
-        private MouseState mouse;
+        
 
 
         public Game1()
@@ -43,14 +42,7 @@ namespace MalpracticeMakesPerfect
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            mouse = Mouse.GetState();
-
-            if(mouse.LeftButton == ButtonState.Pressed && item.Contains(mouse.Position)) 
-            {
-                item.X = mouse.X;
-                item.Y = mouse.Y;
-            }
-
+            InputManager.Update();
 
             base.Update(gameTime);
         }
@@ -61,7 +53,7 @@ namespace MalpracticeMakesPerfect
             _spriteBatch.Begin();
             // TODO: Add your drawing code here
 
-            _spriteBatch.Draw(Joobi, item, Color.AliceBlue);
+            
 
 
             _spriteBatch.End();
