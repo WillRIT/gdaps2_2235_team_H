@@ -22,8 +22,11 @@ namespace MalpracticeMakesPerfect
 
         private Item diamond;
         private Slot diamondSlot;
+        private Slot emptySlot;
+        private Inventory myInventory;
         private Texture2D slotSprite;
         private Texture2D diamondSprite;
+        private Texture2D joobi;
 
         private SpriteFont itemAmountFont;
         
@@ -39,7 +42,7 @@ namespace MalpracticeMakesPerfect
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            _graphics.IsFullScreen = true;
+            _graphics.IsFullScreen = false;
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 1080;
             _graphics.ApplyChanges();
@@ -53,11 +56,17 @@ namespace MalpracticeMakesPerfect
 
             slotSprite = Content.Load<Texture2D>("slot");
             diamondSprite = Content.Load<Texture2D>("diamond");
-            itemAmountFont = Content.Load<SpriteFont>("item-amount-font");
+            itemAmountFont = Content.Load<SpriteFont>("item-amount");
+            joobi = Content.Load<Texture2D>("joobi");
 
 
             diamond = new Item(diamondSprite, new Rectangle(0, 0, 50, 50),"Diamond", "Shiny", 90, true);
             diamondSlot = new Slot(slotSprite, new Rectangle(10, 10, 50, 50), itemAmountFont, diamond, 2);
+            emptySlot = new Slot(slotSprite, new Rectangle(10, 100, 50, 50), itemAmountFont);
+
+            myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite);
+
+            
 
             
 
@@ -77,12 +86,15 @@ namespace MalpracticeMakesPerfect
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Crimson);
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
             diamondSlot.Draw(_spriteBatch);
+            emptySlot.Draw(_spriteBatch, new Rectangle(100, 100, 50, 50));
+
+            myInventory.DrawScene(_spriteBatch);
 
             _spriteBatch.End();
 

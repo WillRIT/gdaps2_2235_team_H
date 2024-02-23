@@ -12,6 +12,10 @@ namespace MalpracticeMakesPerfect
     {
         protected Texture2D asset;
         protected Rectangle position;
+        public Rectangle Position
+        {
+            get { return position; }
+        }
 
         public GameObject(Texture2D asset, Rectangle position)
         {

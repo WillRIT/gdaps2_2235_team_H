@@ -8,26 +8,40 @@ using System.Threading.Tasks;
 
 namespace MalpracticeMakesPerfect
 {
-    internal class Inventory
+    internal class Inventory : GameObject
     {
         private List<Item> items;
         private List<Recipe> recipes;
         private Slot[] hotbar = new Slot[6];
         private List<Slot> shopItems;
-        private Rectangle position;
-        private Texture2D asset;
+        private SpriteFont font;
+        private Texture2D slotAsset;
+
+
+        public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset)
+            :base(asset, position)
+        {
+            this.font = font;
+            this.slotAsset = slotAsset;
+
+            for (int i = 0; i < hotbar.Length; i++)
+            {
+                hotbar[i] = new Slot(slotAsset, new Rectangle(0, 0, 50, 50), font);
+            }
+        }
 
         /// <summary>
         /// Creates inventory
         /// </summary>
         /// <param name="items">Every item</param>
         /// <param name="recipes">All possible combinations of items</param>
-        public Inventory(List<Item> items,List<Recipe> recipes, Rectangle position, Texture2D asset)
+        public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, List<Item> items, List<Recipe> recipes)
+            :base(asset,position)
         {
+            this.font = font;
+            this.slotAsset = slotAsset;
             this.items = items;
             this.recipes = recipes;
-            this.position = position;
-            this.asset = asset;
         }
 
         /// <summary>
@@ -54,6 +68,12 @@ namespace MalpracticeMakesPerfect
         public void DrawScene(SpriteBatch sb)
         {
             sb.Draw(asset, position, Color.White);
+
+            //draw hotbar
+            for (int i = 0; i < hotbar.Length; i++)
+            {
+                hotbar[i].Draw(sb, new Rectangle(position.X + (hotbar[i].Position.Width), position.Y, 50, 50));
+            }
         }
     }
 }

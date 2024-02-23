@@ -25,12 +25,12 @@
 /processorParam:TextureFormat=Color
 /build:diamond.gif
 
-#begin item-amount-font.spritefont
+#begin item-amount.spritefont
 /importer:FontDescriptionImporter
-/processor:LocalizedFontProcessor
+/processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:item-amount-font.spritefont
+/build:item-amount.spritefont
 
 #begin JamRustyCommnbg.png
 /importer:TextureImporter
