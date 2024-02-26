@@ -19,7 +19,17 @@ namespace MalpracticeMakesPerfect
         }
         public string ItemName
         {
-            get { return item.ItemName; }
+            get 
+            { 
+                if (IsEmpty)
+                {
+                    return "Empty";
+                }
+                else
+                {
+                    return item.ItemName;
+                }
+            }
         }
         private SpriteFont font;
 
@@ -57,7 +67,7 @@ namespace MalpracticeMakesPerfect
             if (!IsEmpty)
             {
                 item.Draw(sb, new Rectangle((position.X + 5), (position.Y + 5), 40, 40), Color.White);
-                sb.DrawString(font, $"{amount}", new Vector2(position.X + (int)(position.Width * (3.0/4.0)), position.Y + (int)(position.Height * (3.0/5.0))), Color.Black);
+                sb.DrawString(font, $"{amount}", new Vector2(position.X + (int)(position.Width * (1.0/8.0)), position.Y + (int)(position.Height * (3.0/5.0))), Color.Black);
             }
         }
 
@@ -68,7 +78,7 @@ namespace MalpracticeMakesPerfect
             if (!IsEmpty)
             {
                 item.Draw(sb, new Rectangle((position.X + 5), (position.Y + 5), 40, 40), Color.White);
-                sb.DrawString(font, $"{amount}", new Vector2(position.X + (int)(position.Width * (3.0 / 4.0)), position.Y + (int)(position.Height * (3.0 / 5.0))), Color.Black);
+                sb.DrawString(font, $"{amount}", new Vector2(position.X + (int)(position.Width * (1.0 / 8.0)), position.Y + (int)(position.Height * (3.0 / 5.0))), Color.Black);
             }
         }
     }

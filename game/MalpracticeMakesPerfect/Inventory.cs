@@ -24,6 +24,7 @@ namespace MalpracticeMakesPerfect
             this.font = font;
             this.slotAsset = slotAsset;
 
+            //initialize hotbar as empty slots
             for (int i = 0; i < hotbar.Length; i++)
             {
                 hotbar[i] = new Slot(slotAsset, new Rectangle(0, 0, 50, 50), font);
@@ -65,14 +66,19 @@ namespace MalpracticeMakesPerfect
 
         }
 
+        /// <summary>
+        /// Draw inventory
+        /// </summary>
+        /// <param name="sb"></param>
         public void DrawScene(SpriteBatch sb)
         {
+            //background
             sb.Draw(asset, position, Color.White);
 
             //draw hotbar
             for (int i = 0; i < hotbar.Length; i++)
             {
-                hotbar[i].Draw(sb, new Rectangle(position.X + (hotbar[i].Position.Width), position.Y, 50, 50));
+                hotbar[i].Draw(sb, new Rectangle(position.X + (hotbar[i].Position.Width * i), position.Y, 50, 50));
             }
         }
     }
