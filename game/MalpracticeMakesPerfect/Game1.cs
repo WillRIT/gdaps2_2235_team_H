@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.IO;
 
 namespace MalpracticeMakesPerfect
 {
@@ -10,6 +12,10 @@ namespace MalpracticeMakesPerfect
         private SpriteBatch _spriteBatch;
         private Texture2D jam;
         private Texture2D Joobi;
+        private string filename = "../../../ITEMS.JSON";
+        private Inventory inventory;
+        private List<Item> items;
+        private List<Recipe> recipes;
 
         private Rectangle item;
 
@@ -25,7 +31,7 @@ namespace MalpracticeMakesPerfect
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            
             base.Initialize();
         }
 
@@ -34,6 +40,9 @@ namespace MalpracticeMakesPerfect
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             Joobi = this.Content.Load<Texture2D>("joobi");
 
+            items = new List<Item>();
+            recipes = new List<Recipe>();
+            inventory = new Inventory(items, recipes);
             // TODO: use this.Content to load your game content here
         }
 
@@ -42,8 +51,8 @@ namespace MalpracticeMakesPerfect
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if ()
-
+            //if ()
+            inventory.GetItemsAndRecipes(filename, items, recipes);
 
             base.Update(gameTime);
         }
