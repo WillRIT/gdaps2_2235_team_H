@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,7 +10,7 @@ namespace MalpracticeMakesPerfect
     /// </summary>
     enum GameMode
     {
-        Menu, Game, GameOver
+        Menu, Game, GameOver, Pause
     }
     public class Game1 : Game
     {
@@ -18,6 +19,8 @@ namespace MalpracticeMakesPerfect
         private Texture2D jam;
         private Texture2D Joobi;
         private SpriteFont menuFont;
+        private Vector2 patientPath;
+
 
         private Rectangle item;
 
@@ -27,6 +30,7 @@ namespace MalpracticeMakesPerfect
 
         //GameMode
         private GameMode currentState;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -41,7 +45,12 @@ namespace MalpracticeMakesPerfect
 
         protected override void Initialize()
         {
+
+            
             // TODO: Add your initialization logic here
+
+
+
 
             base.Initialize();
         }
@@ -54,6 +63,9 @@ namespace MalpracticeMakesPerfect
 
             Joobi = this.Content.Load<Texture2D>("joobi");
 
+            List<Solution> ScenarioTest = new List<Solution>();
+
+            Scenario JoobiSick = new Scenario("My arms are green! Help!", 2, ScenarioTest, Joobi, "Give me Apple");
 
             // TODO: use this.Content to load your game content here
         }
@@ -74,6 +86,8 @@ namespace MalpracticeMakesPerfect
                     }
                     break;
                 case GameMode.Game:
+
+
                     break;
                 case GameMode.GameOver:
                     if (SingleKeyPress(Keys.Space, currentKbState))
@@ -85,8 +99,6 @@ namespace MalpracticeMakesPerfect
 
 
             previousKbState = currentKbState;
-
-            if ()
 
             base.Update(gameTime);
         }
@@ -108,13 +120,13 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(menuFont, "Press space to begin", new Vector2(20, 70), Color.Black);
                     break;
                 case GameMode.Game:
+                    
                     break;
                 case GameMode.GameOver:
                     _spriteBatch.DrawString(menuFont, "loss :[", new Vector2(20, 20), Color.Black);
                     break;
             }
 
-            _spriteBatch.Begin();
             // TODO: Add your drawing code here
 
             _spriteBatch.Draw(Joobi, item, Color.AliceBlue);
