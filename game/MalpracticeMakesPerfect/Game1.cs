@@ -29,6 +29,10 @@ namespace MalpracticeMakesPerfect
         private Texture2D joobi;
 
         private SpriteFont itemAmountFont;
+
+        private Draggable testDrag;
+
+        private Slot highlighted;
         
 
 
@@ -66,7 +70,7 @@ namespace MalpracticeMakesPerfect
 
             myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite);
 
-            
+            testDrag = new Draggable(joobi, new Rectangle(300, 100, 70, 70));
 
             
 
@@ -80,6 +84,30 @@ namespace MalpracticeMakesPerfect
                 Exit();
 
             // TODO: Add your update logic here
+            testDrag.Update();
+
+            myInventory.Update();
+            emptySlot.Update();
+            diamondSlot.Update();
+
+            bool existsHighlight = false;
+            foreach (Slot s in myInventory.Hotbar)
+            {
+                if (s.Hovered)
+                {
+                    existsHighlight = true;
+                    highlighted = s;
+                }
+            }
+            if (!existsHighlight)
+            {
+                highlighted = null;
+            }
+
+            if (testDrag.Placing && existsHighlight)
+            {
+                testDrag.SnapIntersect(highlighted);
+            }
 
             base.Update(gameTime);
         }
@@ -92,9 +120,13 @@ namespace MalpracticeMakesPerfect
             _spriteBatch.Begin();
 
             diamondSlot.Draw(_spriteBatch);
-            emptySlot.Draw(_spriteBatch, new Rectangle(100, 100, 50, 50));
+
+            emptySlot.Position = new Rectangle(100, 100, 50, 50);
+            emptySlot.Draw(_spriteBatch);
 
             myInventory.DrawScene(_spriteBatch);
+
+            testDrag.Draw(_spriteBatch);
 
             _spriteBatch.End();
 

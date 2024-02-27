@@ -32,7 +32,12 @@ namespace MalpracticeMakesPerfect
             }
         }
         private SpriteFont font;
-
+        private MouseState mouseState;
+        private bool hovered;
+        public bool Hovered 
+        { 
+            get { return hovered; } 
+        }
 
 
         public Slot(Texture2D asset, Rectangle position, SpriteFont font)
@@ -60,9 +65,28 @@ namespace MalpracticeMakesPerfect
             }
         }
 
+        public override void Update()
+        {
+            mouseState = Mouse.GetState();
+
+            hovered = position.Contains(mouseState.Position);
+
+            if (!IsEmpty)
+            {
+                item.Update();
+            }
+        }
+
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(asset, position, Color.White);
+            if (hovered)
+            {
+                sb.Draw(asset, position, Color.Red);
+            }
+            else
+            {
+                sb.Draw(asset, position, Color.White);
+            }
 
             if (!IsEmpty)
             {
@@ -71,15 +95,5 @@ namespace MalpracticeMakesPerfect
             }
         }
 
-        public void Draw (SpriteBatch sb, Rectangle position)
-        {
-            sb.Draw(asset, position, Color.White);
-
-            if (!IsEmpty)
-            {
-                item.Draw(sb, new Rectangle((position.X + 5), (position.Y + 5), 40, 40), Color.White);
-                sb.DrawString(font, $"{amount}", new Vector2(position.X + (int)(position.Width * (1.0 / 8.0)), position.Y + (int)(position.Height * (3.0 / 5.0))), Color.Black);
-            }
-        }
     }
 }

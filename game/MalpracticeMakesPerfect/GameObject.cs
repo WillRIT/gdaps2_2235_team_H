@@ -15,6 +15,7 @@ namespace MalpracticeMakesPerfect
         public Rectangle Position
         {
             get { return position; }
+            set { position = value; }
         }
 
         public GameObject(Texture2D asset, Rectangle position)
@@ -27,5 +28,7 @@ namespace MalpracticeMakesPerfect
         {
             sb.Draw(asset, position, Color.White);
         }
+
+        public abstract void Update();
     }
 }

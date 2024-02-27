@@ -13,6 +13,10 @@ namespace MalpracticeMakesPerfect
         private List<Item> items;
         private List<Recipe> recipes;
         private Slot[] hotbar = new Slot[6];
+        public Slot[] Hotbar
+        {
+            get { return hotbar; }
+        }
         private List<Slot> shopItems;
         private SpriteFont font;
         private Texture2D slotAsset;
@@ -78,8 +82,35 @@ namespace MalpracticeMakesPerfect
             //draw hotbar
             for (int i = 0; i < hotbar.Length; i++)
             {
-                hotbar[i].Draw(sb, new Rectangle(position.X + (hotbar[i].Position.Width * i), position.Y, 50, 50));
+                hotbar[i].Position = new Rectangle(position.X + (hotbar[i].Position.Width * i), position.Y, 50, 50);
+                hotbar[i].Draw(sb);
             }
+        }
+
+        public override void Update()
+        {
+            if (items != null)
+            {
+                foreach (Item i in items)
+                {
+                    i.Update();
+                }
+            }
+            
+
+            foreach (Slot s in hotbar)
+            {
+                s.Update();
+            }
+
+            if (shopItems != null)
+            {
+                foreach (Slot s in shopItems)
+                {
+                    s.Update();
+                }
+            }
+            
         }
     }
 }

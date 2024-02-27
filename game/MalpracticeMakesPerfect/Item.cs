@@ -42,5 +42,10 @@ namespace MalpracticeMakesPerfect
         {
             sb.Draw(asset, position, color);
         }
+
+        public override void Update()
+        {
+
+        }
     }
 }
