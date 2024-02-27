@@ -32,7 +32,11 @@ namespace MalpracticeMakesPerfect
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
             currentState = GameMode.Menu;
+
+            MouseState mouseState = new MouseState();
+
         }
 
         protected override void Initialize()
@@ -45,7 +49,11 @@ namespace MalpracticeMakesPerfect
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
             menuFont = Content.Load<SpriteFont>("MenuFont");
+
+            Joobi = this.Content.Load<Texture2D>("joobi");
+
 
             // TODO: use this.Content to load your game content here
         }
@@ -75,13 +83,18 @@ namespace MalpracticeMakesPerfect
                     break;
             }
 
+
             previousKbState = currentKbState;
+
+            if ()
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
 
             _spriteBatch.Begin();
             
@@ -100,6 +113,12 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(menuFont, "loss :[", new Vector2(20, 20), Color.Black);
                     break;
             }
+
+            _spriteBatch.Begin();
+            // TODO: Add your drawing code here
+
+            _spriteBatch.Draw(Joobi, item, Color.AliceBlue);
+
             _spriteBatch.End();
             base.Draw(gameTime);
         }

@@ -33,5 +33,7 @@ namespace MalpracticeMakesPerfect
             this.inInventory = inInventory;
             this.itemSprite = itemSprite;
         }
+
+
     }
 }
