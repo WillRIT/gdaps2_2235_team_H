@@ -29,7 +29,9 @@ namespace MalpracticeMakesPerfect
             this.slotAsset = slotAsset;
 
             //initialize hotbar as empty slots
-            for (int i = 0; i < hotbar.Length; i++)
+            hotbar[0] = new Slot(slotAsset, position, font, new Item(asset, new Rectangle(0, 0, 50, 50), "funee haha", "not funny", 80.68, false), 3);
+            hotbar[1] = new Slot(slotAsset, position, font, new Item(slotAsset, new Rectangle(0, 0, 50, 50), "funee haha", "not funny", 80.68, false), 3);
+            for (int i = 2; i < hotbar.Length; i++)
             {
                 hotbar[i] = new Slot(slotAsset, new Rectangle(0, 0, 50, 50), font);
             }

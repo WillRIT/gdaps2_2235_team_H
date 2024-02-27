@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace MalpracticeMakesPerfect
 {
@@ -11,12 +12,20 @@ namespace MalpracticeMakesPerfect
         GameShop
     }
 
+    enum DragStates
+    {
+        Failed,
+        Empty,
+        Combine
+    }
+
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private MouseState mouseState;
+        private MouseState mousePrev;
         private Texture2D jam;
-        private Texture2D Joobi;
 
         private Rectangle itemPos;
 
@@ -30,9 +39,14 @@ namespace MalpracticeMakesPerfect
 
         private SpriteFont itemAmountFont;
 
+        private List<Draggable> draggables = new List<Draggable>();
         private Draggable testDrag;
+        private TempSlot testTemp;
 
         private Slot highlighted;
+
+        private TempSlot theMessenger;
+        private Slot snapBack;
         
 
 
@@ -71,9 +85,12 @@ namespace MalpracticeMakesPerfect
             myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite);
 
             testDrag = new Draggable(joobi, new Rectangle(300, 100, 70, 70));
+            testTemp = new TempSlot(new Rectangle(200, 300, 60, 60), itemAmountFont, diamond, 3);
 
-            
+            draggables.Add(testDrag);
+            draggables.Add(testTemp);
 
+            theMessenger = null;
 
             // TODO: use this.Content to load your game content here
         }
@@ -84,19 +101,30 @@ namespace MalpracticeMakesPerfect
                 Exit();
 
             // TODO: Add your update logic here
+            mouseState = Mouse.GetState();
+
             testDrag.Update();
 
             myInventory.Update();
             emptySlot.Update();
             diamondSlot.Update();
+            testTemp.Update();
 
             bool existsHighlight = false;
+            DragStates dragAction = DragStates.Failed;
             foreach (Slot s in myInventory.Hotbar)
             {
                 if (s.Hovered)
                 {
                     existsHighlight = true;
                     highlighted = s;
+
+                    if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released && !s.IsEmpty)
+                    {
+                        theMessenger = new TempSlot(highlighted.Position, itemAmountFont, highlighted.Item, highlighted.Amount);
+                        snapBack = highlighted;
+                        highlighted.Item = null;
+                    }
                 }
             }
             if (!existsHighlight)
@@ -104,10 +132,45 @@ namespace MalpracticeMakesPerfect
                 highlighted = null;
             }
 
-            if (testDrag.Placing && existsHighlight)
+            foreach (Draggable d in draggables)
             {
-                testDrag.SnapIntersect(highlighted);
+                if (d.Placing && existsHighlight)
+                {
+                    d.SnapIntersect(highlighted);
+                }
             }
+
+            if (theMessenger != null)
+            {
+                theMessenger.Update();
+            }
+
+            if (theMessenger != null && theMessenger.Placing && existsHighlight)
+            {
+                dragAction = theMessenger.SnapIntersect(highlighted);
+
+                switch (dragAction)
+                {
+                    case DragStates.Empty:
+                        highlighted.Item = theMessenger.Item;
+                        highlighted.Amount = theMessenger.Amount;
+
+                        break;
+                }
+            }
+
+            if (mouseState.LeftButton == ButtonState.Released && theMessenger != null)
+            {
+                if (dragAction != DragStates.Empty)
+                {
+                    snapBack.Item = theMessenger.Item;
+                    snapBack.Amount = theMessenger.Amount;
+                }
+
+                theMessenger = null;
+            }
+
+            mousePrev = mouseState;
 
             base.Update(gameTime);
         }
@@ -127,6 +190,12 @@ namespace MalpracticeMakesPerfect
             myInventory.DrawScene(_spriteBatch);
 
             testDrag.Draw(_spriteBatch);
+            testTemp.Draw(_spriteBatch);
+
+            if (theMessenger != null)
+            {
+                theMessenger.Draw(_spriteBatch);
+            }
 
             _spriteBatch.End();
 

@@ -11,20 +11,25 @@ namespace MalpracticeMakesPerfect
 {
     internal class Draggable : GameObject
     {
-        private bool dragging;
-        private MouseState mouseState;
-        private MouseState mousePrev;
-        private bool placing;
+        protected bool dragging;
+        public bool Dragging
+        {
+            get { return dragging; }
+            set { dragging = value; }
+        }
+        protected MouseState mouseState;
+        protected MouseState mousePrev;
+        protected bool placing;
         public bool Placing
         {
             get { return placing; }
         }
-        private bool snapped;
+        protected bool snapped;
         public bool Snapped
         {
             get { return snapped; }
         }
-        public Rectangle snapLocation;
+        protected Rectangle snapLocation;
 
         public Draggable(Texture2D asset, Rectangle position) : base(asset, position)
         {
@@ -40,7 +45,7 @@ namespace MalpracticeMakesPerfect
             if (position.Contains(mouseState.Position))
             {
                 //click and release left button
-                if (mouseState.LeftButton == ButtonState.Pressed &&  mousePrev.LeftButton == ButtonState.Released)
+                if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                 {
                     dragging = true;
                 }
@@ -68,14 +73,18 @@ namespace MalpracticeMakesPerfect
             mousePrev = mouseState;
         }
 
-        public void SnapIntersect(GameObject snap)
+        public virtual DragStates SnapIntersect(Slot snap)
         {
             if (snap.Position.Contains(mouseState.Position))
             {
                 position = snap.Position;
                 snapLocation = position;
                 snapped = true;
+
+                return DragStates.Empty;
             }
+
+            return DragStates.Failed;
         }
 
         public override void Draw(SpriteBatch sb)

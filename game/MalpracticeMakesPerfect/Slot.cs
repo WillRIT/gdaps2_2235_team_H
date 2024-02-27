@@ -12,7 +12,17 @@ namespace MalpracticeMakesPerfect
     internal class Slot : GameObject
     {
         private Item item;
+        public Item Item
+        {
+            get { return item; }
+            set { item = value; }
+        }
         private int amount;
+        public int Amount
+        {
+            get { return amount; }
+            set { amount = value; }
+        }
         public bool IsEmpty
         {
             get { return item == null; }

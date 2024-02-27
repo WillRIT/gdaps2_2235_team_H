@@ -11,6 +11,10 @@ namespace MalpracticeMakesPerfect
 {
     internal class Item : GameObject
     {
+        public Texture2D Asset
+        {
+            get { return asset; }
+        }
         private string itemName;
         public string ItemName
         {
