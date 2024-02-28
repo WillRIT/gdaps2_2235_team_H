@@ -77,18 +77,7 @@ namespace MalpracticeMakesPerfect
             itemAmountFont = Content.Load<SpriteFont>("item-amount");
             joobi = Content.Load<Texture2D>("joobi");
 
-
-            diamond = new Item(diamondSprite, new Rectangle(0, 0, 50, 50),"Diamond", "Shiny", 90, true);
-            diamondSlot = new Slot(slotSprite, new Rectangle(10, 10, 50, 50), itemAmountFont, diamond, 2);
-            emptySlot = new Slot(slotSprite, new Rectangle(10, 100, 50, 50), itemAmountFont);
-
             myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite);
-
-            testDrag = new Draggable(joobi, new Rectangle(300, 100, 70, 70));
-            testTemp = new TempSlot(new Rectangle(200, 300, 60, 60), itemAmountFont, diamond, 3);
-
-            draggables.Add(testDrag);
-            draggables.Add(testTemp);
 
             theMessenger = null;
 
@@ -103,12 +92,7 @@ namespace MalpracticeMakesPerfect
             // TODO: Add your update logic here
             mouseState = Mouse.GetState();
 
-            testDrag.Update();
-
             myInventory.Update();
-            emptySlot.Update();
-            diamondSlot.Update();
-            testTemp.Update();
 
             bool existsHighlight = false;
             DragStates dragAction = DragStates.Failed;
@@ -130,14 +114,6 @@ namespace MalpracticeMakesPerfect
             if (!existsHighlight)
             {
                 highlighted = null;
-            }
-
-            foreach (Draggable d in draggables)
-            {
-                if (d.Placing && existsHighlight)
-                {
-                    d.SnapIntersect(highlighted);
-                }
             }
 
             if (theMessenger != null)
@@ -182,15 +158,7 @@ namespace MalpracticeMakesPerfect
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
-            diamondSlot.Draw(_spriteBatch);
-
-            emptySlot.Position = new Rectangle(100, 100, 50, 50);
-            emptySlot.Draw(_spriteBatch);
-
             myInventory.DrawScene(_spriteBatch);
-
-            testDrag.Draw(_spriteBatch);
-            testTemp.Draw(_spriteBatch);
 
             if (theMessenger != null)
             {
