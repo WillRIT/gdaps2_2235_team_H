@@ -76,8 +76,16 @@ namespace MalpracticeMakesPerfect
             diamondSprite = Content.Load<Texture2D>("diamond");
             itemAmountFont = Content.Load<SpriteFont>("item-amount");
             joobi = Content.Load<Texture2D>("joobi");
+            Texture2D mealyAppleSprite = Content.Load<Texture2D>("Mealy Apple");
 
-            myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite);
+            Item mealyApple = new Item(mealyAppleSprite, new Rectangle(0, 0, 50, 50), "Mealy Apple", "a very mealy apple", 60.80, false);
+
+            List<Slot> slotList = new List<Slot>();
+            slotList.Add(new Slot(slotSprite, new Rectangle(0, 0, 50, 50), itemAmountFont, mealyApple, 6));
+            slotList.Add(new Slot(slotSprite, new Rectangle(0, 0, 0, 0), itemAmountFont));
+            slotList.Add(new Slot(slotSprite, new Rectangle(0, 0, 0, 0), itemAmountFont, mealyApple, 5));
+
+            myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite, slotList);
 
             theMessenger = null;
 

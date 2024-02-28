@@ -16,10 +16,16 @@ namespace MalpracticeMakesPerfect
         /// Reads a file to get a list of all the items and recipes
         /// </summary>
         /// <returns>An inventory</returns>
-        public Inventory GetItemsAndRecipes()
+        public Inventory MakeInventory()
         {
             //TODO: code
             return null;
+        }
+
+        public List<Item> GetItemsAndRecipes(out List<Recipe> recipes)
+        {
+            recipes = new List<Recipe>();
+            return new List<Item>();
         }
 
         /// <summary>
