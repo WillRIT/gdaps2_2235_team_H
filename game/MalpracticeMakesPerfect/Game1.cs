@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace MalpracticeMakesPerfect
@@ -23,6 +24,7 @@ namespace MalpracticeMakesPerfect
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Random rng = new Random();
         private MouseState mouseState;
         private MouseState mousePrev;
         private Texture2D jam;
@@ -49,7 +51,7 @@ namespace MalpracticeMakesPerfect
         private Slot snapBack;
 
         private List<Item> allItems;
-        private List<Recipe> allRecipes;
+        private Dictionary<string, Recipe> allRecipes;
         
 
 
@@ -83,15 +85,16 @@ namespace MalpracticeMakesPerfect
             diamondSprite = Content.Load<Texture2D>("diamond");
             itemAmountFont = Content.Load<SpriteFont>("item-amount");
             joobi = Content.Load<Texture2D>("joobi");
-            Texture2D mealyAppleSprite = Content.Load<Texture2D>("Mealy Apple");
-
-            Item mealyApple = new Item(mealyAppleSprite, new Rectangle(0, 0, 50, 50), "Mealy Apple", "a very mealy apple", 60.80, false);
 
             List<Slot> slotList = new List<Slot>
             {
-                new Slot(slotSprite, new Rectangle(0, 0, 50, 50), itemAmountFont, mealyApple, 6),
-                new Slot(slotSprite, new Rectangle(0, 0, 0, 0), itemAmountFont),
-                new Slot(slotSprite, new Rectangle(0, 0, 0, 0), itemAmountFont, mealyApple, 5)
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1)
             };
 
             myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite, slotList);
@@ -149,12 +152,45 @@ namespace MalpracticeMakesPerfect
                         highlighted.Amount = theMessenger.Amount;
 
                         break;
+
+                    case DragStates.Combine:
+                        bool existsRecipe = false;
+
+                        if (allRecipes.ContainsKey($"{highlighted.Item},{theMessenger.Item}"))
+                        {
+                            existsRecipe = true;
+                            
+                            //TODO: add functionality for combining with slots with > 1 item, as well as
+                            //recipes with > 1 outputs
+                            if (highlighted.Amount == 1)
+                            {
+                                highlighted.Item = allRecipes[$"{highlighted.Item},{theMessenger.Item}"].Outputs[0];
+                            }
+                        }
+                        else if (allRecipes.ContainsKey($"{theMessenger.Item},{highlighted.Item}"))
+                        {
+                            existsRecipe = true;
+
+                            //TODO: add functionality for combining with slots with > 1 item, as well as
+                            //recipes with > 1 outputs
+                            if (highlighted.Amount == 1)
+                            {
+                                highlighted.Item = allRecipes[$"{theMessenger.Item},{highlighted.Item}"].Outputs[0];
+                            }
+                        }
+
+                        if (!existsRecipe)
+                        {
+                            dragAction = DragStates.Failed;
+                        }
+
+                        break;
                 }
             }
 
             if (mouseState.LeftButton == ButtonState.Released && theMessenger != null)
             {
-                if (dragAction != DragStates.Empty)
+                if (dragAction == DragStates.Failed)
                 {
                     snapBack.Item = theMessenger.Item;
                     snapBack.Amount = theMessenger.Amount;

@@ -12,11 +12,6 @@ namespace MalpracticeMakesPerfect
 {
     internal class Item : GameObject
     {
-        private string assetPath;
-        public string AssetPath
-        {
-            get { return assetPath; }
-        }
         public Texture2D Asset
         {
             get { return asset; }
@@ -30,8 +25,6 @@ namespace MalpracticeMakesPerfect
         private string description;
         private double cost;
         private bool inInventory;
-
-        private ContentManager Content;
 
         private enum itemAspects { };
 
@@ -59,6 +52,11 @@ namespace MalpracticeMakesPerfect
         public override void Update()
         {
 
+        }
+
+        public override string ToString()
+        {
+            return name;
         }
     }
 }

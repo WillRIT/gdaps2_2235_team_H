@@ -46,6 +46,10 @@ namespace MalpracticeMakesPerfect
 
                 return DragStates.Empty;
             }
+            else if ((snap.Position.Contains(mouseState.Position) && !snap.IsEmpty))
+            {
+                return DragStates.Combine;
+            }
 
             return DragStates.Failed;
         }
