@@ -94,6 +94,9 @@ namespace MalpracticeMakesPerfect
                 new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
                 new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
                 new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
                 new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1)
             };
 
@@ -156,15 +159,24 @@ namespace MalpracticeMakesPerfect
                     case DragStates.Combine:
                         bool existsRecipe = false;
 
+                        //check if there is a recipe
                         if (allRecipes.ContainsKey($"{highlighted.Item},{theMessenger.Item}"))
                         {
                             existsRecipe = true;
                             
                             //TODO: add functionality for combining with slots with > 1 item, as well as
                             //recipes with > 1 outputs
-                            if (highlighted.Amount == 1)
+                            if (highlighted.Amount == theMessenger.Amount)
                             {
                                 highlighted.Item = allRecipes[$"{highlighted.Item},{theMessenger.Item}"].Outputs[0];
+                            }
+                            else if (highlighted.Amount < theMessenger.Amount)
+                            {
+                                highlighted.Item = allRecipes[$"{highlighted.Item},{theMessenger.Item}"].Outputs[0];
+
+                                //return remaining items to original location
+                                theMessenger.Amount -= highlighted.Amount;
+                                dragAction = DragStates.Failed;
                             }
                         }
                         else if (allRecipes.ContainsKey($"{theMessenger.Item},{highlighted.Item}"))
@@ -173,10 +185,26 @@ namespace MalpracticeMakesPerfect
 
                             //TODO: add functionality for combining with slots with > 1 item, as well as
                             //recipes with > 1 outputs
-                            if (highlighted.Amount == 1)
+                            if (highlighted.Amount == theMessenger.Amount)
                             {
                                 highlighted.Item = allRecipes[$"{theMessenger.Item},{highlighted.Item}"].Outputs[0];
                             }
+                            else if (highlighted.Amount < theMessenger.Amount)
+                            {
+                                highlighted.Item = allRecipes[$"{theMessenger.Item},{highlighted.Item}"].Outputs[0];
+
+                                //return remaining items to original location
+                                theMessenger.Amount -= highlighted.Amount;
+                                dragAction = DragStates.Failed;
+                            }
+                        }
+
+                        //item stacking
+                        if (theMessenger.Item.ItemName == highlighted.Item.ItemName)
+                        {
+                            existsRecipe = true;
+
+                            highlighted.Amount += theMessenger.Amount;
                         }
 
                         if (!existsRecipe)

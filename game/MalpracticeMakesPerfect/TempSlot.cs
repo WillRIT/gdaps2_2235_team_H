@@ -20,6 +20,7 @@ namespace MalpracticeMakesPerfect
         public int Amount
         {
             get { return amount; }
+            set { amount = value; }
         }
 
         public TempSlot(Rectangle position, SpriteFont font, Item item, int amount)

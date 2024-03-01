@@ -12,7 +12,7 @@ namespace MalpracticeMakesPerfect
     {
         private List<Item> items;
         private List<Recipe> recipes;
-        private Slot[] hotbar = new Slot[6];
+        private Slot[] hotbar = new Slot[10];
         public Slot[] Hotbar
         {
             get { return hotbar; }
