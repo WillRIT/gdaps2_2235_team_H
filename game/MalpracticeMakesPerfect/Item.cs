@@ -6,23 +6,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Content;
 
 namespace MalpracticeMakesPerfect
 {
     internal class Item : GameObject
     {
+        private string assetPath;
+        public string AssetPath
+        {
+            get { return assetPath; }
+        }
         public Texture2D Asset
         {
             get { return asset; }
+            set { asset = value; }
         }
-        private string itemName;
+        private string name;
         public string ItemName
         {
-            get { return itemName; }
+            get { return name; }
         }
-        private string itemDesc;
-        private double itemCost;
+        private string description;
+        private double cost;
         private bool inInventory;
+
+        private ContentManager Content;
 
         private enum itemAspects { };
 
@@ -36,9 +45,9 @@ namespace MalpracticeMakesPerfect
         public Item(Texture2D asset, Rectangle position,string itemName, string itemDesc, double itemCost, bool inInventory)
             :base (asset, position)
         {
-            this.itemName = itemName;
-            this.itemDesc = itemDesc;
-            this.itemCost = itemCost;
+            this.name = itemName;
+            this.description = itemDesc;
+            this.cost = itemCost;
             this.inInventory = inInventory;
         }
 

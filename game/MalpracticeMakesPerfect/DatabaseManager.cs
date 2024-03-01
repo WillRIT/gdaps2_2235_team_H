@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using Microsoft.Xna.Framework.Graphics;
+using System.Reflection.Metadata;
+using Microsoft.Xna.Framework.Content;
 
 namespace MalpracticeMakesPerfect
 {
@@ -22,8 +26,30 @@ namespace MalpracticeMakesPerfect
             return null;
         }
 
-        public List<Item> GetItemsAndRecipes(out List<Recipe> recipes)
+        public List<Item> GetItemsAndRecipes(ContentManager Content, out List<Recipe> recipes)
         {
+            string filePath = "../../../Items.csv";
+
+            try
+            {
+                // Check if the file exists
+                if (File.Exists(filePath))
+                {
+                    // Read all lines from the file
+                    string[] lines = File.ReadAllLines(filePath);
+
+                    // Display each line
+                    for (int i = 1; i < lines.Length; i++)
+                    {
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+            }
+
             recipes = new List<Recipe>();
             return new List<Item>();
         }

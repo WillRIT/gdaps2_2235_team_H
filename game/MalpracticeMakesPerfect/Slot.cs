@@ -85,6 +85,10 @@ namespace MalpracticeMakesPerfect
             {
                 item.Update();
             }
+            else
+            {
+                amount = 0;
+            }
         }
 
         public override void Draw(SpriteBatch sb)
@@ -102,6 +106,18 @@ namespace MalpracticeMakesPerfect
             {
                 item.Draw(sb, new Rectangle((position.X + 5), (position.Y + 5), 40, 40), Color.White);
                 sb.DrawString(font, $"{amount}", new Vector2(position.X + (int)(position.Width * (1.0/8.0)), position.Y + (int)(position.Height * (3.0/5.0))), Color.Black);
+            }
+        }
+
+        public override string ToString()
+        {
+            if (IsEmpty)
+            {
+                return ItemName;
+            }
+            else
+            {
+                return $"{ItemName} ({amount})";
             }
         }
 

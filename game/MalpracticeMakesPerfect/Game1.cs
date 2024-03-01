@@ -47,6 +47,9 @@ namespace MalpracticeMakesPerfect
 
         private TempSlot theMessenger;
         private Slot snapBack;
+
+        private List<Item> allItems;
+        private List<Recipe> allRecipes;
         
 
 
@@ -72,6 +75,10 @@ namespace MalpracticeMakesPerfect
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            DatabaseManager databaseManager = new DatabaseManager();
+
+            allItems = databaseManager.GetItemsAndRecipes(Content, out allRecipes);
+
             slotSprite = Content.Load<Texture2D>("slot");
             diamondSprite = Content.Load<Texture2D>("diamond");
             itemAmountFont = Content.Load<SpriteFont>("item-amount");
@@ -80,10 +87,12 @@ namespace MalpracticeMakesPerfect
 
             Item mealyApple = new Item(mealyAppleSprite, new Rectangle(0, 0, 50, 50), "Mealy Apple", "a very mealy apple", 60.80, false);
 
-            List<Slot> slotList = new List<Slot>();
-            slotList.Add(new Slot(slotSprite, new Rectangle(0, 0, 50, 50), itemAmountFont, mealyApple, 6));
-            slotList.Add(new Slot(slotSprite, new Rectangle(0, 0, 0, 0), itemAmountFont));
-            slotList.Add(new Slot(slotSprite, new Rectangle(0, 0, 0, 0), itemAmountFont, mealyApple, 5));
+            List<Slot> slotList = new List<Slot>
+            {
+                new Slot(slotSprite, new Rectangle(0, 0, 50, 50), itemAmountFont, mealyApple, 6),
+                new Slot(slotSprite, new Rectangle(0, 0, 0, 0), itemAmountFont),
+                new Slot(slotSprite, new Rectangle(0, 0, 0, 0), itemAmountFont, mealyApple, 5)
+            };
 
             myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite, slotList);
 
