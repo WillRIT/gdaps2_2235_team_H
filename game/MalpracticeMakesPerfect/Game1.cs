@@ -192,7 +192,7 @@ namespace MalpracticeMakesPerfect
                                 recipeInputs = new Item[]
                                 {
                                     theMessenger.Item,
-                                    highlighted.Item,
+                                    highlighted.Item
                                 };
                                 existsRecipe = true;
                             }
@@ -231,7 +231,7 @@ namespace MalpracticeMakesPerfect
                                     bool placedExcess = false;
                                     foreach (Slot s in myInventory.Hotbar)
                                     {
-                                        if (!placedExcess && (s != snapBack && dragAction == DragStates.Failed) && ((s.IsEmpty && !s.IsTrash) || s.IsTrash))
+                                        if (!placedExcess && ((s != snapBack && dragAction == DragStates.Failed) || dragAction != DragStates.Failed) && ((s.IsEmpty && !s.IsTrash) || s.IsTrash))
                                         {
                                             s.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[i];
                                             s.Amount = outputAmount;
