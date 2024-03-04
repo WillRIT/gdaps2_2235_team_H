@@ -15,6 +15,7 @@ namespace MalpracticeMakesPerfect
         public Item Item
         {
             get { return item; }
+            set { item = value; }
         }
         private int amount;
         public int Amount

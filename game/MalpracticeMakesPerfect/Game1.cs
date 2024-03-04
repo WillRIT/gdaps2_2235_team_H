@@ -88,16 +88,16 @@ namespace MalpracticeMakesPerfect
 
             List<Slot> slotList = new List<Slot>
             {
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(allItems.Count)], 1)
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[6], 1),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[6], 1),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[8], 1),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[6], 1),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[6], 1),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[6], 4),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[6], 2),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[2], 3),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[6], 1),
+                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[3], 1)
             };
 
             myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite, slotList);
@@ -117,19 +117,25 @@ namespace MalpracticeMakesPerfect
 
             myInventory.Update();
 
+            //whether or not a slot is being highlighted
             bool existsHighlight = false;
+            //"failed" assures that the dragged item is returned to its original place
             DragStates dragAction = DragStates.Failed;
+            //check for item pickup
             foreach (Slot s in myInventory.Hotbar)
             {
                 if (s.Hovered)
                 {
                     existsHighlight = true;
+                    //highlighted = the slot the dragged item would return to
                     highlighted = s;
 
                     if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released && !s.IsEmpty)
                     {
+                        //messenger = dragged item
                         theMessenger = new TempSlot(highlighted.Position, itemAmountFont, highlighted.Item, highlighted.Amount);
                         snapBack = highlighted;
+                        //remove item from the slot from which the item was dragged
                         highlighted.Item = null;
                     }
                 }
@@ -143,77 +149,115 @@ namespace MalpracticeMakesPerfect
             {
                 theMessenger.Update();
             }
-
+            
+            //handle let go of click when item is being dragged
             if (theMessenger != null && theMessenger.Placing && existsHighlight)
             {
-                dragAction = theMessenger.SnapIntersect(highlighted);
-
-                switch (dragAction)
+                if (highlighted.IsTrash)
                 {
-                    case DragStates.Empty:
-                        highlighted.Item = theMessenger.Item;
-                        highlighted.Amount = theMessenger.Amount;
-
-                        break;
-
-                    case DragStates.Combine:
-                        bool existsRecipe = false;
-
-                        //check if there is a recipe
-                        if (allRecipes.ContainsKey($"{highlighted.Item},{theMessenger.Item}"))
-                        {
-                            existsRecipe = true;
-                            
-                            //TODO: add functionality for combining with slots with > 1 item, as well as
-                            //recipes with > 1 outputs
-                            if (highlighted.Amount == theMessenger.Amount)
-                            {
-                                highlighted.Item = allRecipes[$"{highlighted.Item},{theMessenger.Item}"].Outputs[0];
-                            }
-                            else if (highlighted.Amount < theMessenger.Amount)
-                            {
-                                highlighted.Item = allRecipes[$"{highlighted.Item},{theMessenger.Item}"].Outputs[0];
-
-                                //return remaining items to original location
-                                theMessenger.Amount -= highlighted.Amount;
-                                dragAction = DragStates.Failed;
-                            }
-                        }
-                        else if (allRecipes.ContainsKey($"{theMessenger.Item},{highlighted.Item}"))
-                        {
-                            existsRecipe = true;
-
-                            //TODO: add functionality for combining with slots with > 1 item, as well as
-                            //recipes with > 1 outputs
-                            if (highlighted.Amount == theMessenger.Amount)
-                            {
-                                highlighted.Item = allRecipes[$"{theMessenger.Item},{highlighted.Item}"].Outputs[0];
-                            }
-                            else if (highlighted.Amount < theMessenger.Amount)
-                            {
-                                highlighted.Item = allRecipes[$"{theMessenger.Item},{highlighted.Item}"].Outputs[0];
-
-                                //return remaining items to original location
-                                theMessenger.Amount -= highlighted.Amount;
-                                dragAction = DragStates.Failed;
-                            }
-                        }
-
-                        //item stacking
-                        if (theMessenger.Item.ItemName == highlighted.Item.ItemName)
-                        {
-                            existsRecipe = true;
-
-                            highlighted.Amount += theMessenger.Amount;
-                        }
-
-                        if (!existsRecipe)
-                        {
-                            dragAction = DragStates.Failed;
-                        }
-
-                        break;
+                    dragAction = DragStates.Empty;
+                    highlighted.Item = theMessenger.Item;
+                    highlighted.Amount = theMessenger.Amount;
                 }
+                else
+                {
+                    dragAction = theMessenger.SnapIntersect(highlighted);
+
+                    switch (dragAction)
+                    {
+                        //simple move item to 
+                        case DragStates.Empty:
+                            highlighted.Item = theMessenger.Item;
+                            highlighted.Amount = theMessenger.Amount;
+
+                            break;
+
+                        case DragStates.Combine:
+                            bool existsRecipe = false;
+
+                            Item[] recipeInputs = new Item[2];
+
+                            //check if there is a recipe
+                            if (allRecipes.ContainsKey($"{highlighted.Item},{theMessenger.Item}"))
+                            {
+                                recipeInputs = new Item[]
+                                {
+                                    highlighted.Item,
+                                    theMessenger.Item
+                                };
+                                existsRecipe = true;
+                            }
+                            else if (allRecipes.ContainsKey($"{theMessenger.Item},{highlighted.Item}"))
+                            {
+                                recipeInputs = new Item[]
+                                {
+                                    theMessenger.Item,
+                                    highlighted.Item,
+                                };
+                                existsRecipe = true;
+                            }
+                            if (existsRecipe)
+                            {
+                                //TODO: add functionality for combining with slots with > 1 item, as well as
+                                //recipes with > 1 outputs
+                                int outputAmount = 0;
+
+                                if (highlighted.Amount == theMessenger.Amount)
+                                {
+                                    highlighted.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0];
+                                    outputAmount = theMessenger.Amount;
+                                }
+                                else if (highlighted.Amount < theMessenger.Amount)
+                                {
+                                    highlighted.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0];
+                                    outputAmount = highlighted.Amount;
+
+                                    //return remaining items to original location
+                                    theMessenger.Amount -= highlighted.Amount;
+                                    dragAction = DragStates.Failed;
+                                }
+                                else if (highlighted.Amount > theMessenger.Amount)
+                                {
+                                    highlighted.Amount -= theMessenger.Amount;
+
+                                    theMessenger.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0];
+                                    outputAmount = theMessenger.Amount;
+                                    dragAction = DragStates.Failed;
+                                }
+
+                                //add excess outputs
+                                for (int i = 1; i < allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs.Count; i++)
+                                {
+                                    bool placedExcess = false;
+                                    foreach (Slot s in myInventory.Hotbar)
+                                    {
+                                        if (!placedExcess && (s != snapBack && dragAction == DragStates.Failed) && ((s.IsEmpty && !s.IsTrash) || s.IsTrash))
+                                        {
+                                            s.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[i];
+                                            s.Amount = outputAmount;
+                                            placedExcess = true;
+                                        }
+                                    }
+                                }
+                            }
+
+                            //item stacking
+                            if (theMessenger.Item.ItemName == highlighted.Item.ItemName)
+                            {
+                                existsRecipe = true;
+
+                                highlighted.Amount += theMessenger.Amount;
+                            }
+
+                            if (!existsRecipe)
+                            {
+                                dragAction = DragStates.Failed;
+                            }
+
+                            break;
+                    }
+                }
+                
             }
 
             if (mouseState.LeftButton == ButtonState.Released && theMessenger != null)

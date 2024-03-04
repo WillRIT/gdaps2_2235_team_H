@@ -48,6 +48,12 @@ namespace MalpracticeMakesPerfect
         { 
             get { return hovered; } 
         }
+        private bool isTrash;
+        public bool IsTrash
+        {
+            get { return isTrash; }
+            set { isTrash = value; }
+        }
 
 
         public Slot(Texture2D asset, Rectangle position, SpriteFont font)
@@ -64,6 +70,15 @@ namespace MalpracticeMakesPerfect
             this.font = font;
             this.item = item;
             this.amount = amount;
+        }
+
+        public Slot(Texture2D asset, Rectangle position, SpriteFont font, bool isTrash)
+            : base(asset, position)
+        {
+            this.font = font;
+            item = null;
+            amount = 0;
+            this.isTrash = isTrash;
         }
 
         public void AddItem(Item item, int amount)

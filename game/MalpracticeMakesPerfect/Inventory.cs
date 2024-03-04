@@ -29,10 +29,12 @@ namespace MalpracticeMakesPerfect
             this.slotAsset = slotAsset;
 
             //initialize hotbar as empty slots
-            for (int i = 0; i < hotbar.Length; i++)
+            for (int i = 0; i < hotbar.Length - 1; i++)
             {
                 hotbar[i] = new Slot(slotAsset, new Rectangle(0, 0, 50, 50), font);
             }
+
+            hotbar[hotbar.Length - 1] = new Slot(slotAsset, new Rectangle(0, 0, 50, 50), font, true);
         }
 
         public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, List<Slot> hotbarItems)
@@ -42,7 +44,7 @@ namespace MalpracticeMakesPerfect
             this.slotAsset = slotAsset;
 
             //initialize hotbar as empty slots
-            for (int i = 0; i < hotbar.Length; i++)
+            for (int i = 0; i < hotbar.Length - 1; i++)
             {
                 hotbar[i] = new Slot(slotAsset, new Rectangle(0, 0, 50, 50), font);
             }
@@ -51,6 +53,8 @@ namespace MalpracticeMakesPerfect
             {
                 hotbar[i] = hotbarItems[i];
             }
+
+            hotbar[hotbar.Length - 1].IsTrash = true;
         }
 
         /// <summary>
@@ -100,7 +104,15 @@ namespace MalpracticeMakesPerfect
             //draw hotbar
             for (int i = 0; i < hotbar.Length; i++)
             {
-                hotbar[i].Position = new Rectangle(position.X + (hotbar[i].Position.Width * i), position.Y, 50, 50);
+                if (!hotbar[i].IsTrash)
+                {
+                    hotbar[i].Position = new Rectangle(position.X + (hotbar[i].Position.Width * i), position.Y, 50, 50);
+                }
+                else
+                {
+                    hotbar[i].Position = new Rectangle(position.X + (hotbar[i].Position.Width * i), position.Y + (position.Height - 50), 50, 50);
+                }
+                
                 hotbar[i].Draw(sb);
             }
         }
