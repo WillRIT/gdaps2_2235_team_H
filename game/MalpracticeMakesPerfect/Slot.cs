@@ -31,6 +31,14 @@ namespace MalpracticeMakesPerfect
         {
             get 
             { 
+                if (isTrash)
+                {
+                    if (!IsEmpty)
+                    {
+                        return $"Trash ({item.ItemName})";
+                    }
+                    return "Trash";
+                }
                 if (IsEmpty)
                 {
                     return "Empty";

@@ -288,6 +288,43 @@ namespace MalpracticeMakesPerfect
             if (theMessenger != null)
             {
                 theMessenger.Draw(_spriteBatch);
+                //preview possible output(s) of combination
+                if (highlighted != null)
+                {
+                    List<Item> combinePreview = new List<Item>();
+                    if (allRecipes.ContainsKey($"{highlighted.Item},{theMessenger.Item}"))
+                    {
+                        combinePreview = allRecipes[$"{highlighted.Item},{theMessenger.Item}"].Outputs;
+                    }
+                    else if (allRecipes.ContainsKey($"{theMessenger.Item},{highlighted.Item}"))
+                    {
+                        combinePreview = allRecipes[$"{theMessenger.Item},{highlighted.Item}"].Outputs;
+                    }
+
+                    if (combinePreview.Count > 0)
+                    {
+                        for (int i = 0; i < combinePreview.Count; i++)
+                        {
+                            _spriteBatch.Draw(combinePreview[i].Asset, new Rectangle(Mouse.GetState().X + i * 50, Mouse.GetState().Y, 50, 50), Color.Black);
+                        }
+                    }
+                    else if (highlighted.IsEmpty || theMessenger.Item.ItemName == highlighted.Item.ItemName)
+                    {
+                        _spriteBatch.DrawString(itemAmountFont, theMessenger.Item.ToString(), new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Black);
+                    }
+                    else
+                    {
+                        _spriteBatch.DrawString(itemAmountFont, "?????????????????????????????????????????", new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Black);
+                    }
+                }
+                else
+                {
+                    _spriteBatch.DrawString(itemAmountFont, theMessenger.Item.ToString(), new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Black);
+                }
+            }
+            else if (highlighted != null && !highlighted.IsEmpty)
+            {
+                _spriteBatch.DrawString(itemAmountFont, highlighted.ItemName, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Black);
             }
 
             _spriteBatch.End();
