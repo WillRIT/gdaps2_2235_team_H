@@ -1,19 +1,30 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Content;
 
 namespace MalpracticeMakesPerfect
 {
-    internal class Item
+    internal class Item : GameObject
     {
-        private string itemName;
-        private string itemDesc;
-        private double itemCost;
+        public Texture2D Asset
+        {
+            get { return asset; }
+            set { asset = value; }
+        }
+        private string name;
+        public string ItemName
+        {
+            get { return name; }
+        }
+        private string description;
+        private double cost;
         private bool inInventory;
-        private Texture2D itemSprite;
 
         public string ItemName
         {
@@ -54,14 +65,28 @@ namespace MalpracticeMakesPerfect
         /// <param name="itemDesc">Description of the item</param>
         /// <param name="itemCost">Cost of the item</param>
         /// <param name="inInventory">Whether or not the item should be placed in the inventory</param>
-        /// <param name="itemSprite">The sprite of the item</param>
-        public Item(string itemName, string itemDesc, double itemCost, bool inInventory, Texture2D itemSprite)
+        public Item(Texture2D asset, Rectangle position,string itemName, string itemDesc, double itemCost, bool inInventory)
+            :base (asset, position)
         {
-            this.itemName = ItemName;
-            this.itemDesc = ItemDesc;
-            this.itemCost = ItemCost;
-            this.inInventory = InInventory;
-            this.itemSprite = ItemSprite;
+            this.name = itemName;
+            this.description = itemDesc;
+            this.cost = itemCost;
+            this.inInventory = inInventory;
+        }
+
+        public void Draw(SpriteBatch sb, Rectangle position, Color color)
+        {
+            sb.Draw(asset, position, color);
+        }
+
+        public override void Update()
+        {
+
+        }
+
+        public override string ToString()
+        {
+            return name;
         }
 
 

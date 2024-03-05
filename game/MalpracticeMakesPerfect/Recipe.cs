@@ -10,6 +10,10 @@ namespace MalpracticeMakesPerfect
     {
         private Item[] inputs;
         private List<Item> outputs;
+        public List<Item> Outputs
+        {
+            get { return outputs; }
+        }
 
         /// <summary>
         /// Creates recipe
@@ -20,6 +24,18 @@ namespace MalpracticeMakesPerfect
         {
             this.inputs = inputs;
             this.outputs = outputs;
+        }
+
+        public override string ToString()
+        {
+            string recipeString = $"{inputs[0]} + {inputs[1]} = {outputs[0]}";
+
+            for (int i = 1; i < outputs.Count; i++)
+            {
+                recipeString += $", {outputs[i]}";
+            }
+
+            return recipeString;
         }
     }
 }

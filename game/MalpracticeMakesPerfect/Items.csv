@@ -1,0 +1,10 @@
+name|description|cost|inInventory|assetPath
+Mealy Apple|A very mealy apple. The mealiest.|0.00|false|Mealy Apple
+Horsefeathers|Feathers of the Horse.|4.99|true|Horsefeathers
+Catnip|Nip of the Cat.|5.00|true|Catnip
+Green Apple|A very green apple. The greenest.|10.75|true|Green Apple
+Hammer|The hammer.|90.00|true|Hammer
+Green Cider|A very green cider. The greenest.|0.00|false|Green Cider
+Mealy Cider|A very mealy cider. The mealiest.|0.00|false|Mealy Cider
+Green Juice|Green apple green nip.|0.00|false|Green Juice
+Nasty Juice|ewww|0.00|false|Nasty Juice

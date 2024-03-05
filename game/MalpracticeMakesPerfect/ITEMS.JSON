@@ -4,64 +4,64 @@
             "name": "Mealy Apple",
             "description": "A very mealy apple. The mealiest.",
             "cost": 0.00,
-            "inventory": false,
-            "sprite": "path/to/sprite.png"
+            "inInventory": false,
+            "assetPath": "Mealy Apple"
         },
         {
             "name": "Horsefeathers",
             "description": "Feathers of the Horse.",
             "cost": 4.99,
-            "inventory": true,
-            "sprite": "path/to/sprite.png"
+            "inInventory": true,
+            "assetPath": "Horsefeathers"
         },
         {
             "name": "Catnip",
             "description": "Nip of the Cat.",
             "cost": 5.00,
-            "inventory": true,
-            "sprite": "path/to/sprite.png"
+            "inInventory": true,
+            "assetPath": "Catnip"
         },
         {
             "name": "Green Apple",
             "description": "A very green apple. The greenest.",
             "cost": 10.75,
-            "inventory": true,
-            "sprite": "path/to/sprite.png"
+            "inInventory": true,
+            "assetPath": "Green Apple"
         },
         {
             "name": "Hammer",
             "description": "The hammer.",
             "cost": 90.00,
-            "inventory": true,
-            "sprite": "path/to/sprite.png"
+            "inInventory": true,
+            "assetPath": "Hammer"
         },
         {
             "name": "Green Cider",
             "description": "A very green cider. The greenest.",
             "cost": 0.00,
-            "inventory": false,
-            "sprite": "path/to/sprite.png"
+            "inInventory": false,
+            "assetPath": "Green Cider"
         },
         {
             "name": "Mealy Cider",
             "description": "A very mealy cider. The mealiest.",
             "cost": 0.00,
-            "inventory": false,
-            "sprite": "path/to/sprite.png"
+            "inInventory": false,
+            "assetPath": "Mealy Cider"
         },
         {
             "name": "Green Juice",
             "description": "Green apple green nip.",
             "cost": 0.00,
-            "inventory": false,
-            "sprite": "path/to/sprite.png"
+            "inInventory": false,
+            "assetPath": "Green Juice"
         },
         {
             "name": "Nasty Juice",
             "description": "ewww",
             "cost": 0.00,
-            "inventory": false,
-            "sprite": "path/to/sprite.png"
+            "inInventory": false,
+            "assetPath": "Nasty Juice"
         }
     ],
     "recipes": [
