@@ -26,36 +26,6 @@ namespace MalpracticeMakesPerfect
         private double cost;
         private bool inInventory;
 
-        public string ItemName
-        {
-            get {return itemName;}
-            set {itemName = value;}
-        }
-
-        public string ItemDesc
-        {
-            get {return itemDesc;}
-            set {itemDesc = value;}
-        }
-
-        public double ItemCost
-        {
-            get{return itemCost;}
-            set {itemCost = value;}
-        }
-
-        public bool InInventory
-        {
-            get {return inInventory;}
-            set {inInventory = value;}
-        }
-
-        public Texture2D ItemSprite
-        {
-            get { return itemSprite; }
-            set { itemSprite = value; }
-        }
-
         private enum itemAspects { };
 
         /// <summary>
@@ -88,7 +58,5 @@ namespace MalpracticeMakesPerfect
         {
             return name;
         }
-
-
     }
 }

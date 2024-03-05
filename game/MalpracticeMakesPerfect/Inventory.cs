@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace MalpracticeMakesPerfect
 {
-
     internal class Inventory : GameObject
     {
         private List<Item> items;
