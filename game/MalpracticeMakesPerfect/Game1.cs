@@ -86,19 +86,12 @@ namespace MalpracticeMakesPerfect
             itemAmountFont = Content.Load<SpriteFont>("item-amount");
             joobi = Content.Load<Texture2D>("joobi");
 
-            List<Slot> slotList = new List<Slot>
+            List<Slot> slotList = new List<Slot>();
+
+            for (int i = 0; i < 10; i++)
             {
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[6], 1),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[6], 1),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[8], 1),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[6], 1),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[6], 1),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[6], 4),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[6], 2),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[2], 3),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[6], 1),
-                new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[3], 1)
-            };
+                slotList.Add(new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(9)], rng.Next(1,4)));
+            }
 
             myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite, slotList);
 
