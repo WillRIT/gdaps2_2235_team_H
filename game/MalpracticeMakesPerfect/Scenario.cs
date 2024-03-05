@@ -17,8 +17,6 @@ namespace MalpracticeMakesPerfect
         private List<Solution> solutions;
         private Texture2D personSprite;
         private string godModeText;
-        private Rectangle patient;
-        
 
         /// <summary>
         /// Creates a scenario
@@ -36,27 +34,7 @@ namespace MalpracticeMakesPerfect
             this.personSprite = personSprite;
             this.godModeText = godModeText;
 
-            patient = new Rectangle(0, 0, personSprite.Width, personSprite.Height);
-
             itemSlots = new Item[slotNum];
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void ScenarioSetup()
-        {
-
-        }
-
-        /// <summary>
-        /// Draws the patient in thier rectangle and square
-        /// </summary>
-        /// <param name="sb"></param> Just a Spritebatch
-        public void DrawScenario(SpriteBatch sb)
-        {
-            sb.Draw(personSprite, patient, Color.White);
         }
     }
 }
