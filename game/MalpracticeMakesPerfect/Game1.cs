@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -18,6 +19,16 @@ namespace MalpracticeMakesPerfect
         Failed,
         Empty,
         Combine
+    }
+
+namespace MalpracticeMakesPerfect
+{
+    /// <summary>
+    /// Contains the game's mode
+    /// </summary>
+    enum GameMode
+    {
+        Menu, Game, GameOver, Pause
     }
 
     public class Game1 : Game
@@ -53,17 +64,32 @@ namespace MalpracticeMakesPerfect
         private List<Item> allItems;
         private Dictionary<string, Recipe> allRecipes;
         
+        private SpriteFont menuFont;
+        private Vector2 patientPath;
 
+        //KeyboardStates
+        private KeyboardState currentKbState;
+        private KeyboardState previousKbState;
+
+        //GameMode
+        private GameMode currentState;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            currentState = GameMode.Menu;
+
+            MouseState mouseState = new MouseState();
+
         }
 
         protected override void Initialize()
         {
+
+            
             // TODO: Add your initialization logic here
             _graphics.IsFullScreen = false;
             _graphics.PreferredBackBufferWidth = 1920;
@@ -76,6 +102,7 @@ namespace MalpracticeMakesPerfect
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
 
             DatabaseManager databaseManager = new DatabaseManager();
 
@@ -96,7 +123,14 @@ namespace MalpracticeMakesPerfect
             myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite, slotList);
 
             theMessenger = null;
+            
+            menuFont = Content.Load<SpriteFont>("MenuFont");
 
+            Joobi = this.Content.Load<Texture2D>("joobi");
+
+            List<Solution> ScenarioTest = new List<Solution>();
+
+            Scenario JoobiSick = new Scenario("My arms are green! Help!", 2, ScenarioTest, Joobi, "Give me Apple");
             // TODO: use this.Content to load your game content here
         }
 
@@ -104,6 +138,7 @@ namespace MalpracticeMakesPerfect
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
 
             // TODO: Add your update logic here
             mouseState = Mouse.GetState();
@@ -266,12 +301,60 @@ namespace MalpracticeMakesPerfect
 
             mousePrev = mouseState;
 
+            
+            currentKbState = Keyboard.GetState();
+           
+            //switches between GameModes
+            switch (currentState)
+            {
+                case GameMode.Menu:
+                    if (SingleKeyPress(Keys.Space, currentKbState))
+                    {
+                        currentState = GameMode.Game;
+                    }
+                    break;
+                case GameMode.Game:
+
+
+                    break;
+                case GameMode.GameOver:
+                    if (SingleKeyPress(Keys.Space, currentKbState))
+                    {
+                        currentState = GameMode.Menu;
+                    }
+                    break;
+            }
+
+
+            previousKbState = currentKbState;
+
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Crimson);
+
+
+            _spriteBatch.Begin();
+            
+            
+            switch (currentState)
+            {
+                //Main Menu Text
+                case GameMode.Menu:
+                    _spriteBatch.DrawString(menuFont, "Malpractice Makes Perfect", new Vector2(20, 20), Color.Black);
+                    _spriteBatch.DrawString(menuFont, "Team Borderline Doctors", new Vector2(20, 50), Color.Black);
+                    _spriteBatch.DrawString(menuFont, "Press space to begin", new Vector2(20, 70), Color.Black);
+                    break;
+                case GameMode.Game:
+                    
+                    break;
+                case GameMode.GameOver:
+                    _spriteBatch.DrawString(menuFont, "loss :[", new Vector2(20, 20), Color.Black);
+                    break;
+            }
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
@@ -322,7 +405,26 @@ namespace MalpracticeMakesPerfect
 
             _spriteBatch.End();
 
+            _spriteBatch.Draw(Joobi, item, Color.AliceBlue);
+
+            _spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        /// <summary>
+        /// Checks for a single key press
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="kbState"></param>
+        /// <returns></returns>
+        private bool SingleKeyPress(Keys key, KeyboardState kbState)
+        {
+            kbState = Keyboard.GetState();
+            if (kbState.IsKeyDown(key) && previousKbState.IsKeyUp(key))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
