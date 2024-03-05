@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.IO;
 
 namespace MalpracticeMakesPerfect
 {
@@ -18,9 +20,13 @@ namespace MalpracticeMakesPerfect
         private SpriteBatch _spriteBatch;
         private Texture2D jam;
         private Texture2D Joobi;
+
+        private string filename = "../../../ITEMS.JSON";
+        private Inventory inventory;
+        private List<Item> items;
+        private List<Recipe> recipes;
         private SpriteFont menuFont;
         private Vector2 patientPath;
-
 
         private Rectangle item;
 
@@ -49,9 +55,6 @@ namespace MalpracticeMakesPerfect
             
             // TODO: Add your initialization logic here
 
-
-
-
             base.Initialize();
         }
 
@@ -63,10 +66,14 @@ namespace MalpracticeMakesPerfect
 
             Joobi = this.Content.Load<Texture2D>("joobi");
 
+
+            items = new List<Item>();
+            recipes = new List<Recipe>();
+            inventory = new Inventory(items, recipes);
+
             List<Solution> ScenarioTest = new List<Solution>();
 
             Scenario JoobiSick = new Scenario("My arms are green! Help!", 2, ScenarioTest, Joobi, "Give me Apple");
-
             // TODO: use this.Content to load your game content here
         }
 
@@ -74,6 +81,10 @@ namespace MalpracticeMakesPerfect
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            //if ()
+            inventory.GetItemsAndRecipes(filename, items, recipes);
+            
             currentKbState = Keyboard.GetState();
            
             //switches between GameModes

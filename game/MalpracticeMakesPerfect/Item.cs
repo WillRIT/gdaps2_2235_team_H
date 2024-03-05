@@ -15,6 +15,36 @@ namespace MalpracticeMakesPerfect
         private bool inInventory;
         private Texture2D itemSprite;
 
+        public string ItemName
+        {
+            get {return itemName;}
+            set {itemName = value;}
+        }
+
+        public string ItemDesc
+        {
+            get {return itemDesc;}
+            set {itemDesc = value;}
+        }
+
+        public double ItemCost
+        {
+            get{return itemCost;}
+            set {itemCost = value;}
+        }
+
+        public bool InInventory
+        {
+            get {return inInventory;}
+            set {inInventory = value;}
+        }
+
+        public Texture2D ItemSprite
+        {
+            get { return itemSprite; }
+            set { itemSprite = value; }
+        }
+
         private enum itemAspects { };
 
         /// <summary>
@@ -27,11 +57,11 @@ namespace MalpracticeMakesPerfect
         /// <param name="itemSprite">The sprite of the item</param>
         public Item(string itemName, string itemDesc, double itemCost, bool inInventory, Texture2D itemSprite)
         {
-            this.itemName = itemName;
-            this.itemDesc = itemDesc;
-            this.itemCost = itemCost;
-            this.inInventory = inInventory;
-            this.itemSprite = itemSprite;
+            this.itemName = ItemName;
+            this.itemDesc = ItemDesc;
+            this.itemCost = ItemCost;
+            this.inInventory = InInventory;
+            this.itemSprite = ItemSprite;
         }
 
 

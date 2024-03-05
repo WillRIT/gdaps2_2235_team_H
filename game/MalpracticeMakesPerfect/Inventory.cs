@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MalpracticeMakesPerfect
 {
-    internal class Inventory
+    internal class Inventory : DatabaseManager
     {
         private List<Item> items;
         private List<Recipe> recipes;
