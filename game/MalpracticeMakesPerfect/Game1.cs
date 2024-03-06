@@ -11,7 +11,8 @@ namespace MalpracticeMakesPerfect
     {
         TitleScreen,
         GameScene,
-        GameShop
+        GameShop,
+        GameOver
     }
 
     enum DragStates
@@ -62,6 +63,7 @@ namespace MalpracticeMakesPerfect
         private Vector2 titlePos;
         private Vector2 subtitlePos;
         private float textBounceSpeed;
+        private SpriteFont smallSubtitleFont;
 
         //Reputation and Money
         private int reputation;
@@ -81,9 +83,8 @@ namespace MalpracticeMakesPerfect
             subtitlePos = new Vector2(450, 180);
             textBounceSpeed = 0.5f;
 
-            //Reputation and Money
-            reputation = 100;
-            money = 100;
+
+            
         }
 
         protected override void Initialize()
@@ -126,6 +127,7 @@ namespace MalpracticeMakesPerfect
             //menu fonts
             titleFont = Content.Load<SpriteFont>("TitleFont");
             subtitleFont = Content.Load<SpriteFont>("SubtitleFont");
+            smallSubtitleFont = Content.Load<SpriteFont>("SmallerSubtitleFont");
 
             // TODO: use this.Content to load your game content here
         }
@@ -141,6 +143,8 @@ namespace MalpracticeMakesPerfect
             switch (gameState)
             {
                 case GameStates.TitleScreen:
+                    reputation = 1600;
+                    money = 100;
                     titlePos.Y += textBounceSpeed;
                     subtitlePos.Y += textBounceSpeed;
                     if(titlePos.Y <= 55|| titlePos.Y >= 80)
@@ -149,7 +153,7 @@ namespace MalpracticeMakesPerfect
                     }
 
 
-                    if (mouseState.LeftButton == ButtonState.Pressed)
+                    if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                     {
                         gameState = GameStates.GameScene;
                     }
@@ -157,6 +161,15 @@ namespace MalpracticeMakesPerfect
                     break;
 
                 case GameStates.GameScene:
+
+                   if(mouseState.RightButton == ButtonState.Pressed)
+                    {
+                        reputation -= 10;
+                    }
+                   if(reputation <= 0)
+                    {
+                        gameState = GameStates.GameOver;
+                    }
 
                     myInventory.Update();
 
@@ -321,6 +334,13 @@ namespace MalpracticeMakesPerfect
                     }
 
                     break;
+                
+                case GameStates.GameOver:
+                    if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
+                    {
+                        gameState = GameStates.TitleScreen;
+                    }
+                    break;
             }
             
 
@@ -396,8 +416,18 @@ namespace MalpracticeMakesPerfect
                     {
                         _spriteBatch.DrawString(itemAmountFont, highlighted.ItemName, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Black);
                     }
+                    _spriteBatch.DrawString(smallSubtitleFont,"Reputation:",new Vector2(10,20), Color.Black);
+                    _spriteBatch.Draw(joobi,new Rectangle(190,30,reputation,20),Color.Black);
+                    _spriteBatch.DrawString(smallSubtitleFont,"Money:", new Vector2(10,40),Color.Black);
+                    _spriteBatch.DrawString(smallSubtitleFont, ""+money, new Vector2(110, 40), Color.Goldenrod);
 
                     break;
+
+                case GameStates.GameOver:
+                    _spriteBatch.DrawString(titleFont, "you got run out of town", new Vector2(150,150), Color.Black);
+                    _spriteBatch.DrawString(subtitleFont, "Left click to try again", new Vector2(150, 300), Color.Black);
+                    break;
+
             }
 
             
