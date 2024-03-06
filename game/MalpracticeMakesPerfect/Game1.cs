@@ -67,6 +67,8 @@ namespace MalpracticeMakesPerfect
         private int reputation;
         private double money;
 
+        private string consoleLog;
+
 
         public Game1()
         {
@@ -91,6 +93,8 @@ namespace MalpracticeMakesPerfect
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 1080;
             _graphics.ApplyChanges();
+
+            consoleLog = string.Empty;
 
             base.Initialize();
         }
@@ -221,8 +225,8 @@ namespace MalpracticeMakesPerfect
                                     {
                                         recipeInputs = new Item[]
                                         {
-                                    highlighted.Item,
-                                    theMessenger.Item
+                                            highlighted.Item,
+                                            theMessenger.Item
                                         };
                                         existsRecipe = true;
                                     }
@@ -230,8 +234,8 @@ namespace MalpracticeMakesPerfect
                                     {
                                         recipeInputs = new Item[]
                                         {
-                                    theMessenger.Item,
-                                    highlighted.Item
+                                            theMessenger.Item,
+                                            highlighted.Item
                                         };
                                         existsRecipe = true;
                                     }
@@ -264,9 +268,13 @@ namespace MalpracticeMakesPerfect
                                             dragAction = DragStates.Failed;
                                         }
 
+                                        consoleLog += $"Created {outputAmount} {allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0]}(s)";
+
                                         //add excess outputs
                                         for (int i = 1; i < allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs.Count; i++)
                                         {
+                                            consoleLog += $", {outputAmount} {allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[i]}(s)";
+
                                             bool placedExcess = false;
                                             foreach (Slot s in myInventory.Hotbar)
                                             {
@@ -278,6 +286,8 @@ namespace MalpracticeMakesPerfect
                                                 }
                                             }
                                         }
+
+                                        consoleLog += "\n";
                                     }
 
                                     //item stacking
@@ -342,6 +352,8 @@ namespace MalpracticeMakesPerfect
                 case GameStates.GameScene:
 
                     myInventory.DrawScene(_spriteBatch);
+
+                    _spriteBatch.DrawString(itemAmountFont, consoleLog, new Vector2(1500, 10), Color.Black);
 
                     if (theMessenger != null)
                     {
