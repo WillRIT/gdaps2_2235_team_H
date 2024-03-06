@@ -328,6 +328,17 @@ namespace MalpracticeMakesPerfect
 
             switch (gameState)
             {
+                case GameStates.TitleScreen://Main screen art
+                    GraphicsDevice.Clear(Color.Maroon);
+                    _spriteBatch.DrawString(titleFont, "MAlPRACTICE MAKES PERFECT", titlePos, Color.Black);
+                    _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", new Vector2(subtitlePos.X - 1.5f, subtitlePos.Y - 1.5f), Color.White);
+                    _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", new Vector2(subtitlePos.X + 1.5f, subtitlePos.Y + 1.5f), Color.Black);
+                    _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", subtitlePos, Color.Red);
+                    _spriteBatch.DrawString(subtitleFont, "Left Click to Start", new Vector2(600, 850), Color.Black);
+
+
+                    break;
+
                 case GameStates.GameScene:
 
                     myInventory.DrawScene(_spriteBatch);
@@ -373,17 +384,6 @@ namespace MalpracticeMakesPerfect
                     {
                         _spriteBatch.DrawString(itemAmountFont, highlighted.ItemName, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Black);
                     }
-
-                    break;
-
-                case GameStates.TitleScreen://Main screen art
-                    GraphicsDevice.Clear(Color.Maroon);
-                    _spriteBatch.DrawString(titleFont, "MAlPRACTICE MAKES PERFECT", titlePos, Color.Black);
-                    _spriteBatch.DrawString(subtitleFont,"-Team Borderline Doctors-", new Vector2(subtitlePos.X-1.5f,subtitlePos.Y-1.5f), Color.White);
-                    _spriteBatch.DrawString(subtitleFont,"-Team Borderline Doctors-", new Vector2(subtitlePos.X+1.5f, subtitlePos.Y+1.5f), Color.Black);
-                    _spriteBatch.DrawString(subtitleFont,"-Team Borderline Doctors-", subtitlePos, Color.Red);
-                    _spriteBatch.DrawString(subtitleFont, "Left Click to Start", new Vector2(600,850), Color.Black);
-
 
                     break;
             }
