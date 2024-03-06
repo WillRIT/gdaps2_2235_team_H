@@ -40,6 +40,10 @@ namespace MalpracticeMakesPerfect
         private Texture2D diamondSprite;
         private Texture2D joobi;
 
+        private Texture2D sky;
+        private Rectangle skyRect;
+        private Rectangle skyRect2;
+
         private SpriteFont itemAmountFont;
 
         private List<Draggable> draggables = new List<Draggable>();
@@ -112,6 +116,10 @@ namespace MalpracticeMakesPerfect
             itemAmountFont = Content.Load<SpriteFont>("item-amount");
             joobi = Content.Load<Texture2D>("joobi");
 
+            sky = Content.Load<Texture2D>("sky");
+            skyRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            skyRect2 = new Rectangle(_graphics.PreferredBackBufferWidth, 0, _graphics.PreferredBackBufferWidth + 1, _graphics.PreferredBackBufferHeight);
+
             List<Slot> slotList = new List<Slot>();
 
             for (int i = 0; i < 10; i++)
@@ -159,6 +167,17 @@ namespace MalpracticeMakesPerfect
                 case GameStates.GameScene:
 
                     myInventory.Update();
+
+                    skyRect.X--;
+                    skyRect2.X--;
+                    if (skyRect.X < 0 - _graphics.PreferredBackBufferWidth)
+                    {
+                        skyRect.X = _graphics.PreferredBackBufferWidth;
+                    }
+                    if (skyRect2.X < 0 - _graphics.PreferredBackBufferWidth)
+                    {
+                        skyRect2.X = _graphics.PreferredBackBufferWidth;
+                    }
 
                     //whether or not a slot is being highlighted
                     bool existsHighlight = false;
@@ -350,6 +369,9 @@ namespace MalpracticeMakesPerfect
                     break;
 
                 case GameStates.GameScene:
+
+                    _spriteBatch.Draw(sky, skyRect, Color.White);
+                    _spriteBatch.Draw(sky, skyRect2, Color.White);
 
                     myInventory.DrawScene(_spriteBatch);
 
