@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 namespace MalpracticeMakesPerfect
 {
@@ -54,7 +55,17 @@ namespace MalpracticeMakesPerfect
         private Dictionary<string, Recipe> allRecipes;
 
         private GameStates gameState;
-        
+
+        //Katies menu variables!
+        private SpriteFont titleFont;
+        private SpriteFont subtitleFont;
+        private Vector2 titlePos;
+        private Vector2 subtitlePos;
+        private float textBounceSpeed;
+
+        //Reputation and Money
+        private int reputation;
+        private double money;
 
 
         public Game1()
@@ -62,6 +73,15 @@ namespace MalpracticeMakesPerfect
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            
+            //Menu variables
+            titlePos = new Vector2(250, 30);
+            subtitlePos = new Vector2(500, 150);
+            textBounceSpeed = 0.5f;
+
+            //Reputation and Money
+            reputation = 100;
+            money = 100;
         }
 
         protected override void Initialize()
@@ -99,6 +119,10 @@ namespace MalpracticeMakesPerfect
 
             theMessenger = null;
 
+            //menu fonts
+            titleFont = Content.Load<SpriteFont>("TitleFont");
+            subtitleFont = Content.Load<SpriteFont>("SubtitleFont");
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -113,6 +137,13 @@ namespace MalpracticeMakesPerfect
             switch (gameState)
             {
                 case GameStates.TitleScreen:
+                    titlePos.Y += textBounceSpeed;
+                    subtitlePos.Y += textBounceSpeed;
+                    if(titlePos.Y <= 15|| titlePos.Y >= 40)
+                    {
+                        textBounceSpeed = -textBounceSpeed;
+                    }
+
 
                     if (mouseState.LeftButton == ButtonState.Pressed)
                     {
@@ -342,6 +373,16 @@ namespace MalpracticeMakesPerfect
                     {
                         _spriteBatch.DrawString(itemAmountFont, highlighted.ItemName, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Black);
                     }
+
+                    break;
+
+                case GameStates.TitleScreen://Main screen art
+                    GraphicsDevice.Clear(Color.DarkRed);
+                    _spriteBatch.DrawString(titleFont, "MAlPRACTICE MAKES PERFECT", titlePos, Color.Black);
+                    _spriteBatch.DrawString(subtitleFont, "Team Borderline Doctors", new Vector2(subtitlePos.X+1, subtitlePos.Y+1), Color.White);
+                    _spriteBatch.DrawString(subtitleFont, "Team Borderline Doctors", subtitlePos, Color.OrangeRed);
+                    _spriteBatch.DrawString(subtitleFont, "Left Click to Start", new Vector2(600,850), Color.Black);
+
 
                     break;
             }
