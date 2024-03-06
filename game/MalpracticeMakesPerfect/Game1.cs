@@ -75,8 +75,8 @@ namespace MalpracticeMakesPerfect
             IsMouseVisible = true;
             
             //Menu variables
-            titlePos = new Vector2(250, 30);
-            subtitlePos = new Vector2(500, 150);
+            titlePos = new Vector2(255, 60);
+            subtitlePos = new Vector2(450, 180);
             textBounceSpeed = 0.5f;
 
             //Reputation and Money
@@ -139,7 +139,7 @@ namespace MalpracticeMakesPerfect
                 case GameStates.TitleScreen:
                     titlePos.Y += textBounceSpeed;
                     subtitlePos.Y += textBounceSpeed;
-                    if(titlePos.Y <= 15|| titlePos.Y >= 40)
+                    if(titlePos.Y <= 55|| titlePos.Y >= 80)
                     {
                         textBounceSpeed = -textBounceSpeed;
                     }
@@ -377,10 +377,11 @@ namespace MalpracticeMakesPerfect
                     break;
 
                 case GameStates.TitleScreen://Main screen art
-                    GraphicsDevice.Clear(Color.DarkRed);
+                    GraphicsDevice.Clear(Color.Maroon);
                     _spriteBatch.DrawString(titleFont, "MAlPRACTICE MAKES PERFECT", titlePos, Color.Black);
-                    _spriteBatch.DrawString(subtitleFont, "Team Borderline Doctors", new Vector2(subtitlePos.X+1, subtitlePos.Y+1), Color.White);
-                    _spriteBatch.DrawString(subtitleFont, "Team Borderline Doctors", subtitlePos, Color.OrangeRed);
+                    _spriteBatch.DrawString(subtitleFont,"-Team Borderline Doctors-", new Vector2(subtitlePos.X-1.5f,subtitlePos.Y-1.5f), Color.White);
+                    _spriteBatch.DrawString(subtitleFont,"-Team Borderline Doctors-", new Vector2(subtitlePos.X+1.5f, subtitlePos.Y+1.5f), Color.Black);
+                    _spriteBatch.DrawString(subtitleFont,"-Team Borderline Doctors-", subtitlePos, Color.Red);
                     _spriteBatch.DrawString(subtitleFont, "Left Click to Start", new Vector2(600,850), Color.Black);
 
 
