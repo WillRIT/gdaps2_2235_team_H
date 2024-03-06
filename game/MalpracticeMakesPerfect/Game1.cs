@@ -70,6 +70,9 @@ namespace MalpracticeMakesPerfect
         //Reputation and Money
         private int reputation;
         private double money;
+     
+        private Vector2 path = new Vector2(10f, 400f);
+        private float speed = 5.0f;
 
         private string consoleLog;
 
@@ -134,6 +137,13 @@ namespace MalpracticeMakesPerfect
             //menu fonts
             titleFont = Content.Load<SpriteFont>("TitleFont");
             subtitleFont = Content.Load<SpriteFont>("SubtitleFont");
+
+            // Solution list and adding solutions to it
+            List<Solution> solutionList = new List<Solution>();
+
+            
+
+            Scenario test = new Scenario("I am Joobi", 2, solutionList, joobi, "I am special Joobi");
 
             // TODO: use this.Content to load your game content here
         }
@@ -359,7 +369,7 @@ namespace MalpracticeMakesPerfect
             {
                 case GameStates.TitleScreen://Main screen art
                     GraphicsDevice.Clear(Color.Maroon);
-                    _spriteBatch.DrawString(titleFont, "MAlPRACTICE MAKES PERFECT", titlePos, Color.Black);
+                    _spriteBatch.DrawString(titleFont, "MALPRACTICE MAKES PERFECT", titlePos, Color.Black);
                     _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", new Vector2(subtitlePos.X - 1.5f, subtitlePos.Y - 1.5f), Color.White);
                     _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", new Vector2(subtitlePos.X + 1.5f, subtitlePos.Y + 1.5f), Color.Black);
                     _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", subtitlePos, Color.Red);
