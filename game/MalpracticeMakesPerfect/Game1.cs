@@ -66,6 +66,9 @@ namespace MalpracticeMakesPerfect
         //Reputation and Money
         private int reputation;
         private double money;
+     
+        private Vector2 path = new Vector2(10f, 400f);
+        private float speed = 5.0f;
 
         private string consoleLog;
 

@@ -18,6 +18,10 @@ namespace MalpracticeMakesPerfect
         private Texture2D personSprite;
         private string godModeText;
 
+        private Vector2 path = new Vector2(10f, 400f);
+        private float speed = 5.0f;
+
+
         /// <summary>
         /// Creates a scenario
         /// </summary>
@@ -35,6 +39,16 @@ namespace MalpracticeMakesPerfect
             this.godModeText = godModeText;
 
             itemSlots = new Item[slotNum];
+        }
+
+        public void ScenarioStart()
+        {
+
+        }
+
+        public void Update()
+        {
+
         }
     }
 }
