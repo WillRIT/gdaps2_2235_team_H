@@ -130,6 +130,13 @@ namespace MalpracticeMakesPerfect
             titleFont = Content.Load<SpriteFont>("TitleFont");
             subtitleFont = Content.Load<SpriteFont>("SubtitleFont");
 
+            // Solution list and adding solutions to it
+            List<Solution> solutionList = new List<Solution>();
+
+            
+
+            Scenario test = new Scenario("I am Joobi", 2, solutionList, joobi, "I am special Joobi");
+
             // TODO: use this.Content to load your game content here
         }
 

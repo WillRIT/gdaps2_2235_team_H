@@ -18,9 +18,6 @@ namespace MalpracticeMakesPerfect
         private Texture2D personSprite;
         private string godModeText;
 
-        private Vector2 path = new Vector2(10f, 400f);
-        private float speed = 5.0f;
-
 
         /// <summary>
         /// Creates a scenario
@@ -43,12 +40,20 @@ namespace MalpracticeMakesPerfect
 
         public void ScenarioStart()
         {
-
+            
         }
 
         public void Update()
         {
+            // If the right item is dragged onto the guy, Give money and reputation accordingly
+            // else, nothing happens and loop back around
 
+
+        }
+
+        public void Draw(SpriteBatch sb)
+        {
+            sb.Draw(personSprite, new Rectangle(300, 0, personSprite.Width, personSprite.Height), Color.White);
         }
     }
 }
