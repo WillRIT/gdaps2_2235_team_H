@@ -350,7 +350,7 @@ namespace MalpracticeMakesPerfect
             {
                 case GameStates.TitleScreen://Main screen art
                     GraphicsDevice.Clear(Color.Maroon);
-                    _spriteBatch.DrawString(titleFont, "MAlPRACTICE MAKES PERFECT", titlePos, Color.Black);
+                    _spriteBatch.DrawString(titleFont, "MALPRACTICE MAKES PERFECT", titlePos, Color.Black);
                     _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", new Vector2(subtitlePos.X - 1.5f, subtitlePos.Y - 1.5f), Color.White);
                     _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", new Vector2(subtitlePos.X + 1.5f, subtitlePos.Y + 1.5f), Color.Black);
                     _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", subtitlePos, Color.Red);
