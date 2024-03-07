@@ -450,8 +450,8 @@ namespace MalpracticeMakesPerfect
                     }
                     _spriteBatch.DrawString(smallSubtitleFont,"Reputation:",new Vector2(10,20), Color.Black);
                     _spriteBatch.Draw(joobi,new Rectangle(190,30,reputation,20),Color.Black);
-                    _spriteBatch.DrawString(smallSubtitleFont,"Money:", new Vector2(10,40),Color.Black);
-                    _spriteBatch.DrawString(smallSubtitleFont, ""+money, new Vector2(110, 40), Color.Goldenrod);
+                    _spriteBatch.DrawString(smallSubtitleFont,"Money:", new Vector2(10,50),Color.Black);
+                    _spriteBatch.DrawString(smallSubtitleFont, ""+money, new Vector2(110, 50), Color.Goldenrod);
 
                     break;
 
