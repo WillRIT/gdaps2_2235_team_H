@@ -188,6 +188,13 @@
 /processorParam:TextureFormat=Color
 /build:slot.png
 
+#begin SmallerSubtitleFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:SmallerSubtitleFont.spritefont
+
 #begin SubtitleFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
