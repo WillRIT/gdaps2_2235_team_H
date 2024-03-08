@@ -238,6 +238,7 @@ namespace MalpracticeMakesPerfect
                     //handle let go of click when item is being dragged
                     if (theMessenger != null && theMessenger.Placing && existsHighlight)
                     {
+                        //item in trash is overwritten
                         if (highlighted.IsTrash)
                         {
                             dragAction = DragStates.Empty;
@@ -281,17 +282,18 @@ namespace MalpracticeMakesPerfect
                                         };
                                         existsRecipe = true;
                                     }
+
                                     if (existsRecipe)
                                     {
-                                        //TODO: add functionality for combining with slots with > 1 item, as well as
-                                        //recipes with > 1 outputs
-                                        int outputAmount = 0;
+                                        int outputAmount = 0; //handles quantity of the created items
 
+                                        //if dragged item is same quantity
                                         if (highlighted.Amount == theMessenger.Amount)
                                         {
                                             highlighted.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0];
                                             outputAmount = theMessenger.Amount;
                                         }
+                                        //if dragged item has less
                                         else if (highlighted.Amount < theMessenger.Amount)
                                         {
                                             highlighted.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0];
@@ -301,6 +303,7 @@ namespace MalpracticeMakesPerfect
                                             theMessenger.Amount -= highlighted.Amount;
                                             dragAction = DragStates.Failed;
                                         }
+                                        //if dragged item has more
                                         else if (highlighted.Amount > theMessenger.Amount)
                                         {
                                             highlighted.Amount -= theMessenger.Amount;
@@ -310,16 +313,19 @@ namespace MalpracticeMakesPerfect
                                             dragAction = DragStates.Failed;
                                         }
 
+                                        //log when items are created
                                         consoleLog += $"Created {outputAmount} {allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0]}(s)";
 
                                         //add excess outputs
                                         for (int i = 1; i < allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs.Count; i++)
                                         {
+                                            //log excess items
                                             consoleLog += $", {outputAmount} {allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[i]}(s)";
 
                                             bool placedExcess = false;
                                             foreach (Slot s in myInventory.Hotbar)
                                             {
+                                                //place in the first available empty slot (if dragged item will not be sent back to that slot) or in the trash
                                                 if (!placedExcess && ((s != snapBack && dragAction == DragStates.Failed) || dragAction != DragStates.Failed) && ((s.IsEmpty && !s.IsTrash) || s.IsTrash))
                                                 {
                                                     s.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[i];
