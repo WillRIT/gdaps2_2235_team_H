@@ -7,6 +7,9 @@ using System.Reflection.Metadata;
 
 namespace MalpracticeMakesPerfect
 {
+    /// <summary>
+    ///whether the game is in play and if its in the shop in play or in game
+    /// </summary>
     enum GameStates
     {
         TitleScreen,
@@ -15,6 +18,9 @@ namespace MalpracticeMakesPerfect
         GameOver
     }
 
+    /// <summary>
+    /// the state of a moved item
+    /// </summary>
     enum DragStates
     {
         Failed,
@@ -24,11 +30,14 @@ namespace MalpracticeMakesPerfect
 
     public class Game1 : Game
     {
+        //fields
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Random rng = new Random();
         private MouseState mouseState;
         private MouseState mousePrev;
+
+     
         private Texture2D jam;
 
         private Rectangle itemPos;
@@ -41,12 +50,14 @@ namespace MalpracticeMakesPerfect
         private Texture2D diamondSprite;
         private Texture2D joobi;
 
+        //Sky fields
         private Texture2D sky;
         private Rectangle skyRect;
         private Rectangle skyRect2;
 
         private SpriteFont itemAmountFont;
 
+        //item moving fields
         private List<Draggable> draggables = new List<Draggable>();
         private Draggable testDrag;
         private TempSlot testTemp;
@@ -78,7 +89,9 @@ namespace MalpracticeMakesPerfect
 
         private string consoleLog;
 
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
