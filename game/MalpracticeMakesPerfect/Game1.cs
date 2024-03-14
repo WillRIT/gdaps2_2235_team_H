@@ -38,6 +38,7 @@ namespace MalpracticeMakesPerfect
         private Texture2D slotSprite;
         private Texture2D diamondSprite;
         private Texture2D joobi;
+        private Texture2D patient;
 
         private SpriteFont itemAmountFont;
 
@@ -52,6 +53,7 @@ namespace MalpracticeMakesPerfect
 
         private List<Item> allItems;
         private Dictionary<string, Recipe> allRecipes;
+        private Vector2 patientPath;
 
         private GameStates gameState;
         
@@ -123,7 +125,10 @@ namespace MalpracticeMakesPerfect
 
                 case GameStates.GameScene:
 
+
+
                     myInventory.Update();
+
 
                     //whether or not a slot is being highlighted
                     bool existsHighlight = false;
