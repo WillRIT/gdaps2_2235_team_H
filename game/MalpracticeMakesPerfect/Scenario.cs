@@ -18,6 +18,7 @@ namespace MalpracticeMakesPerfect
         private Texture2D personSprite;
         private string godModeText;
 
+
         /// <summary>
         /// Creates a scenario
         /// </summary>
@@ -35,6 +36,24 @@ namespace MalpracticeMakesPerfect
             this.godModeText = godModeText;
 
             itemSlots = new Item[slotNum];
+        }
+
+        public void ScenarioStart()
+        {
+            
+        }
+
+        public void Update()
+        {
+            // If the right item is dragged onto the guy, Give money and reputation accordingly
+            // else, nothing happens and loop back around
+
+
+        }
+
+        public void Draw(SpriteBatch sb)
+        {
+            sb.Draw(personSprite, new Rectangle(300, 0, personSprite.Width, personSprite.Height), Color.White);
         }
     }
 }

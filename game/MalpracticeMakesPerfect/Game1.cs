@@ -3,16 +3,24 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 namespace MalpracticeMakesPerfect
 {
+    /// <summary>
+    ///whether the game is in play and if its in the shop in play or in game
+    /// </summary>
     enum GameStates
     {
         TitleScreen,
         GameScene,
-        GameShop
+        GameShop,
+        GameOver
     }
 
+    /// <summary>
+    /// the state of a moved item
+    /// </summary>
     enum DragStates
     {
         Failed,
@@ -22,11 +30,14 @@ namespace MalpracticeMakesPerfect
 
     public class Game1 : Game
     {
+        //fields
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Random rng = new Random();
         private MouseState mouseState;
         private MouseState mousePrev;
+
+     
         private Texture2D jam;
 
         private Rectangle itemPos;
@@ -40,8 +51,14 @@ namespace MalpracticeMakesPerfect
         private Texture2D joobi;
         private Texture2D patient;
 
+        //Sky fields
+        private Texture2D sky;
+        private Rectangle skyRect;
+        private Rectangle skyRect2;
+
         private SpriteFont itemAmountFont;
 
+        //item moving fields
         private List<Draggable> draggables = new List<Draggable>();
         private Draggable testDrag;
         private TempSlot testTemp;
@@ -56,14 +73,40 @@ namespace MalpracticeMakesPerfect
         private Vector2 patientPath;
 
         private GameStates gameState;
-        
 
+        //Katies menu variables!
+        private SpriteFont titleFont;
+        private SpriteFont subtitleFont;
+        private Vector2 titlePos;
+        private Vector2 subtitlePos;
+        private float textBounceSpeed;
+        private SpriteFont smallSubtitleFont;
 
+        //Reputation and Money
+        private int reputation;
+        private double money;
+     
+        private Vector2 path = new Vector2(10f, 400f);
+        private float speed = 5.0f;
+
+        private string consoleLog;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            
+            //Menu variables
+            titlePos = new Vector2(255, 60);
+            subtitlePos = new Vector2(450, 180);
+            textBounceSpeed = 0.5f;
+
+
+            
         }
 
         protected override void Initialize()
@@ -73,6 +116,8 @@ namespace MalpracticeMakesPerfect
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 1080;
             _graphics.ApplyChanges();
+
+            consoleLog = string.Empty;
 
             base.Initialize();
         }
@@ -90,6 +135,10 @@ namespace MalpracticeMakesPerfect
             itemAmountFont = Content.Load<SpriteFont>("item-amount");
             joobi = Content.Load<Texture2D>("joobi");
 
+            sky = Content.Load<Texture2D>("sky");
+            skyRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            skyRect2 = new Rectangle(_graphics.PreferredBackBufferWidth, 0, _graphics.PreferredBackBufferWidth + 1, _graphics.PreferredBackBufferHeight);
+
             List<Slot> slotList = new List<Slot>();
 
             for (int i = 0; i < 10; i++)
@@ -100,6 +149,18 @@ namespace MalpracticeMakesPerfect
             myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite, slotList);
 
             theMessenger = null;
+
+            //menu fonts
+            titleFont = Content.Load<SpriteFont>("TitleFont");
+            subtitleFont = Content.Load<SpriteFont>("SubtitleFont");
+            smallSubtitleFont = Content.Load<SpriteFont>("SmallerSubtitleFont");
+
+            // Solution list and adding solutions to it
+            List<Solution> solutionList = new List<Solution>();
+
+            
+
+            Scenario test = new Scenario("I am Joobi", 2, solutionList, joobi, "I am special Joobi");
 
             // TODO: use this.Content to load your game content here
         }
@@ -115,8 +176,17 @@ namespace MalpracticeMakesPerfect
             switch (gameState)
             {
                 case GameStates.TitleScreen:
+                    reputation = 1600;
+                    money = 100;
+                    titlePos.Y += textBounceSpeed;
+                    subtitlePos.Y += textBounceSpeed;
+                    if(titlePos.Y <= 55|| titlePos.Y >= 80)
+                    {
+                        textBounceSpeed = -textBounceSpeed;
+                    }
 
-                    if (mouseState.LeftButton == ButtonState.Pressed)
+
+                    if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                     {
                         gameState = GameStates.GameScene;
                     }
@@ -125,10 +195,27 @@ namespace MalpracticeMakesPerfect
 
                 case GameStates.GameScene:
 
-
+                   if(mouseState.RightButton == ButtonState.Pressed)
+                    {
+                        reputation -= 10;
+                    }
+                   if(reputation <= 0)
+                    {
+                        gameState = GameStates.GameOver;
+                    }
 
                     myInventory.Update();
 
+                    skyRect.X--;
+                    skyRect2.X--;
+                    if (skyRect.X < 0 - _graphics.PreferredBackBufferWidth)
+                    {
+                        skyRect.X = _graphics.PreferredBackBufferWidth;
+                    }
+                    if (skyRect2.X < 0 - _graphics.PreferredBackBufferWidth)
+                    {
+                        skyRect2.X = _graphics.PreferredBackBufferWidth;
+                    }
 
                     //whether or not a slot is being highlighted
                     bool existsHighlight = false;
@@ -166,6 +253,7 @@ namespace MalpracticeMakesPerfect
                     //handle let go of click when item is being dragged
                     if (theMessenger != null && theMessenger.Placing && existsHighlight)
                     {
+                        //item in trash is overwritten
                         if (highlighted.IsTrash)
                         {
                             dragAction = DragStates.Empty;
@@ -195,8 +283,8 @@ namespace MalpracticeMakesPerfect
                                     {
                                         recipeInputs = new Item[]
                                         {
-                                    highlighted.Item,
-                                    theMessenger.Item
+                                            highlighted.Item,
+                                            theMessenger.Item
                                         };
                                         existsRecipe = true;
                                     }
@@ -204,22 +292,23 @@ namespace MalpracticeMakesPerfect
                                     {
                                         recipeInputs = new Item[]
                                         {
-                                    theMessenger.Item,
-                                    highlighted.Item
+                                            theMessenger.Item,
+                                            highlighted.Item
                                         };
                                         existsRecipe = true;
                                     }
+
                                     if (existsRecipe)
                                     {
-                                        //TODO: add functionality for combining with slots with > 1 item, as well as
-                                        //recipes with > 1 outputs
-                                        int outputAmount = 0;
+                                        int outputAmount = 0; //handles quantity of the created items
 
+                                        //if dragged item is same quantity
                                         if (highlighted.Amount == theMessenger.Amount)
                                         {
                                             highlighted.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0];
                                             outputAmount = theMessenger.Amount;
                                         }
+                                        //if dragged item has less
                                         else if (highlighted.Amount < theMessenger.Amount)
                                         {
                                             highlighted.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0];
@@ -229,6 +318,7 @@ namespace MalpracticeMakesPerfect
                                             theMessenger.Amount -= highlighted.Amount;
                                             dragAction = DragStates.Failed;
                                         }
+                                        //if dragged item has more
                                         else if (highlighted.Amount > theMessenger.Amount)
                                         {
                                             highlighted.Amount -= theMessenger.Amount;
@@ -238,12 +328,19 @@ namespace MalpracticeMakesPerfect
                                             dragAction = DragStates.Failed;
                                         }
 
+                                        //log when items are created
+                                        consoleLog += $"Created {outputAmount} {allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0]}(s)";
+
                                         //add excess outputs
                                         for (int i = 1; i < allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs.Count; i++)
                                         {
+                                            //log excess items
+                                            consoleLog += $", {outputAmount} {allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[i]}(s)";
+
                                             bool placedExcess = false;
                                             foreach (Slot s in myInventory.Hotbar)
                                             {
+                                                //place in the first available empty slot (if dragged item will not be sent back to that slot) or in the trash
                                                 if (!placedExcess && ((s != snapBack && dragAction == DragStates.Failed) || dragAction != DragStates.Failed) && ((s.IsEmpty && !s.IsTrash) || s.IsTrash))
                                                 {
                                                     s.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[i];
@@ -252,6 +349,8 @@ namespace MalpracticeMakesPerfect
                                                 }
                                             }
                                         }
+
+                                        consoleLog += "\n";
                                     }
 
                                     //item stacking
@@ -285,6 +384,13 @@ namespace MalpracticeMakesPerfect
                     }
 
                     break;
+                
+                case GameStates.GameOver:
+                    if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
+                    {
+                        gameState = GameStates.TitleScreen;
+                    }
+                    break;
             }
             
 
@@ -302,9 +408,25 @@ namespace MalpracticeMakesPerfect
 
             switch (gameState)
             {
+                case GameStates.TitleScreen://Main screen art
+                    GraphicsDevice.Clear(Color.Maroon);
+                    _spriteBatch.DrawString(titleFont, "MALPRACTICE MAKES PERFECT", titlePos, Color.Black);
+                    _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", new Vector2(subtitlePos.X - 1.5f, subtitlePos.Y - 1.5f), Color.White);
+                    _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", new Vector2(subtitlePos.X + 1.5f, subtitlePos.Y + 1.5f), Color.Black);
+                    _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", subtitlePos, Color.Red);
+                    _spriteBatch.DrawString(subtitleFont, "Left Click to Start", new Vector2(600, 850), Color.Black);
+
+
+                    break;
+
                 case GameStates.GameScene:
 
+                    _spriteBatch.Draw(sky, skyRect, Color.White);
+                    _spriteBatch.Draw(sky, skyRect2, Color.White);
+
                     myInventory.DrawScene(_spriteBatch);
+
+                    _spriteBatch.DrawString(itemAmountFont, consoleLog, new Vector2(1500, 10), Color.Black);
 
                     if (theMessenger != null)
                     {
@@ -347,8 +469,18 @@ namespace MalpracticeMakesPerfect
                     {
                         _spriteBatch.DrawString(itemAmountFont, highlighted.ItemName, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Black);
                     }
+                    _spriteBatch.DrawString(smallSubtitleFont,"Reputation:",new Vector2(10,20), Color.Black);
+                    _spriteBatch.Draw(joobi,new Rectangle(190,30,reputation,20),Color.Black);
+                    _spriteBatch.DrawString(smallSubtitleFont,"Money:", new Vector2(10,50),Color.Black);
+                    _spriteBatch.DrawString(smallSubtitleFont, ""+money, new Vector2(110, 50), Color.Goldenrod);
 
                     break;
+
+                case GameStates.GameOver:
+                    _spriteBatch.DrawString(titleFont, "you got run out of town", new Vector2(150,150), Color.Black);
+                    _spriteBatch.DrawString(subtitleFont, "Left click to try again", new Vector2(150, 300), Color.Black);
+                    break;
+
             }
 
             
