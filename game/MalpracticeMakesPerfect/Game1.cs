@@ -69,7 +69,6 @@ namespace MalpracticeMakesPerfect
 
         private List<Item> allItems;
         private Dictionary<string, Recipe> allRecipes;
-        private Vector2 patientPath;
 
         private GameStates gameState;
 
@@ -220,6 +219,11 @@ namespace MalpracticeMakesPerfect
                     if (skyRect2.X < 0 - _graphics.PreferredBackBufferWidth)
                     {
                         skyRect2.X = _graphics.PreferredBackBufferWidth;
+                    }
+
+                    if (JoobiScenario.Stopped == false)
+                    {
+                        JoobiScenario.ScenarioStart();
                     }
 
                     //whether or not a slot is being highlighted

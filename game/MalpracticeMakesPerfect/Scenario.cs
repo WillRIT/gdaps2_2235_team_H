@@ -17,7 +17,14 @@ namespace MalpracticeMakesPerfect
         private List<Solution> solutions;
         private Texture2D personSprite;
         private string godModeText;
+        private Vector2 patientPath = new Vector2(300, 0);
         private bool stopped;
+
+        public bool Stopped
+        {
+            get { return stopped; }
+            set { stopped = value; }
+        }
 
         /// <summary>
         /// Creates a scenario
