@@ -25,6 +25,18 @@
 /processorParam:TextureFormat=Color
 /build:889b86dfb255824f611c12f367f69cb6.png;sky.png
 
+#begin adventurer_03_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:adventurer_03_1.png
+
 #begin Catnip.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -115,18 +127,6 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:item-amount.spritefont
-
-#begin JamRustyCommnbg.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:JamRustyCommnbg.png
 
 #begin joobi.png
 /importer:TextureImporter

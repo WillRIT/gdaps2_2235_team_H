@@ -17,7 +17,7 @@ namespace MalpracticeMakesPerfect
         private List<Solution> solutions;
         private Texture2D personSprite;
         private string godModeText;
-
+        private bool stopped;
 
         /// <summary>
         /// Creates a scenario
@@ -34,6 +34,8 @@ namespace MalpracticeMakesPerfect
             this.solutions = solutions;
             this.personSprite = personSprite;
             this.godModeText = godModeText;
+
+            stopped = false;
 
             itemSlots = new Item[slotNum];
         }
@@ -53,7 +55,7 @@ namespace MalpracticeMakesPerfect
 
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(personSprite, new Rectangle(300, 0, personSprite.Width, personSprite.Height), Color.White);
+            sb.Draw(personSprite, new Rectangle(0, 300, personSprite.Width, personSprite.Height), Color.White);
         }
     }
 }

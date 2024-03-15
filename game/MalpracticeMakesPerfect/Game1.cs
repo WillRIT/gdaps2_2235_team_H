@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Metadata;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MalpracticeMakesPerfect
 {
@@ -37,9 +38,7 @@ namespace MalpracticeMakesPerfect
         private MouseState mouseState;
         private MouseState mousePrev;
 
-     
-        private Texture2D jam;
-
+   
         private Rectangle itemPos;
 
         private Item diamond;
@@ -91,6 +90,11 @@ namespace MalpracticeMakesPerfect
 
         private string consoleLog;
 
+        //Scenario Testing
+
+        private Scenario JoobiScenario;
+        private Texture2D adventurer;
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -134,6 +138,7 @@ namespace MalpracticeMakesPerfect
             diamondSprite = Content.Load<Texture2D>("diamond");
             itemAmountFont = Content.Load<SpriteFont>("item-amount");
             joobi = Content.Load<Texture2D>("joobi");
+            adventurer = Content.Load<Texture2D>("adventurer_03_1");
 
             sky = Content.Load<Texture2D>("sky");
             skyRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
@@ -160,7 +165,7 @@ namespace MalpracticeMakesPerfect
 
             
 
-            Scenario test = new Scenario("I am Joobi", 2, solutionList, joobi, "I am special Joobi");
+            JoobiScenario = new Scenario("I am Joobi", 2, solutionList, adventurer, "I am special Joobi");
 
             // TODO: use this.Content to load your game content here
         }
@@ -416,7 +421,7 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", subtitlePos, Color.Red);
                     _spriteBatch.DrawString(subtitleFont, "Left Click to Start", new Vector2(600, 850), Color.Black);
 
-
+                    
                     break;
 
                 case GameStates.GameScene:
@@ -427,6 +432,8 @@ namespace MalpracticeMakesPerfect
                     myInventory.DrawScene(_spriteBatch);
 
                     _spriteBatch.DrawString(itemAmountFont, consoleLog, new Vector2(1500, 10), Color.Black);
+
+                    JoobiScenario.Draw(_spriteBatch);
 
                     if (theMessenger != null)
                     {
