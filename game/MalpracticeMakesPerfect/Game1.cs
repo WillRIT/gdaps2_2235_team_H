@@ -137,18 +137,20 @@ namespace MalpracticeMakesPerfect
 
             allItems = databaseManager.GetItemsAndRecipes(Content, out allRecipes);
 
+            //Loading textures
             slotSprite = Content.Load<Texture2D>("slot");
             diamondSprite = Content.Load<Texture2D>("diamond");
             itemAmountFont = Content.Load<SpriteFont>("item-amount");
             joobi = Content.Load<Texture2D>("joobi");
             adventurer = Content.Load<Texture2D>("adventurer_03_1");
-
             sky = Content.Load<Texture2D>("sky");
+
+            //Load sky
             skyRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             skyRect2 = new Rectangle(_graphics.PreferredBackBufferWidth, 0, _graphics.PreferredBackBufferWidth + 1, _graphics.PreferredBackBufferHeight);
 
+            //creating and filling slotList
             List<Slot> slotList = new List<Slot>();
-
             for (int i = 0; i < 10; i++)
             {
                 slotList.Add(new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(9)], rng.Next(1,4)));
@@ -163,14 +165,10 @@ namespace MalpracticeMakesPerfect
             subtitleFont = Content.Load<SpriteFont>("SubtitleFont");
             smallSubtitleFont = Content.Load<SpriteFont>("SmallerSubtitleFont");
 
-            // Solution list and adding solutions to it
+            // Solutions
             List<Solution> solutionList = new List<Solution>();
-
-            
-
             JoobiScenario = new Scenario("I am Joobi", 2, solutionList, adventurer, "I am special Joobi");
 
-            // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
@@ -178,7 +176,6 @@ namespace MalpracticeMakesPerfect
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
             mouseState = Mouse.GetState();
 
             switch (gameState)
@@ -193,7 +190,7 @@ namespace MalpracticeMakesPerfect
                         textBounceSpeed = -textBounceSpeed;
                     }
 
-
+                    //changing into play state
                     if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                     {
                         gameState = GameStates.GameScene;
@@ -202,18 +199,19 @@ namespace MalpracticeMakesPerfect
                     break;
 
                 case GameStates.GameScene:
-
+                    //for testing rep decreases with right mouse button
                    if(mouseState.RightButton == ButtonState.Pressed)
                     {
                         reputation -= 10;
                     }
+                   //changing into game over state
                    if(reputation <= 0)
                     {
                         gameState = GameStates.GameOver;
                     }
 
                     myInventory.Update();
-
+                    //moving sky background
                     skyRect.X--;
                     skyRect2.X--;
                     if (skyRect.X < 0 - _graphics.PreferredBackBufferWidth)
@@ -416,7 +414,6 @@ namespace MalpracticeMakesPerfect
         {
             GraphicsDevice.Clear(Color.Crimson);
 
-            // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
             switch (gameState)
