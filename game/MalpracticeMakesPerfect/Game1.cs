@@ -32,49 +32,52 @@ namespace MalpracticeMakesPerfect
     public class Game1 : Game
     {
         //fields
+
+        //Graphics and sprites
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Random rng = new Random();
-        private MouseState mouseState;
-        private MouseState mousePrev;
-
-   
-        private Rectangle itemPos;
-
-        private Item diamond;
-        private Slot diamondSlot;
-        private Slot emptySlot;
-        private Inventory myInventory;
         private Texture2D slotSprite;
         private Texture2D diamondSprite;
         private Texture2D joobi;
         private Texture2D patient;
+        private Texture2D sky;
+
+        //input managers
+        private MouseState mouseState;
+        private MouseState mousePrev;
+
+        //items and slots
+        private Rectangle itemPos;
+        private Item diamond;
+        private Slot diamondSlot;
+        private Slot emptySlot;
+        private Inventory myInventory;
+
+        private List<Item> allItems;
+        private Dictionary<string, Recipe> allRecipes;
+
 
         //Sky fields
-        private Texture2D sky;
         private Rectangle skyRect;
         private Rectangle skyRect2;
 
+        //fonts
         private SpriteFont itemAmountFont;
+        private SpriteFont titleFont;
+        private SpriteFont subtitleFont;
 
         //item moving fields
         private List<Draggable> draggables = new List<Draggable>();
         private Draggable testDrag;
         private TempSlot testTemp;
-
         private Slot highlighted;
-
         private TempSlot theMessenger;
         private Slot snapBack;
 
-        private List<Item> allItems;
-        private Dictionary<string, Recipe> allRecipes;
-
+        //States
         private GameStates gameState;
 
         //Katies menu variables!
-        private SpriteFont titleFont;
-        private SpriteFont subtitleFont;
         private Vector2 titlePos;
         private Vector2 subtitlePos;
         private float textBounceSpeed;
@@ -83,16 +86,20 @@ namespace MalpracticeMakesPerfect
         //Reputation and Money
         private int reputation;
         private double money;
-     
+
+        //for testing
+        private Scenario JoobiScenario;
+        private Texture2D adventurer;
+
+
+        //misc fields
         private Vector2 path = new Vector2(10f, 400f);
         private float speed = 5.0f;
 
         private string consoleLog;
 
-        //Scenario Testing
 
-        private Scenario JoobiScenario;
-        private Texture2D adventurer;
+        private Random rng = new Random();
 
         /// <summary>
         /// Constructor
@@ -106,10 +113,7 @@ namespace MalpracticeMakesPerfect
             //Menu variables
             titlePos = new Vector2(255, 60);
             subtitlePos = new Vector2(450, 180);
-            textBounceSpeed = 0.5f;
-
-
-            
+            textBounceSpeed = 0.5f;   
         }
 
         protected override void Initialize()
