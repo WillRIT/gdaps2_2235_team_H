@@ -91,6 +91,8 @@ namespace MalpracticeMakesPerfect
         private Scenario JoobiScenario;
         private Texture2D adventurer;
 
+        //scenario List
+        private List<Scenario> scenarioList;
 
         //misc fields
         private Vector2 path = new Vector2(10f, 400f);
@@ -114,6 +116,8 @@ namespace MalpracticeMakesPerfect
             titlePos = new Vector2(255, 60);
             subtitlePos = new Vector2(450, 180);
             textBounceSpeed = 0.5f;   
+
+            scenarioList = new List<Scenario>();
         }
 
         protected override void Initialize()
@@ -137,18 +141,20 @@ namespace MalpracticeMakesPerfect
 
             allItems = databaseManager.GetItemsAndRecipes(Content, out allRecipes);
 
+            //Loading textures
             slotSprite = Content.Load<Texture2D>("slot");
             diamondSprite = Content.Load<Texture2D>("diamond");
             itemAmountFont = Content.Load<SpriteFont>("item-amount");
             joobi = Content.Load<Texture2D>("joobi");
             adventurer = Content.Load<Texture2D>("adventurer_03_1");
-
             sky = Content.Load<Texture2D>("sky");
+
+            //Load sky
             skyRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             skyRect2 = new Rectangle(_graphics.PreferredBackBufferWidth, 0, _graphics.PreferredBackBufferWidth + 1, _graphics.PreferredBackBufferHeight);
 
+            //creating and filling slotList
             List<Slot> slotList = new List<Slot>();
-
             for (int i = 0; i < 10; i++)
             {
                 slotList.Add(new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(9)], rng.Next(1,4)));
@@ -163,14 +169,12 @@ namespace MalpracticeMakesPerfect
             subtitleFont = Content.Load<SpriteFont>("SubtitleFont");
             smallSubtitleFont = Content.Load<SpriteFont>("SmallerSubtitleFont");
 
-            // Solution list and adding solutions to it
+            // Solutions
             List<Solution> solutionList = new List<Solution>();
-
-            
-
             JoobiScenario = new Scenario("I am Joobi", 2, solutionList, adventurer, "I am special Joobi");
 
-            // TODO: use this.Content to load your game content here
+            scenarioList.Add(JoobiScenario);
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -178,7 +182,6 @@ namespace MalpracticeMakesPerfect
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
             mouseState = Mouse.GetState();
 
             switch (gameState)
@@ -193,7 +196,7 @@ namespace MalpracticeMakesPerfect
                         textBounceSpeed = -textBounceSpeed;
                     }
 
-
+                    //changing into play state
                     if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                     {
                         gameState = GameStates.GameScene;
@@ -202,18 +205,35 @@ namespace MalpracticeMakesPerfect
                     break;
 
                 case GameStates.GameScene:
-
+                    //for testing rep decreases with right mouse button
                    if(mouseState.RightButton == ButtonState.Pressed)
                     {
                         reputation -= 10;
                     }
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                    {
+                        money -= 10;
+                    }
+                   //changing into game over state
                    if(reputation <= 0)
                     {
                         gameState = GameStates.GameOver;
                     }
+                    if (money <= 0)
+                    {
+                        money = 0;
+                        for(int i = 0;i < scenarioList.Count; i++)
+                        {
+                            if (scenarioList[i].Stopped == true)
+                            {
+                                scenarioList[i].Stopped = false;
+                            }
+                        }
+                    }
 
                     myInventory.Update();
-
+                    //moving sky background
                     skyRect.X--;
                     skyRect2.X--;
                     if (skyRect.X < 0 - _graphics.PreferredBackBufferWidth)
@@ -229,6 +249,8 @@ namespace MalpracticeMakesPerfect
                     {
                         JoobiScenario.ScenarioStart();
                     }
+
+                   
 
                     //whether or not a slot is being highlighted
                     bool existsHighlight = false;
@@ -416,7 +438,6 @@ namespace MalpracticeMakesPerfect
         {
             GraphicsDevice.Clear(Color.Crimson);
 
-            // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
             switch (gameState)
