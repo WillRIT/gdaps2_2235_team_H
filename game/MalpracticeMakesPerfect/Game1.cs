@@ -116,6 +116,8 @@ namespace MalpracticeMakesPerfect
             titlePos = new Vector2(255, 60);
             subtitlePos = new Vector2(450, 180);
             textBounceSpeed = 0.5f;   
+
+            scenarioList = new List<Scenario>();
         }
 
         protected override void Initialize()
@@ -207,6 +209,11 @@ namespace MalpracticeMakesPerfect
                    if(mouseState.RightButton == ButtonState.Pressed)
                     {
                         reputation -= 10;
+                    }
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                    {
+                        money -= 10;
                     }
                    //changing into game over state
                    if(reputation <= 0)
