@@ -91,6 +91,8 @@ namespace MalpracticeMakesPerfect
         private Scenario JoobiScenario;
         private Texture2D adventurer;
 
+        //scenario List
+        private List<Scenario> scenarioList;
 
         //misc fields
         private Vector2 path = new Vector2(10f, 400f);
@@ -169,6 +171,8 @@ namespace MalpracticeMakesPerfect
             List<Solution> solutionList = new List<Solution>();
             JoobiScenario = new Scenario("I am Joobi", 2, solutionList, adventurer, "I am special Joobi");
 
+            scenarioList.Add(JoobiScenario);
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -209,6 +213,17 @@ namespace MalpracticeMakesPerfect
                     {
                         gameState = GameStates.GameOver;
                     }
+                    if (money <= 0)
+                    {
+                        money = 0;
+                        for(int i = 0;i < scenarioList.Count; i++)
+                        {
+                            if (scenarioList[i].Stopped == true)
+                            {
+                                scenarioList[i].Stopped = false;
+                            }
+                        }
+                    }
 
                     myInventory.Update();
                     //moving sky background
@@ -227,6 +242,8 @@ namespace MalpracticeMakesPerfect
                     {
                         JoobiScenario.ScenarioStart();
                     }
+
+                   
 
                     //whether or not a slot is being highlighted
                     bool existsHighlight = false;
