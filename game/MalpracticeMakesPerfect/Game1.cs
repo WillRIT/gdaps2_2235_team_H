@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -16,7 +17,8 @@ namespace MalpracticeMakesPerfect
         TitleScreen,
         GameScene,
         GameShop,
-        GameOver
+        GameOver,
+        DayEnd
     }
 
     /// <summary>
@@ -82,6 +84,8 @@ namespace MalpracticeMakesPerfect
         private Vector2 subtitlePos;
         private float textBounceSpeed;
         private SpriteFont smallSubtitleFont;
+        private Texture2D star;
+        private List<Rectangle> starsLoc;
 
         //Reputation and Money
         private int reputation;
@@ -92,7 +96,7 @@ namespace MalpracticeMakesPerfect
         private Texture2D adventurer;
 
         //scenario List
-        private List<Scenario> scenarioList;
+        private Queue<Scenario> scenarioQueue;
 
         //misc fields
         private Vector2 path = new Vector2(10f, 400f);
@@ -115,9 +119,13 @@ namespace MalpracticeMakesPerfect
             //Menu variables
             titlePos = new Vector2(255, 60);
             subtitlePos = new Vector2(450, 180);
-            textBounceSpeed = 0.5f;   
+            textBounceSpeed = 0.5f;
 
-            scenarioList = new List<Scenario>();
+            scenarioQueue = new Queue<Scenario>();
+            starsLoc = new List<Rectangle>();
+            
+
+
         }
 
         protected override void Initialize()
@@ -168,12 +176,13 @@ namespace MalpracticeMakesPerfect
             titleFont = Content.Load<SpriteFont>("TitleFont");
             subtitleFont = Content.Load<SpriteFont>("SubtitleFont");
             smallSubtitleFont = Content.Load<SpriteFont>("SmallerSubtitleFont");
+            star = Content.Load<Texture2D>("star.png");
 
             // Solutions
             List<Solution> solutionList = new List<Solution>();
             JoobiScenario = new Scenario("I am Joobi", 2, solutionList, adventurer, "I am special Joobi");
 
-            scenarioList.Add(JoobiScenario);
+            
 
         }
 
@@ -200,13 +209,22 @@ namespace MalpracticeMakesPerfect
                     if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                     {
                         gameState = GameStates.GameScene;
+                        starsLoc.Clear();
+                        for (int i = 0; i < 18; i++)
+                        {
+                            starsLoc.Add(new Rectangle(rng.Next(100, 1820), rng.Next(100, 980), 40, 40));
+                        }
                     }
 
                     break;
 
                 case GameStates.GameScene:
+
+                    //queuing scenarios
+                    scenarioQueue.Enqueue(JoobiScenario);
+
                     //for testing rep decreases with right mouse button
-                   if(mouseState.RightButton == ButtonState.Pressed)
+                    if (mouseState.RightButton == ButtonState.Pressed)
                     {
                         reputation -= 10;
                     }
@@ -223,14 +241,20 @@ namespace MalpracticeMakesPerfect
                     if (money <= 0)
                     {
                         money = 0;
-                        for(int i = 0;i < scenarioList.Count; i++)
+                        while(scenarioQueue.Count > 0) 
                         {
-                            if (scenarioList[i].Stopped == true)
+                            if (scenarioQueue.Peek().Stopped == false)
                             {
-                                scenarioList[i].Stopped = false;
+                                scenarioQueue.Dequeue();
                             }
                         }
                     }
+                    if (scenarioQueue.Count == 0 && reputation >0)
+                    {
+                        gameState = GameStates.DayEnd;
+
+                    }
+
 
                     myInventory.Update();
                     //moving sky background
@@ -426,6 +450,13 @@ namespace MalpracticeMakesPerfect
                         gameState = GameStates.TitleScreen;
                     }
                     break;
+
+                case GameStates.DayEnd:
+                    if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
+                    {
+                        gameState = GameStates.TitleScreen;
+                    }
+                    break;
             }
             
 
@@ -517,9 +548,24 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(subtitleFont, "Left click to try again", new Vector2(150, 300), Color.Black);
                     break;
 
+                case GameStates.DayEnd:
+                    GraphicsDevice.Clear(Color.DarkBlue);
+                    _spriteBatch.DrawString(titleFont, "The Day is Over", new Vector2(150, 150), Color.DarkGoldenrod);
+                    _spriteBatch.DrawString(subtitleFont, "Congrats you survived the day!", new Vector2(150, 300), Color.Gold);
+                    _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO PLAY AGAIN", new Vector2(150, 400), Color.Yellow);
+                    _spriteBatch.DrawString(smallSubtitleFont, "Your Final Stats: Reputation: "+reputation+" Money: "+ money, new Vector2(150, 500), Color.LightYellow);
+
+                    
+                    for(int i = 0; i < starsLoc.Count; i++)
+                    {
+                        _spriteBatch.Draw(star, starsLoc[i], Color.White);
+                    }
+                    break;
+
+
             }
 
-            
+
 
             _spriteBatch.End();
 
