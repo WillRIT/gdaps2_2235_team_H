@@ -431,12 +431,23 @@ namespace MalpracticeMakesPerfect
 
                     }
 
+                    //right click to place one item of stack on empty slots or slots with the same as held item
+                    if (mouseState.RightButton == ButtonState.Pressed && mousePrev.RightButton == ButtonState.Released && theMessenger != null && existsHighlight)
+                    {
+                        if ((highlighted.IsEmpty || highlighted.ItemName == theMessenger.Item.ItemName) && theMessenger.Amount > 1)
+                        {
+                            highlighted.Item = theMessenger.Item;
+                            highlighted.Amount++;
+                            theMessenger.Amount--;
+                        }
+                    }
+
                     if (mouseState.LeftButton == ButtonState.Released && theMessenger != null)
                     {
                         if (dragAction == DragStates.Failed)
                         {
                             snapBack.Item = theMessenger.Item;
-                            snapBack.Amount = theMessenger.Amount;
+                            snapBack.Amount += theMessenger.Amount;
                         }
 
                         theMessenger = null;
