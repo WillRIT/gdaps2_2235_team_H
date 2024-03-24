@@ -43,6 +43,8 @@ namespace MalpracticeMakesPerfect
         private Texture2D joobi;
         private Texture2D patient;
         private Texture2D sky;
+        private Texture2D office;
+        private Rectangle officeRect;
 
         //input managers
         private MouseState mouseState;
@@ -156,6 +158,8 @@ namespace MalpracticeMakesPerfect
             joobi = Content.Load<Texture2D>("joobi");
             adventurer = Content.Load<Texture2D>("adventurer_03_1");
             sky = Content.Load<Texture2D>("sky");
+            office = Content.Load<Texture2D>("office");
+            officeRect = new Rectangle(400, -55, office.Width, office.Height);
 
             //Load sky
             skyRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
@@ -499,6 +503,8 @@ namespace MalpracticeMakesPerfect
 
                     _spriteBatch.Draw(sky, skyRect, Color.White);
                     _spriteBatch.Draw(sky, skyRect2, Color.White);
+
+                    _spriteBatch.Draw(office, officeRect, Color.White);
 
                     myInventory.DrawScene(_spriteBatch);
 
