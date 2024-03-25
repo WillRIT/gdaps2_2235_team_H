@@ -26,7 +26,7 @@ namespace MalpracticeMakesPerfect
     /// </summary>
     enum DragStates
     {
-        Failed,
+        Return,
         Empty,
         Combine
     }
@@ -283,8 +283,8 @@ namespace MalpracticeMakesPerfect
 
                     //whether or not a slot is being highlighted
                     bool existsHighlight = false;
-                    //"failed" assures that the dragged item is returned to its original place
-                    DragStates dragAction = DragStates.Failed;
+                    //the "return" state assures that the dragged item is returned to its original place
+                    DragStates dragAction = DragStates.Return;
                     //check for item pickup
                     foreach (Slot s in myInventory.Hotbar)
                     {
@@ -380,7 +380,7 @@ namespace MalpracticeMakesPerfect
 
                                             //return remaining items to original location
                                             theMessenger.Amount -= highlighted.Amount;
-                                            dragAction = DragStates.Failed;
+                                            dragAction = DragStates.Return;
                                         }
                                         //if dragged item has more
                                         else if (highlighted.Amount > theMessenger.Amount)
@@ -389,7 +389,7 @@ namespace MalpracticeMakesPerfect
 
                                             theMessenger.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0];
                                             outputAmount = theMessenger.Amount;
-                                            dragAction = DragStates.Failed;
+                                            dragAction = DragStates.Return;
                                         }
 
                                         //log when items are created
@@ -405,7 +405,7 @@ namespace MalpracticeMakesPerfect
                                             foreach (Slot s in myInventory.Hotbar)
                                             {
                                                 //place in the first available empty slot (if dragged item will not be sent back to that slot) or in the trash
-                                                if (!placedExcess && ((s != snapBack && dragAction == DragStates.Failed) || dragAction != DragStates.Failed) && ((s.IsEmpty && !s.IsTrash) || s.IsTrash))
+                                                if (!placedExcess && ((s != snapBack && dragAction == DragStates.Return) || dragAction != DragStates.Return) && ((s.IsEmpty && !s.IsTrash) || s.IsTrash))
                                                 {
                                                     s.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[i];
                                                     s.Amount = outputAmount;
@@ -427,7 +427,7 @@ namespace MalpracticeMakesPerfect
 
                                     if (!existsRecipe)
                                     {
-                                        dragAction = DragStates.Failed;
+                                        dragAction = DragStates.Return;
                                     }
 
                                     break;
@@ -449,7 +449,7 @@ namespace MalpracticeMakesPerfect
 
                     if (mouseState.LeftButton == ButtonState.Released && theMessenger != null)
                     {
-                        if (dragAction == DragStates.Failed)
+                        if (dragAction == DragStates.Return)
                         {
                             //assure recipe-output-snapback is not overriding a previously placed item
                             if (snapBack.ItemName == theMessenger.Item.ItemName || snapBack.IsEmpty)

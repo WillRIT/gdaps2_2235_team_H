@@ -84,7 +84,7 @@ namespace MalpracticeMakesPerfect
                 return DragStates.Empty;
             }
 
-            return DragStates.Failed;
+            return DragStates.Return;
         }
 
         public override void Draw(SpriteBatch sb)

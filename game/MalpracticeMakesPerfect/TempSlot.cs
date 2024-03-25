@@ -53,7 +53,7 @@ namespace MalpracticeMakesPerfect
                 return DragStates.Combine;
             }
 
-            return DragStates.Failed;
+            return DragStates.Return;
         }
     }
 }
