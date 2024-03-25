@@ -34,6 +34,7 @@ namespace MalpracticeMakesPerfect
                 hotbar[i] = new Slot(slotAsset, new Rectangle(0, 0, 50, 50), font);
             }
 
+            //create trash
             hotbar[hotbar.Length - 1] = new Slot(slotAsset, new Rectangle(0, 0, 50, 50), font, true);
         }
 

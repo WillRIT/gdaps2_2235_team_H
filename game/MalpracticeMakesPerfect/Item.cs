@@ -24,6 +24,10 @@ namespace MalpracticeMakesPerfect
         }
         private string description;
         private double cost;
+        public double Cost
+        {
+            get { return cost; }
+        }
         private bool inInventory;
 
         private enum itemAspects { };
