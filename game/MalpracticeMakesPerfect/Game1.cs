@@ -278,7 +278,8 @@ namespace MalpracticeMakesPerfect
                         JoobiScenario.ScenarioStart();
                     }
 
-                   
+
+                    //INVENTORY HANDLING!!
 
                     //whether or not a slot is being highlighted
                     bool existsHighlight = false;
@@ -450,8 +451,31 @@ namespace MalpracticeMakesPerfect
                     {
                         if (dragAction == DragStates.Failed)
                         {
-                            snapBack.Item = theMessenger.Item;
-                            snapBack.Amount += theMessenger.Amount;
+                            //assure recipe-output-snapback is not overriding a previously placed item
+                            if (snapBack.ItemName == theMessenger.Item.ItemName || snapBack.IsEmpty)
+                            {
+                                snapBack.Item = theMessenger.Item;
+                                snapBack.Amount += theMessenger.Amount;
+                            }
+                            else if (snapBack.IsTrash)
+                            {
+                                snapBack.Item = theMessenger.Item;
+                                snapBack.Amount = theMessenger.Amount;
+                            }
+                            else
+                            {
+                                bool placedExcess = false;
+                                foreach (Slot s in myInventory.Hotbar)
+                                {
+                                    //place in the first available empty slot (if dragged item will not be sent back to that slot) or in the trash
+                                    if (!placedExcess && (s != snapBack) && ((s.IsEmpty && !s.IsTrash) || s.IsTrash))
+                                    {
+                                        s.Item = theMessenger.Item;
+                                        s.Amount = theMessenger.Amount;
+                                        placedExcess = true;
+                                    }
+                                }
+                            }
                         }
 
                         theMessenger = null;
