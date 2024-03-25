@@ -223,7 +223,7 @@ namespace MalpracticeMakesPerfect
                     break;
 
                 case GameStates.GameScene:
-
+                    JoobiScenario.Draw(_spriteBatch);
                     //queuing scenarios
                     scenarioQueue.Enqueue(JoobiScenario);
 
@@ -245,13 +245,13 @@ namespace MalpracticeMakesPerfect
                     if (money <= 0)
                     {
                         money = 0;
-                        while(scenarioQueue.Count > 0) 
+                        /* while(scenarioQueue.Count > 0) 
                         {
                             if (scenarioQueue.Peek().Stopped == false)
                             {
                                 scenarioQueue.Dequeue();
                             }
-                        }
+                             */
                     }
                     if (scenarioQueue.Count == 0 && reputation >0)
                     {
@@ -272,12 +272,6 @@ namespace MalpracticeMakesPerfect
                     {
                         skyRect2.X = _graphics.PreferredBackBufferWidth;
                     }
-
-                    if (JoobiScenario.Stopped == false)
-                    {
-                        JoobiScenario.ScenarioStart();
-                    }
-
 
                     //INVENTORY HANDLING!!
 

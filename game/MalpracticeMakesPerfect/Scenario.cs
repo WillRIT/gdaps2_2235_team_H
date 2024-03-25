@@ -17,14 +17,17 @@ namespace MalpracticeMakesPerfect
         private List<Solution> solutions;
         private Texture2D personSprite;
         private string godModeText;
-        private Vector2 patientPath = new Vector2(300, 0);
-        private bool stopped;
+        private Vector2 spawnPoint = new Vector2(0, 300);
+        private Vector2 destinationPoint = new Vector2(400, 300);
 
-        public bool Stopped
+        public enum ScenarioState
         {
-            get { return stopped; }
-            set { stopped = value; }
+            Walking,
+            Waiting,
+            Leaving
         }
+        ScenarioState state = ScenarioState.Walking;
+
 
         /// <summary>
         /// Creates a scenario
@@ -41,28 +44,45 @@ namespace MalpracticeMakesPerfect
             this.solutions = solutions;
             this.personSprite = personSprite;
             this.godModeText = godModeText;
-
-            stopped = false;
-
             itemSlots = new Item[slotNum];
-        }
-
-        public void ScenarioStart()
-        {
-            
         }
 
         public void Update()
         {
-            // If the right item is dragged onto the guy, Give money and reputation accordingly
-            // else, nothing happens and loop back around
+            switch (state)
+            {
+                case ScenarioState.Walking:
+                    break;
 
+                case ScenarioState.Waiting:
 
+                    break;
+
+                case ScenarioState.Leaving:
+
+                    break;
+
+            }
         }
 
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(personSprite, new Rectangle(0, 300, personSprite.Width, personSprite.Height), Color.White);
+            switch (state)
+            {
+                case ScenarioState.Walking:
+                    sb.Draw(personSprite, spawnPoint, Color.White);
+                    spawnPoint += destinationPoint;
+                    state = ScenarioState.Waiting;
+
+                    break;
+
+                case ScenarioState.Waiting:
+                    break;
+
+                case ScenarioState.Leaving:
+                    destinationPoint -= spawnPoint;
+                    break;
+            }
         }
     }
 }
