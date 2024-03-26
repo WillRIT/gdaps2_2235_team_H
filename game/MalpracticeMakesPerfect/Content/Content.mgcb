@@ -37,6 +37,18 @@
 /processorParam:TextureFormat=Color
 /build:adventurer_03_1.png
 
+#begin better_patient.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:better_patient.png
+
 #begin Catnip.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -176,7 +188,7 @@
 /processorParam:TextureFormat=Color
 /build:Nasty Juice.webp
 
-#begin office.png
+#begin Shop Pack V2 4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -186,7 +198,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:office.png
+/build:Shop Pack V2 4.png
 
 #begin shopslot1.png
 /importer:TextureImporter

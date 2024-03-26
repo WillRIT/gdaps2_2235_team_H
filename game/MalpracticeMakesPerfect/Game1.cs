@@ -44,7 +44,8 @@ namespace MalpracticeMakesPerfect
         private Texture2D patient;
         private Texture2D sky;
         private Texture2D office;
-        private Rectangle officeRect;
+        private Vector2 officeLocation;
+        
 
         //input managers
         private MouseState mouseState;
@@ -156,10 +157,11 @@ namespace MalpracticeMakesPerfect
             diamondSprite = Content.Load<Texture2D>("diamond");
             itemAmountFont = Content.Load<SpriteFont>("item-amount");
             joobi = Content.Load<Texture2D>("joobi");
-            adventurer = Content.Load<Texture2D>("adventurer_03_1");
+            adventurer = Content.Load<Texture2D>("better_patient");
             sky = Content.Load<Texture2D>("sky");
-            office = Content.Load<Texture2D>("office");
-            officeRect = new Rectangle(400, -55, office.Width, office.Height);
+            office = Content.Load<Texture2D>("Shop Pack V2 4");
+            officeLocation = new Vector2(300, 300);
+
 
             //Load sky
             skyRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
@@ -184,7 +186,7 @@ namespace MalpracticeMakesPerfect
 
             // Solutions
             List<Solution> solutionList = new List<Solution>();
-            JoobiScenario = new Scenario("I am Joobi", 2, solutionList, adventurer, "I am special Joobi");
+            JoobiScenario = new Scenario("My Tongue is Green", 2, solutionList, adventurer, "Give me Green Paint");
 
             
 
@@ -223,9 +225,10 @@ namespace MalpracticeMakesPerfect
                     break;
 
                 case GameStates.GameScene:
-                    JoobiScenario.Draw(_spriteBatch);
                     //queuing scenarios
                     scenarioQueue.Enqueue(JoobiScenario);
+
+                    JoobiScenario.Update();
 
                     //for testing rep decreases with right mouse button
                     if (mouseState.RightButton == ButtonState.Pressed)
@@ -522,7 +525,7 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.Draw(sky, skyRect, Color.White);
                     _spriteBatch.Draw(sky, skyRect2, Color.White);
 
-                    _spriteBatch.Draw(office, officeRect, Color.White);
+                    _spriteBatch.Draw(office, officeLocation, Color.White);
 
                     myInventory.DrawScene(_spriteBatch);
 

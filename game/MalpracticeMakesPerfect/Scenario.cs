@@ -52,6 +52,13 @@ namespace MalpracticeMakesPerfect
             switch (state)
             {
                 case ScenarioState.Walking:
+                    spawnPoint += new Vector2(4, 0);
+                    if (spawnPoint == destinationPoint)
+                    {
+                        state = ScenarioState.Waiting;
+                    }
+                   
+
                     break;
 
                 case ScenarioState.Waiting:
@@ -71,16 +78,15 @@ namespace MalpracticeMakesPerfect
             {
                 case ScenarioState.Walking:
                     sb.Draw(personSprite, spawnPoint, Color.White);
-                    spawnPoint += destinationPoint;
-                    state = ScenarioState.Waiting;
-
                     break;
 
                 case ScenarioState.Waiting:
+                    sb.Draw(personSprite, destinationPoint, Color.White);
+
                     break;
 
                 case ScenarioState.Leaving:
-                    destinationPoint -= spawnPoint;
+
                     break;
             }
         }
