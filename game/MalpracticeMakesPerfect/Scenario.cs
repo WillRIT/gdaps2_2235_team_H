@@ -66,7 +66,10 @@ namespace MalpracticeMakesPerfect
 
                 case ScenarioState.Waiting:
 
-                    if (mState.LeftButton)
+                    if (mState.LeftButton == ButtonState.Pressed)
+                    {
+                        state = ScenarioState.Leaving;
+                    }
                     break;
 
                 case ScenarioState.Leaving:
