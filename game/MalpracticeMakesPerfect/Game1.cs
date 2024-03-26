@@ -114,7 +114,6 @@ namespace MalpracticeMakesPerfect
 
         private string consoleLog;
 
-
         private Random rng = new Random();
 
         /// <summary>
@@ -191,7 +190,8 @@ namespace MalpracticeMakesPerfect
             testSS = new ShopSlot(shopSlasset, shopSlassetB, new Rectangle(100, 100, 40, 60), itemAmountFont, itemDict["Green Apple"]);
             testSS.Purchase += PurchaseItem;
 
-            myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 300, 600, 980), allItems);
+            myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 300, 600, 980), allItems, PurchaseItem);
+
 
             //menu fonts
             titleFont = Content.Load<SpriteFont>("TitleFont");
@@ -309,7 +309,6 @@ namespace MalpracticeMakesPerfect
                     }
 
 
-                    myInventory.Update();
                     //moving sky background
                     skyRect.X--;
                     skyRect2.X--;
@@ -323,6 +322,9 @@ namespace MalpracticeMakesPerfect
                     }
 
                     //INVENTORY HANDLING!!
+                    myInventory.Update();
+
+                    myShop.Update();
                     
                     testSS.Update();
 
