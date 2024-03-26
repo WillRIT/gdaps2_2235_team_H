@@ -16,6 +16,7 @@ namespace MalpracticeMakesPerfect
     {
         TitleScreen,
         GameScene,
+        Instructions,
         GameShop,
         GameOver,
         DayEnd
@@ -74,6 +75,8 @@ namespace MalpracticeMakesPerfect
         private SpriteFont itemAmountFont;
         private SpriteFont titleFont;
         private SpriteFont subtitleFont;
+        private SpriteFont smallSubtitleFont;
+        private SpriteFont mediumFont;
 
         //item moving fields
         private List<Draggable> draggables = new List<Draggable>();
@@ -93,7 +96,6 @@ namespace MalpracticeMakesPerfect
         private Vector2 titlePos;
         private Vector2 subtitlePos;
         private float textBounceSpeed;
-        private SpriteFont smallSubtitleFont;
         private Texture2D star;
         private List<Rectangle> starsLoc;
 
@@ -197,6 +199,7 @@ namespace MalpracticeMakesPerfect
             titleFont = Content.Load<SpriteFont>("TitleFont");
             subtitleFont = Content.Load<SpriteFont>("SubtitleFont");
             smallSubtitleFont = Content.Load<SpriteFont>("SmallerSubtitleFont");
+            mediumFont = Content.Load<SpriteFont>("MediumFont");
             star = Content.Load<Texture2D>("star.png");
 
             // Solutions
@@ -257,10 +260,10 @@ namespace MalpracticeMakesPerfect
                         textBounceSpeed = -textBounceSpeed;
                     }
 
-                    //changing into play state
+                    //changing into Instructions
                     if (mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed)
                     {
-                        gameState = GameStates.GameScene;
+                        gameState = GameStates.Instructions;
                         starsLoc.Clear();
                         for (int i = 0; i < 18; i++)
                         {
@@ -269,6 +272,14 @@ namespace MalpracticeMakesPerfect
                     }
 
                     break;
+                    //changing to play state
+                case GameStates.Instructions:
+                    if (mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed)
+                    {
+                        gameState = GameStates.GameScene;
+                    }
+
+                        break;
 
                 case GameStates.GameScene:
                     //queuing scenarios
@@ -531,7 +542,7 @@ namespace MalpracticeMakesPerfect
                     break;
                 
                 case GameStates.GameOver:
-                    if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
+                    if (mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed)
                     {
                         gameState = GameStates.TitleScreen;
                     }
@@ -568,6 +579,21 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(subtitleFont, "Left Click to Start", new Vector2(600, 850), Color.Black);
 
                     
+                    break;
+                case GameStates.Instructions:
+                    GraphicsDevice.Clear(Color.Black);
+                    _spriteBatch.DrawString(titleFont, "We Need a Doctor!", new Vector2(103, 103), Color.WhiteSmoke);
+                    _spriteBatch.DrawString(titleFont, "We Need a Doctor!", new Vector2(100, 100), Color.DarkRed);
+                    _spriteBatch.DrawString(subtitleFont, "You are the only doctor in town", new Vector2(100, 250), Color.Maroon);
+                    _spriteBatch.DrawString(mediumFont, "You need to find the ideal solution to all the towns ails", new Vector2(100, 350), Color.Firebrick);
+                    _spriteBatch.DrawString(mediumFont, "Drag items from your inventory to customers," +
+                        " Try and find the best solution from the items in your inventory", new Vector2(100, 410), Color.Red);
+                    _spriteBatch.DrawString(mediumFont, "Combine items by dragging one item onto another", new Vector2(100, 470), Color.OrangeRed);
+                    _spriteBatch.DrawString(mediumFont, "Bad solutions lower your reputation (to be added)", new Vector2(100, 530), Color.Orange);
+                    _spriteBatch.DrawString(mediumFont, "Buy items from the shop on the right", new Vector2(100, 590), Color.SandyBrown);
+                    _spriteBatch.DrawString(mediumFont, "Left Click to start the day", new Vector2(100, 650), Color.PeachPuff);
+
+
                     break;
 
                 case GameStates.GameScene:
