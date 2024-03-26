@@ -302,7 +302,7 @@ namespace MalpracticeMakesPerfect
                             }
                              */
                     }
-                    if (scenarioQueue.Count == 0 && reputation >0)
+                    if (scenarioQueue.Count == 0 && reputation > 0)
                     {
                         gameState = GameStates.DayEnd;
 
@@ -598,7 +598,7 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(mediumFont, "Combine items by dragging one item onto another", new Vector2(100, 470), Color.OrangeRed);
                     _spriteBatch.DrawString(mediumFont, "Bad solutions lower your reputation (to be added)", new Vector2(100, 530), Color.Orange);
                     _spriteBatch.DrawString(mediumFont, "Buy items from the shop on the right", new Vector2(100, 590), Color.SandyBrown);
-                    _spriteBatch.DrawString(mediumFont, "Left Click to start the day", new Vector2(100, 650), Color.PeachPuff);
+                    _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO START THE DAY", new Vector2(100, 700), Color.PeachPuff);
                     break;
 
                 case GameStates.GameScene:
@@ -674,30 +674,26 @@ namespace MalpracticeMakesPerfect
                         _spriteBatch.Draw(star, starsLoc[i], Color.OrangeRed);
                     }
                     _spriteBatch.DrawString(titleFont, "YOU GOT RUN OUT OF TOWN", new Vector2(100,140), Color.Red);
-                    _spriteBatch.DrawString(subtitleFont, "Your Reputation sank too low", new Vector2(105, 260), Color.Tomato);
-                    _spriteBatch.DrawString(mediumFont, "Left click to try again", new Vector2(105, 350), Color.Tomato);
-                    _spriteBatch.DrawString(mediumFont, "Your Final Stats: Reputation: " + reputation + $" Money: ${money:N2}", new Vector2(105, 400), Color.Tomato);
+                    _spriteBatch.DrawString(subtitleFont, "Your Reputation Sank Too Low", new Vector2(105, 260), Color.Tomato);
+                    _spriteBatch.DrawString(mediumFont, "Left Click To Try Again", new Vector2(105, 360), Color.Tomato);
+                    _spriteBatch.DrawString(mediumFont, "Your Final Stats: Reputation: " + reputation + $" Money: ${money:N2}", new Vector2(105, 415), Color.Tomato);
 
                     break;
 
                 case GameStates.DayEnd://Day end art
                     GraphicsDevice.Clear(Color.DarkBlue);
-                    _spriteBatch.DrawString(titleFont, "The Day is Over", new Vector2(150, 150), Color.DarkGoldenrod);
-                    _spriteBatch.DrawString(subtitleFont, "Congrats you survived the day!", new Vector2(150, 300), Color.Gold);
-                    _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO PLAY AGAIN", new Vector2(150, 400), Color.Yellow);
-                    _spriteBatch.DrawString(smallSubtitleFont, "Your Final Stats: Reputation: "+reputation+ $" Money: ${money:N2}", new Vector2(150, 500), Color.LightYellow);
-
-                    
-                    for(int i = 0; i < starsLoc.Count; i++)
+                    for (int i = 0; i < starsLoc.Count; i++)
                     {
                         _spriteBatch.Draw(star, starsLoc[i], Color.White);
                     }
+                    _spriteBatch.DrawString(titleFont, "The Day Is Over", new Vector2(150, 150), Color.DarkGoldenrod);
+                    _spriteBatch.DrawString(subtitleFont, "Congrats You Survived The Day!", new Vector2(150, 300), Color.Gold);
+                    _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO PLAY AGAIN", new Vector2(150, 400), Color.Yellow);
+                    _spriteBatch.DrawString(smallSubtitleFont, "Your Final Stats: Reputation: " + reputation + $" Money: ${money:N2}"
+                        , new Vector2(150, 500), Color.LightYellow);
                     break;
 
-
             }
-
-            
 
             _spriteBatch.End();
 
