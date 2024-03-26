@@ -91,10 +91,14 @@ namespace MalpracticeMakesPerfect
 
         public void AddItem(Item item, int amount)
         {
-            if (this.item != null)
+            if (this.item == null)
             {
                 this.item = item;
                 this.amount = amount;
+            }
+            else if (ItemName == item.ItemName)
+            {
+                this.amount += amount;
             }
         }
 

@@ -27,7 +27,7 @@ namespace MalpracticeMakesPerfect
             return null;
         }
 
-        public List<Item> GetItemsAndRecipes(ContentManager Content, out Dictionary<string,Recipe> recipes)
+        public List<Item> GetItemsAndRecipes(ContentManager Content, out Dictionary<string,Recipe> recipes, out Dictionary<string, Item> itemDict)
         {
             List<Item> items = new List<Item>();
             Dictionary<string, Item> findItems = new Dictionary<string, Item>();
@@ -95,6 +95,7 @@ namespace MalpracticeMakesPerfect
             }
 
             recipes = recipeList;
+            itemDict = findItems;
             return items;
         }
 

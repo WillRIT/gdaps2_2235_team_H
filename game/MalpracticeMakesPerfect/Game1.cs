@@ -45,7 +45,10 @@ namespace MalpracticeMakesPerfect
         private Texture2D sky;
         private Texture2D office;
         private Vector2 officeLocation;
-        
+
+        private Texture2D shopSlasset;
+        private Texture2D shopSlassetH;
+
 
         //input managers
         private MouseState mouseState;
@@ -60,6 +63,7 @@ namespace MalpracticeMakesPerfect
 
         private List<Item> allItems;
         private Dictionary<string, Recipe> allRecipes;
+        private Dictionary<string, Item> itemDict;
 
 
         //Sky fields
@@ -78,6 +82,8 @@ namespace MalpracticeMakesPerfect
         private Slot highlighted;
         private TempSlot theMessenger;
         private Slot snapBack;
+
+        private ShopSlot testSS;
 
         //States
         private GameStates gameState;
@@ -150,7 +156,7 @@ namespace MalpracticeMakesPerfect
 
             DatabaseManager databaseManager = new DatabaseManager();
 
-            allItems = databaseManager.GetItemsAndRecipes(Content, out allRecipes);
+            allItems = databaseManager.GetItemsAndRecipes(Content, out allRecipes, out itemDict);
 
             //Loading textures
             slotSprite = Content.Load<Texture2D>("slot");
@@ -161,6 +167,9 @@ namespace MalpracticeMakesPerfect
             sky = Content.Load<Texture2D>("sky");
             office = Content.Load<Texture2D>("Shop Pack V2 4");
             officeLocation = new Vector2(300, 300);
+
+            shopSlasset = Content.Load<Texture2D>("shopslot1");
+            shopSlassetH = Content.Load<Texture2D>("shopslot2");
 
 
             //Load sky
@@ -178,6 +187,9 @@ namespace MalpracticeMakesPerfect
 
             theMessenger = null;
 
+            testSS = new ShopSlot(shopSlasset, shopSlassetH, new Rectangle(100, 100, 100, 100), itemAmountFont, itemDict["Green Apple"]);
+            testSS.Purchase += PurchaseItem;
+
             //menu fonts
             titleFont = Content.Load<SpriteFont>("TitleFont");
             subtitleFont = Content.Load<SpriteFont>("SubtitleFont");
@@ -190,6 +202,30 @@ namespace MalpracticeMakesPerfect
 
             
 
+        }
+
+        private void PurchaseItem(Item bought)
+        {
+            foreach (Slot s in myInventory.Hotbar)
+            {
+                if ((s.IsEmpty || s.ItemName == bought.ItemName) && !s.IsTrash)
+                {
+                    if (money >= bought.Cost)
+                    {
+                        s.AddItem(bought, 1);
+                        money -= bought.Cost;
+
+                        consoleLog += $"Bought 1 {bought.ItemName} for {bought.Cost:N2}\n";
+                        return;
+                    }
+                    else
+                    {
+                        consoleLog += $"Not enough money for {bought.ItemName}!\n";
+                        return;
+                    }
+                }
+            }
+            consoleLog += $"Not enough room in inventory!\n";
         }
 
         protected override void Update(GameTime gameTime)
@@ -277,6 +313,8 @@ namespace MalpracticeMakesPerfect
                     }
 
                     //INVENTORY HANDLING!!
+                    
+                    testSS.Update();
 
                     //whether or not a slot is being highlighted
                     bool existsHighlight = false;
@@ -533,6 +571,9 @@ namespace MalpracticeMakesPerfect
 
                     JoobiScenario.Draw(_spriteBatch);
 
+                    //INVENTORY DRAWING
+                    testSS.Draw(_spriteBatch);
+
                     if (theMessenger != null)
                     {
                         theMessenger.Draw(_spriteBatch);
@@ -577,7 +618,7 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(smallSubtitleFont,"Reputation:",new Vector2(10,20), Color.Black);
                     _spriteBatch.Draw(joobi,new Rectangle(190,30,reputation,20),Color.Black);
                     _spriteBatch.DrawString(smallSubtitleFont,"Money:", new Vector2(10,50),Color.Black);
-                    _spriteBatch.DrawString(smallSubtitleFont, ""+money, new Vector2(110, 50), Color.Goldenrod);
+                    _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(110, 50), Color.Goldenrod);
 
                     break;
 
@@ -591,7 +632,7 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(titleFont, "The Day is Over", new Vector2(150, 150), Color.DarkGoldenrod);
                     _spriteBatch.DrawString(subtitleFont, "Congrats you survived the day!", new Vector2(150, 300), Color.Gold);
                     _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO PLAY AGAIN", new Vector2(150, 400), Color.Yellow);
-                    _spriteBatch.DrawString(smallSubtitleFont, "Your Final Stats: Reputation: "+reputation+" Money: "+ money, new Vector2(150, 500), Color.LightYellow);
+                    _spriteBatch.DrawString(smallSubtitleFont, "Your Final Stats: Reputation: "+reputation+ $" Money: ${money:N2}", new Vector2(150, 500), Color.LightYellow);
 
                     
                     for(int i = 0; i < starsLoc.Count; i++)

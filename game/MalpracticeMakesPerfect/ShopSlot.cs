@@ -12,7 +12,6 @@ namespace MalpracticeMakesPerfect
     internal class ShopSlot : GameObject
     {
         private Item item;
-        private Rectangle button;
         public string ButtonText
         {
             get { return $"{item.ItemName} (${item.Cost})"; }
@@ -20,10 +19,16 @@ namespace MalpracticeMakesPerfect
         private SpriteFont font;
         private Texture2D assetHovered;
         private bool isHovered;
+        private MouseState mouseState;
+        private MouseState mousePrev;
 
-        public ShopSlot(Texture2D asset, Rectangle position, SpriteFont font, Item item)
+        public delegate void PurchaseItem(Item bought);
+        public event PurchaseItem Purchase;
+
+        public ShopSlot(Texture2D asset, Texture2D assetHovered, Rectangle position, SpriteFont font, Item item)
             : base(asset, position)
         {
+            this.assetHovered = assetHovered;
             this.font = font;
             this.item = item;
 
@@ -38,7 +43,7 @@ namespace MalpracticeMakesPerfect
             }
             else
             {
-                sb.Draw(assetHovered, position, Color.White);
+                sb.Draw(asset, position, Color.White);
             }
 
             item.Draw(sb);
@@ -46,10 +51,16 @@ namespace MalpracticeMakesPerfect
 
         public override void Update()
         {
-            if (position.Contains(Mouse.GetState().Position))
+            mouseState = Mouse.GetState();
+
+            isHovered = position.Contains(mouseState.Position);
+
+            if (isHovered && mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
             {
-                //hi
+                Purchase(item);
             }
+
+            mousePrev = mouseState;
         }
     }
 }
