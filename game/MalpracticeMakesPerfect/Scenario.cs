@@ -19,6 +19,9 @@ namespace MalpracticeMakesPerfect
         private string godModeText;
         private Vector2 spawnPoint = new Vector2(0, 300);
         private Vector2 destinationPoint = new Vector2(400, 300);
+        private SpriteFont font;
+        private MouseState mState;
+        
 
         public enum ScenarioState
         {
@@ -37,18 +40,20 @@ namespace MalpracticeMakesPerfect
         /// <param name="solutions">A list of solutions that could work.</param>
         /// <param name="personSprite">The sprite of the character</param>
         /// <param name="godModeText">Text explaining the solutions</param>
-        public Scenario(string sceneMessage, int slotNum, List<Solution> solutions, Texture2D personSprite, string godModeText)
+        public Scenario(string sceneMessage, int slotNum, List<Solution> solutions, Texture2D personSprite, string godModeText, SpriteFont font)
         {
             this.sceneMessage = sceneMessage;
             this.slotNum = slotNum;
             this.solutions = solutions;
             this.personSprite = personSprite;
             this.godModeText = godModeText;
+            this.font = font;
             itemSlots = new Item[slotNum];
         }
 
         public void Update()
         {
+            mState = Mouse.GetState();
             switch (state)
             {
                 case ScenarioState.Walking:
@@ -57,16 +62,22 @@ namespace MalpracticeMakesPerfect
                     {
                         state = ScenarioState.Waiting;
                     }
-                   
-
                     break;
 
                 case ScenarioState.Waiting:
 
+                    if (mState.LeftButton == ButtonState.Pressed)
+                    {
+                        state = ScenarioState.Leaving;
+                    }
                     break;
 
                 case ScenarioState.Leaving:
-
+                    destinationPoint -= new Vector2(4, 0);
+                    if (destinationPoint == spawnPoint)
+                    {
+                        
+                    }
                     break;
 
             }
@@ -82,11 +93,15 @@ namespace MalpracticeMakesPerfect
 
                 case ScenarioState.Waiting:
                     sb.Draw(personSprite, destinationPoint, Color.White);
-
+                    sb.DrawString(font, sceneMessage,new Vector2 (320, 280), Color.Black);
                     break;
 
                 case ScenarioState.Leaving:
-
+                    sb.Draw(personSprite, destinationPoint, Color.White);
+                    if (destinationPoint == spawnPoint)
+                    {
+                        
+                    }
                     break;
             }
         }

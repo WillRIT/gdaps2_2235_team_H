@@ -169,7 +169,7 @@ namespace MalpracticeMakesPerfect
             adventurer = Content.Load<Texture2D>("better_patient");
             sky = Content.Load<Texture2D>("sky");
             office = Content.Load<Texture2D>("Shop Pack V2 4");
-            officeLocation = new Vector2(300, 300);
+            officeLocation = new Vector2(320, 280);
 
             shopSlasset = Content.Load<Texture2D>("shopslot1");
             shopSlassetB = Content.Load<Texture2D>("shopslot2");
@@ -204,7 +204,7 @@ namespace MalpracticeMakesPerfect
 
             // Solutions
             List<Solution> solutionList = new List<Solution>();
-            JoobiScenario = new Scenario("My Tongue is Green", 2, solutionList, adventurer, "Give me Green Paint");
+            JoobiScenario = new Scenario("My Tongue is Green", 2, solutionList, adventurer, "Give me Green Paint", smallSubtitleFont);
 
             
 
