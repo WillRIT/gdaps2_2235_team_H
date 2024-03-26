@@ -574,11 +574,11 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", new Vector2(subtitlePos.X - 1.5f, subtitlePos.Y - 1.5f), Color.White);
                     _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", new Vector2(subtitlePos.X + 1.5f, subtitlePos.Y + 1.5f), Color.Black);
                     _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", subtitlePos, Color.Red);
-                    _spriteBatch.DrawString(subtitleFont, "Left Click to Start", new Vector2(600, 850), Color.Black);
-
-                    
+                    _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO START", new Vector2(580, 850), Color.OrangeRed);
                     break;
-                case GameStates.Instructions:
+
+
+                case GameStates.Instructions://Instructions text
                     GraphicsDevice.Clear(Color.Black);
                     _spriteBatch.DrawString(titleFont, "We Need a Doctor!", new Vector2(103, 103), Color.WhiteSmoke);
                     _spriteBatch.DrawString(titleFont, "We Need a Doctor!", new Vector2(100, 100), Color.DarkRed);
@@ -590,8 +590,6 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(mediumFont, "Bad solutions lower your reputation (to be added)", new Vector2(100, 530), Color.Orange);
                     _spriteBatch.DrawString(mediumFont, "Buy items from the shop on the right", new Vector2(100, 590), Color.SandyBrown);
                     _spriteBatch.DrawString(mediumFont, "Left Click to start the day", new Vector2(100, 650), Color.PeachPuff);
-
-
                     break;
 
                 case GameStates.GameScene:
@@ -656,16 +654,26 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(smallSubtitleFont,"Reputation:",new Vector2(10,20), Color.Black);
                     _spriteBatch.Draw(joobi,new Rectangle(190,30,reputation,20),Color.Black);
                     _spriteBatch.DrawString(smallSubtitleFont,"Money:", new Vector2(10,50),Color.Black);
-                    _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(110, 50), Color.Goldenrod);
+                    _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(111, 51), Color.DarkGoldenrod);
+                    _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(110, 50), Color.Gold);
+                   
 
                     break;
 
-                case GameStates.GameOver:
-                    _spriteBatch.DrawString(titleFont, "you got run out of town", new Vector2(150,150), Color.Black);
-                    _spriteBatch.DrawString(subtitleFont, "Left click to try again", new Vector2(150, 300), Color.Black);
+                case GameStates.GameOver://Game over screen art
+                    GraphicsDevice.Clear(Color.Black);
+                    for (int i = 0; i < starsLoc.Count; i++)
+                    {
+                        _spriteBatch.Draw(star, starsLoc[i], Color.OrangeRed);
+                    }
+                    _spriteBatch.DrawString(titleFont, "YOU GOT RUN OUT OF TOWN", new Vector2(100,140), Color.Red);
+                    _spriteBatch.DrawString(subtitleFont, "Your Reputation sank too low", new Vector2(105, 260), Color.Tomato);
+                    _spriteBatch.DrawString(mediumFont, "Left click to try again", new Vector2(105, 350), Color.Tomato);
+                    _spriteBatch.DrawString(mediumFont, "Your Final Stats: Reputation: " + reputation + $" Money: ${money:N2}", new Vector2(105, 400), Color.Tomato);
+
                     break;
 
-                case GameStates.DayEnd:
+                case GameStates.DayEnd://Day end art
                     GraphicsDevice.Clear(Color.DarkBlue);
                     _spriteBatch.DrawString(titleFont, "The Day is Over", new Vector2(150, 150), Color.DarkGoldenrod);
                     _spriteBatch.DrawString(subtitleFont, "Congrats you survived the day!", new Vector2(150, 300), Color.Gold);
