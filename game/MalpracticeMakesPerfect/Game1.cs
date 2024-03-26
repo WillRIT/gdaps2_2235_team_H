@@ -47,7 +47,7 @@ namespace MalpracticeMakesPerfect
         private Vector2 officeLocation;
 
         private Texture2D shopSlasset;
-        private Texture2D shopSlassetH;
+        private Texture2D shopSlassetB;
 
 
         //input managers
@@ -84,6 +84,7 @@ namespace MalpracticeMakesPerfect
         private Slot snapBack;
 
         private ShopSlot testSS;
+        private Shop myShop;
 
         //States
         private GameStates gameState;
@@ -169,7 +170,7 @@ namespace MalpracticeMakesPerfect
             officeLocation = new Vector2(300, 300);
 
             shopSlasset = Content.Load<Texture2D>("shopslot1");
-            shopSlassetH = Content.Load<Texture2D>("shopslot2");
+            shopSlassetB = Content.Load<Texture2D>("shopslot2");
 
 
             //Load sky
@@ -187,8 +188,10 @@ namespace MalpracticeMakesPerfect
 
             theMessenger = null;
 
-            testSS = new ShopSlot(shopSlasset, shopSlassetH, new Rectangle(100, 100, 100, 100), itemAmountFont, itemDict["Green Apple"]);
+            testSS = new ShopSlot(shopSlasset, shopSlassetB, new Rectangle(100, 100, 40, 60), itemAmountFont, itemDict["Green Apple"]);
             testSS.Purchase += PurchaseItem;
+
+            myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 300, 600, 980), allItems);
 
             //menu fonts
             titleFont = Content.Load<SpriteFont>("TitleFont");
@@ -204,18 +207,25 @@ namespace MalpracticeMakesPerfect
 
         }
 
+        /// <summary>
+        /// Purchase item from shop and add it to the inventory
+        /// </summary>
+        /// <param name="bought">The purchased item</param>
         private void PurchaseItem(Item bought)
         {
+            //check for empty slot
             foreach (Slot s in myInventory.Hotbar)
             {
+                //if same name or empty and not trash
                 if ((s.IsEmpty || s.ItemName == bought.ItemName) && !s.IsTrash)
                 {
+                    //test if sufficient funds
                     if (money >= bought.Cost)
                     {
                         s.AddItem(bought, 1);
                         money -= bought.Cost;
 
-                        consoleLog += $"Bought 1 {bought.ItemName} for {bought.Cost:N2}\n";
+                        consoleLog += $"Bought 1 {bought.ItemName} for ${bought.Cost:N2}\n";
                         return;
                     }
                     else
@@ -248,7 +258,7 @@ namespace MalpracticeMakesPerfect
                     }
 
                     //changing into play state
-                    if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
+                    if (mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed)
                     {
                         gameState = GameStates.GameScene;
                         starsLoc.Clear();
@@ -574,6 +584,8 @@ namespace MalpracticeMakesPerfect
                     //INVENTORY DRAWING
                     testSS.Draw(_spriteBatch);
 
+                    myShop.Draw(_spriteBatch);
+
                     if (theMessenger != null)
                     {
                         theMessenger.Draw(_spriteBatch);
@@ -644,7 +656,7 @@ namespace MalpracticeMakesPerfect
 
             }
 
-
+            
 
             _spriteBatch.End();
 
