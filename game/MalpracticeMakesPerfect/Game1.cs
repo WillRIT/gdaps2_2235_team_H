@@ -177,13 +177,6 @@ namespace MalpracticeMakesPerfect
             skyRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             skyRect2 = new Rectangle(_graphics.PreferredBackBufferWidth, 0, _graphics.PreferredBackBufferWidth + 1, _graphics.PreferredBackBufferHeight);
 
-            //creating and filling slotList
-            List<Slot> slotList = new List<Slot>();
-            for (int i = 0; i < 10; i++)
-            {
-                slotList.Add(new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(9)], rng.Next(1,4)));
-            }
-
             myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite);
 
             theMessenger = null;
