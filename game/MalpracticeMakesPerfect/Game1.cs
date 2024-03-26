@@ -86,7 +86,6 @@ namespace MalpracticeMakesPerfect
         private TempSlot theMessenger;
         private Slot snapBack;
 
-        private ShopSlot testSS;
         private Shop myShop;
 
         //States
@@ -115,7 +114,6 @@ namespace MalpracticeMakesPerfect
         private float speed = 5.0f;
 
         private string consoleLog;
-
 
         private Random rng = new Random();
 
@@ -179,21 +177,12 @@ namespace MalpracticeMakesPerfect
             skyRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             skyRect2 = new Rectangle(_graphics.PreferredBackBufferWidth, 0, _graphics.PreferredBackBufferWidth + 1, _graphics.PreferredBackBufferHeight);
 
-            //creating and filling slotList
-            List<Slot> slotList = new List<Slot>();
-            for (int i = 0; i < 10; i++)
-            {
-                slotList.Add(new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(9)], rng.Next(1,4)));
-            }
-
-            myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite, slotList);
+            myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite);
 
             theMessenger = null;
 
-            testSS = new ShopSlot(shopSlasset, shopSlassetB, new Rectangle(100, 100, 40, 60), itemAmountFont, itemDict["Green Apple"]);
-            testSS.Purchase += PurchaseItem;
+            myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 300, 600, 980), allItems, PurchaseItem);
 
-            myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 300, 600, 980), allItems);
 
             //menu fonts
             titleFont = Content.Load<SpriteFont>("TitleFont");
@@ -252,7 +241,7 @@ namespace MalpracticeMakesPerfect
             {
                 case GameStates.TitleScreen:
                     reputation = 1600;
-                    money = 100;
+                    money = 1000;
                     titlePos.Y += textBounceSpeed;
                     subtitlePos.Y += textBounceSpeed;
                     if(titlePos.Y <= 55|| titlePos.Y >= 80)
@@ -320,7 +309,6 @@ namespace MalpracticeMakesPerfect
                     }
 
 
-                    myInventory.Update();
                     //moving sky background
                     skyRect.X--;
                     skyRect2.X--;
@@ -334,8 +322,9 @@ namespace MalpracticeMakesPerfect
                     }
 
                     //INVENTORY HANDLING!!
-                    
-                    testSS.Update();
+                    myInventory.Update();
+
+                    myShop.Update();
 
                     //whether or not a slot is being highlighted
                     bool existsHighlight = false;
@@ -606,8 +595,6 @@ namespace MalpracticeMakesPerfect
                     JoobiScenario.Draw(_spriteBatch);
 
                     //INVENTORY DRAWING
-                    testSS.Draw(_spriteBatch);
-
                     myShop.Draw(_spriteBatch);
 
                     if (theMessenger != null)
