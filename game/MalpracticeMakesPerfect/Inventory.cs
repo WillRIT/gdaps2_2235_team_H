@@ -55,6 +55,7 @@ namespace MalpracticeMakesPerfect
                 hotbar[i] = hotbarItems[i];
             }
 
+            //create trash
             hotbar[hotbar.Length - 1].IsTrash = true;
         }
 

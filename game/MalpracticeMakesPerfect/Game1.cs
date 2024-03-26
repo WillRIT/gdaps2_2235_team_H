@@ -86,7 +86,6 @@ namespace MalpracticeMakesPerfect
         private TempSlot theMessenger;
         private Slot snapBack;
 
-        private ShopSlot testSS;
         private Shop myShop;
 
         //States
@@ -185,12 +184,9 @@ namespace MalpracticeMakesPerfect
                 slotList.Add(new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(9)], rng.Next(1,4)));
             }
 
-            myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite, slotList);
+            myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite);
 
             theMessenger = null;
-
-            testSS = new ShopSlot(shopSlasset, shopSlassetB, new Rectangle(100, 100, 40, 60), itemAmountFont, itemDict["Green Apple"]);
-            testSS.Purchase += PurchaseItem;
 
             myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 300, 600, 980), allItems, PurchaseItem);
 
@@ -252,7 +248,7 @@ namespace MalpracticeMakesPerfect
             {
                 case GameStates.TitleScreen:
                     reputation = 1600;
-                    money = 100;
+                    money = 1000;
                     titlePos.Y += textBounceSpeed;
                     subtitlePos.Y += textBounceSpeed;
                     if(titlePos.Y <= 55|| titlePos.Y >= 80)
@@ -336,8 +332,6 @@ namespace MalpracticeMakesPerfect
                     myInventory.Update();
 
                     myShop.Update();
-                    
-                    testSS.Update();
 
                     //whether or not a slot is being highlighted
                     bool existsHighlight = false;
@@ -610,8 +604,6 @@ namespace MalpracticeMakesPerfect
                     JoobiScenario.Draw(_spriteBatch);
 
                     //INVENTORY DRAWING
-                    testSS.Draw(_spriteBatch);
-
                     myShop.Draw(_spriteBatch);
 
                     if (theMessenger != null)
