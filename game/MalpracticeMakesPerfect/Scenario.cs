@@ -21,7 +21,7 @@ namespace MalpracticeMakesPerfect
         private Vector2 destinationPoint = new Vector2(400, 300);
         private SpriteFont font;
         private MouseState mState;
-        
+
 
         public enum ScenarioState
         {
@@ -66,18 +66,12 @@ namespace MalpracticeMakesPerfect
 
                 case ScenarioState.Waiting:
 
-                    if (mState.LeftButton == ButtonState.Pressed)
-                    {
-                        state = ScenarioState.Leaving;
-                    }
+                    GiveCure();
+                    state = ScenarioState.Leaving;
                     break;
 
                 case ScenarioState.Leaving:
                     destinationPoint -= new Vector2(4, 0);
-                    if (destinationPoint == spawnPoint)
-                    {
-                        
-                    }
                     break;
 
             }
@@ -104,6 +98,17 @@ namespace MalpracticeMakesPerfect
                     }
                     break;
             }
+        }
+
+        /// <summary>
+        /// Checks to see what items are in the slot, based on Dictionary
+        /// Depending on the cure, says a small little hint or something,
+        /// Then after the left mouse button gets clicked, remove or add to
+        /// reputiation and money, change state.
+        /// </summary>
+        public void GiveCure()
+        {
+
         }
     }
 }
