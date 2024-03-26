@@ -586,9 +586,10 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(mediumFont, "You need to find the ideal solution to all the towns ails", new Vector2(100, 350), Color.Firebrick);
                     _spriteBatch.DrawString(mediumFont, "Drag items from your inventory to customers," +
                         " Try and find the best solution from the items in your inventory", new Vector2(100, 410), Color.Red);
-                    _spriteBatch.DrawString(mediumFont, "Bad solutions lower your reputation (to be added)", new Vector2(100, 470), Color.OrangeRed);
-                    _spriteBatch.DrawString(mediumFont, "buy items from the shop on the right", new Vector2(100, 530), Color.Orange);
-                    _spriteBatch.DrawString(mediumFont, "Left Click to start the day", new Vector2(100, 590), Color.SandyBrown);
+                    _spriteBatch.DrawString(mediumFont, "Combine items by dragging one item onto another", new Vector2(100, 470), Color.OrangeRed);
+                    _spriteBatch.DrawString(mediumFont, "Bad solutions lower your reputation (to be added)", new Vector2(100, 530), Color.Orange);
+                    _spriteBatch.DrawString(mediumFont, "Buy items from the shop on the right", new Vector2(100, 590), Color.SandyBrown);
+                    _spriteBatch.DrawString(mediumFont, "Left Click to start the day", new Vector2(100, 650), Color.PeachPuff);
 
 
                     break;
