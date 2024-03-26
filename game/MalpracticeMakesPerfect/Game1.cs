@@ -193,7 +193,7 @@ namespace MalpracticeMakesPerfect
 
             // Solutions
             List<Solution> solutionList = new List<Solution>();
-            JoobiScenario = new Scenario("My Tongue is Green", 2, solutionList, adventurer, "Give me Green Paint", smallSubtitleFont);
+            JoobiScenario = new Scenario(slotSprite, "My Tongue is Green", 2, solutionList, adventurer, "Give me Green Paint", smallSubtitleFont);
 
             
 
@@ -357,6 +357,26 @@ namespace MalpracticeMakesPerfect
                     if (theMessenger != null)
                     {
                         theMessenger.Update();
+                    }
+
+                    //scenario slot
+                    if (scenarioQueue.Peek().Slot.Position.Contains(mouseState.Position))
+                    {
+                        if (theMessenger != null
+                            && mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed)
+                        {
+                            scenarioQueue.Peek().Slot.Item = theMessenger.Item;
+                            scenarioQueue.Peek().Slot.Amount = theMessenger.Amount;
+                            theMessenger = null;
+                        }
+
+                        if (!scenarioQueue.Peek().Slot.IsEmpty
+                            && mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
+                        {
+                            snapBack = scenarioQueue.Peek().Slot;
+                            theMessenger = new TempSlot(scenarioQueue.Peek().Slot.Position, itemAmountFont, scenarioQueue.Peek().Slot.Item, scenarioQueue.Peek().Slot.Amount);
+                            scenarioQueue.Peek().Slot.Item = null;
+                        }
                     }
 
                     //handle let go of click when item is being dragged
