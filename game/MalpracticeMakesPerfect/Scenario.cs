@@ -21,11 +21,10 @@ namespace MalpracticeMakesPerfect
         private List<Solution> solutions;
         private Texture2D personSprite;
         private string godModeText;
-        private Vector2 spawnPoint = new Vector2(0, 300);
-        private Vector2 destinationPoint = new Vector2(400, 300);
+        private Vector2 spawnPoint = new Vector2(0, 650);
+        private Vector2 destinationPoint = new Vector2(800, 650);
         private SpriteFont font;
         private MouseState mState;
-
         private Rectangle buttonRect;
         private Texture2D buttonAsset;
         private Button button;

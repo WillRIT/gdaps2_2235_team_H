@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -44,6 +44,8 @@ namespace MalpracticeMakesPerfect
         private Texture2D joobi;
         private Texture2D patient;
         private Texture2D sky;
+        private Texture2D cloud;
+        private Texture2D ground;
         private Texture2D office;
         private Vector2 officeLocation;
 
@@ -70,6 +72,10 @@ namespace MalpracticeMakesPerfect
         //Sky fields
         private Rectangle skyRect;
         private Rectangle skyRect2;
+        private Rectangle cloudRect;
+        private Rectangle cloudRect2;
+
+        private Rectangle groundRect;
 
         //fonts
         private SpriteFont itemAmountFont;
@@ -162,9 +168,11 @@ namespace MalpracticeMakesPerfect
             itemAmountFont = Content.Load<SpriteFont>("item-amount");
             joobi = Content.Load<Texture2D>("joobi");
             adventurer = Content.Load<Texture2D>("better_patient");
-            sky = Content.Load<Texture2D>("sky");
+            sky = Content.Load<Texture2D>("pixelsky");
+            cloud = Content.Load<Texture2D>("cloud");
+            ground = Content.Load<Texture2D>("ground");
             office = Content.Load<Texture2D>("Shop Pack V2 4");
-            officeLocation = new Vector2(320, 280);
+            officeLocation = new Vector2(1180, 350);
 
             shopSlasset = Content.Load<Texture2D>("shopslot1");
             shopSlassetB = Content.Load<Texture2D>("shopslot2");
@@ -185,6 +193,10 @@ namespace MalpracticeMakesPerfect
             //Load sky
             skyRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             skyRect2 = new Rectangle(_graphics.PreferredBackBufferWidth, 0, _graphics.PreferredBackBufferWidth + 1, _graphics.PreferredBackBufferHeight);
+            cloudRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            cloudRect2 = new Rectangle(_graphics.PreferredBackBufferWidth, 0, _graphics.PreferredBackBufferWidth + 1, _graphics.PreferredBackBufferHeight);
+
+            groundRect = new Rectangle(0, -500, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight + 500);
 
             myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite);
 
@@ -326,13 +338,17 @@ namespace MalpracticeMakesPerfect
                     //moving sky background
                     skyRect.X--;
                     skyRect2.X--;
+                    cloudRect.X--;
+                    cloudRect2.X--;
                     if (skyRect.X < 0 - _graphics.PreferredBackBufferWidth)
                     {
                         skyRect.X = _graphics.PreferredBackBufferWidth;
+                        cloudRect.X = _graphics.PreferredBackBufferWidth;
                     }
                     if (skyRect2.X < 0 - _graphics.PreferredBackBufferWidth)
                     {
                         skyRect2.X = _graphics.PreferredBackBufferWidth;
+                        cloudRect2.X = _graphics.PreferredBackBufferWidth;
                     }
 
                     //INVENTORY HANDLING!!
@@ -624,6 +640,9 @@ namespace MalpracticeMakesPerfect
 
                     _spriteBatch.Draw(sky, skyRect, Color.White);
                     _spriteBatch.Draw(sky, skyRect2, Color.White);
+                    _spriteBatch.Draw(cloud, cloudRect, Color.White);
+                    _spriteBatch.Draw(cloud, cloudRect2, Color.White);
+                    _spriteBatch.Draw(ground, groundRect, Color.White);
 
                     _spriteBatch.Draw(office, officeLocation, Color.White);
 
