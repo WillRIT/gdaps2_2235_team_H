@@ -320,12 +320,13 @@ namespace MalpracticeMakesPerfect
                     if (money <= 0)
                     {
                         money = 0;
+                        gameState = GameStates.GameOver;
                         while (scenarioQueue.Count > 0)
                         {
-                            Scenario currentScenario = scenarioQueue.Peek();
-                            if (currentScenario.state == Scenario.ScenarioState.Leaving)
+                        //    Scenario currentScenario = scenarioQueue.Peek();
+                         //   if (currentScenario.state == Scenario.ScenarioState.Leaving)
                             {
-                                scenarioQueue.Dequeue();
+                          //      scenarioQueue.Dequeue();
                             }
                         }
                     }

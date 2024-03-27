@@ -95,10 +95,6 @@ namespace MalpracticeMakesPerfect
                     {
                         sceneMessage = slot.ToString();
                     }
-                    else if (slot.IsEmpty)
-                    {
-                        sceneMessage = "Hey!";
-                    }
                     //state = ScenarioState.Leaving;
                     break;
 
