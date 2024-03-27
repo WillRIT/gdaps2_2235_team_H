@@ -104,16 +104,5 @@ namespace MalpracticeMakesPerfect
                     break;
             }
         }
-
-        /// <summary>
-        /// Checks to see what items are in the slot, based on Dictionary
-        /// Depending on the cure, says a small little hint or something,
-        /// Then after the left mouse button gets clicked, remove or add to
-        /// reputiation and money, change state.
-        /// </summary>
-        public void GiveCure()
-        {
-
-        }
     }
 }
