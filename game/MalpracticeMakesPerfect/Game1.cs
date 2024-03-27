@@ -301,11 +301,12 @@ namespace MalpracticeMakesPerfect
 
                     JoobiScenario.Update();
 
-                    //for testing rep decreases with right mouse button
+                    /*for testing rep decreases with right mouse button
                     if (mouseState.RightButton == ButtonState.Pressed)
                     {
                         reputation -= 10;
                     }
+                    */
 
                     if (Keyboard.GetState().IsKeyDown(Keys.Space))
                     {
