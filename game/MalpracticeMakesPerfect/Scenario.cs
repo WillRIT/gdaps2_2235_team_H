@@ -28,6 +28,9 @@ namespace MalpracticeMakesPerfect
         private Rectangle buttonRect;
         private Texture2D buttonAsset;
         private Button button;
+        private bool CureGiven;
+
+        Dictionary<Item, int> cures = new Dictionary<Item, int>();
 
         public enum ScenarioState
         {
@@ -46,20 +49,36 @@ namespace MalpracticeMakesPerfect
         /// <param name="solutions">A list of solutions that could work.</param>
         /// <param name="personSprite">The sprite of the character</param>
         /// <param name="godModeText">Text explaining the solutions</param>
-        public Scenario(Texture2D slotAsset,string sceneMessage, int slotNum, List<Solution> solutions, Texture2D personSprite, string godModeText, SpriteFont font, Texture2D buttonAsset)
+        public Scenario(Texture2D slotAsset,string sceneMessage, int slotNum, List<Item> items, Item cure, Texture2D personSprite, string godModeText, SpriteFont font, Texture2D buttonAsset)
         {
             this.sceneMessage = sceneMessage;
-            this.solutions = solutions;
             this.personSprite = personSprite;
             this.godModeText = godModeText;
             this.font = font;
             this.buttonAsset = buttonAsset;
+
+
+            // Fill the dictionary of cures!
+            foreach (Item item in items)
+            {
+                if (item == cure)
+                {
+                    cures.Add(cure, 10);
+                }
+                else
+                {
+                    cures.Add(item, -5);
+                }
+            }
+            
 
             slot = new Slot(slotAsset, new Rectangle(300, 400, 50, 50), font);
             buttonRect = new Rectangle(250, 550, 100, 60);
 
             button = new Button(buttonAsset, buttonRect, font, "SUBMIT", Color.Black, Color.Red, Color.Green);
             button.OnLeftButton += GiveCure;
+
+            CureGiven = false;
         }
 
         /// <summary>
@@ -70,7 +89,18 @@ namespace MalpracticeMakesPerfect
         /// </summary>
         public void GiveCure()
         {
-            sceneMessage = $"Wow thanks for {slot}";
+            if (cures.ContainsKey(slot.Item))
+            {
+                if (cures[slot.Item] > 0)
+                {
+                    sceneMessage = $"Oh! A {slot}! Thank you, this looks like it'll work!";
+                    CureGiven = true;
+                }
+                else
+                {
+                    sceneMessage = $"What kind of Quack doctor are you!??";
+                }
+            }
             slot.Item = null;
         }
 
@@ -94,8 +124,12 @@ namespace MalpracticeMakesPerfect
                     if (!slot.IsEmpty)
                     {
                         sceneMessage = slot.ToString();
+
                     }
-                    //state = ScenarioState.Leaving;
+                    if (CureGiven == true)
+                    {
+                        state = ScenarioState.Leaving;
+                    }
                     break;
 
                 case ScenarioState.Leaving:
@@ -122,10 +156,7 @@ namespace MalpracticeMakesPerfect
 
                 case ScenarioState.Leaving:
                     sb.Draw(personSprite, destinationPoint, Color.White);
-                    if (destinationPoint == spawnPoint)
-                    {
-                        
-                    }
+                 
                     break;
             }
         }

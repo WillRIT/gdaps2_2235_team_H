@@ -109,7 +109,7 @@ namespace MalpracticeMakesPerfect
         private double money;
 
         //for testing
-        private Scenario JoobiScenario;
+        private Scenario GreenScenario;
         private Texture2D adventurer;
 
         //scenario List
@@ -213,11 +213,11 @@ namespace MalpracticeMakesPerfect
             myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 300, 600, 980), itemAmountFont, shopItems, PurchaseItem);
 
 
-            
 
-            // Solutions
-            List<Solution> solutionList = new List<Solution>();
-            JoobiScenario = new Scenario(slotSprite, "My Tongue is Green", 2, solutionList, adventurer, "Give me Green Paint", smallSubtitleFont, shopSlassetB);
+
+            // Scenarios
+            int indexOfCure = allItems.FindIndex(item => item.ItemName == "Hammer");
+            GreenScenario = new Scenario(slotSprite, "My Tongue is Green", 2, allItems, allItems[indexOfCure], adventurer, "Give me Green Paint", smallSubtitleFont, shopSlassetB);
 
 
         }
@@ -297,9 +297,20 @@ namespace MalpracticeMakesPerfect
                 case GameStates.GameScene:
 
                     //queuing scenarios
-                    scenarioQueue.Enqueue(JoobiScenario);
 
-                    JoobiScenario.Update();
+                    scenarioQueue.Enqueue(GreenScenario);
+                    Scenario currentScenario = scenarioQueue.Peek();
+
+                    if (currentScenario.state == Scenario.ScenarioState.Leaving)
+                    {
+                           scenarioQueue.Dequeue();
+                    }
+                    if (scenarioQueue.Count == 0)
+                    {
+                        gameState = GameStates.DayEnd;
+                    }
+
+                    currentScenario.Update();
 
                     /*for testing rep decreases with right mouse button
                     if (mouseState.RightButton == ButtonState.Pressed)
@@ -312,7 +323,8 @@ namespace MalpracticeMakesPerfect
                     {
                         money -= 10;
                     }
-                   //changing into game over state
+
+                    //changing into game over state
                    if(reputation <= 0)
                     {
                         gameState = GameStates.GameOver;
@@ -321,14 +333,6 @@ namespace MalpracticeMakesPerfect
                     {
                         money = 0;
                         gameState = GameStates.GameOver;
-                        while (scenarioQueue.Count > 0)
-                        {
-                        //    Scenario currentScenario = scenarioQueue.Peek();
-                         //   if (currentScenario.state == Scenario.ScenarioState.Leaving)
-                            {
-                          //      scenarioQueue.Dequeue();
-                            }
-                        }
                     }
                     if (scenarioQueue.Count == 0 && reputation > 0)
                     {
@@ -652,7 +656,7 @@ namespace MalpracticeMakesPerfect
 
                     _spriteBatch.DrawString(itemAmountFont, consoleLog, new Vector2(1500, 10), Color.Black);
 
-                    JoobiScenario.Draw(_spriteBatch);
+                    GreenScenario.Draw(_spriteBatch);
 
                     //INVENTORY DRAWING
                     myShop.Draw(_spriteBatch);
