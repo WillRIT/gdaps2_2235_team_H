@@ -26,6 +26,9 @@ namespace MalpracticeMakesPerfect
         private SpriteFont font;
         private MouseState mState;
 
+        private Rectangle buttonRect;
+        private Texture2D buttonAsset;
+        private Button button;
 
         public enum ScenarioState
         {
@@ -44,15 +47,32 @@ namespace MalpracticeMakesPerfect
         /// <param name="solutions">A list of solutions that could work.</param>
         /// <param name="personSprite">The sprite of the character</param>
         /// <param name="godModeText">Text explaining the solutions</param>
-        public Scenario(Texture2D slotAsset,string sceneMessage, int slotNum, List<Solution> solutions, Texture2D personSprite, string godModeText, SpriteFont font)
+        public Scenario(Texture2D slotAsset,string sceneMessage, int slotNum, List<Solution> solutions, Texture2D personSprite, string godModeText, SpriteFont font, Texture2D buttonAsset)
         {
             this.sceneMessage = sceneMessage;
             this.solutions = solutions;
             this.personSprite = personSprite;
             this.godModeText = godModeText;
             this.font = font;
+            this.buttonAsset = buttonAsset;
 
             slot = new Slot(slotAsset, new Rectangle(300, 400, 50, 50), font);
+            buttonRect = new Rectangle(250, 550, 100, 60);
+
+            button = new Button(buttonAsset, buttonRect, font, "SUBMIT", Color.Black, Color.Red, Color.Green);
+            button.OnLeftButton += GiveCure;
+        }
+
+        /// <summary>
+        /// Checks to see what items are in the slot, based on Dictionary
+        /// Depending on the cure, says a small little hint or something,
+        /// Then after the left mouse button gets clicked, remove or add to
+        /// reputiation and money, change state.
+        /// </summary>
+        public void GiveCure()
+        {
+            sceneMessage = $"Wow thanks for {slot}";
+            slot.Item = null;
         }
 
         public void Update()
@@ -70,7 +90,12 @@ namespace MalpracticeMakesPerfect
 
                 case ScenarioState.Waiting:
                     slot.Update();
-                    GiveCure();
+                    button.Update();
+
+                    if (!slot.IsEmpty)
+                    {
+                        sceneMessage = slot.ToString();
+                    }
                     //state = ScenarioState.Leaving;
                     break;
 
@@ -93,6 +118,7 @@ namespace MalpracticeMakesPerfect
                     sb.Draw(personSprite, destinationPoint, Color.White);
                     sb.DrawString(font, sceneMessage,new Vector2 (320, 280), Color.Black);
                     slot.Draw(sb);
+                    button.Draw(sb);
                     break;
 
                 case ScenarioState.Leaving:
@@ -103,17 +129,6 @@ namespace MalpracticeMakesPerfect
                     }
                     break;
             }
-        }
-
-        /// <summary>
-        /// Checks to see what items are in the slot, based on Dictionary
-        /// Depending on the cure, says a small little hint or something,
-        /// Then after the left mouse button gets clicked, remove or add to
-        /// reputiation and money, change state.
-        /// </summary>
-        public void GiveCure()
-        {
-
         }
     }
 }
