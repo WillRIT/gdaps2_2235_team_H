@@ -133,9 +133,9 @@ namespace MalpracticeMakesPerfect
             IsMouseVisible = true;
             
             //Menu variables
-            titlePos = new Vector2(255, 60);
+            titlePos = new Vector2(150, 60);
             subtitlePos = new Vector2(450, 180);
-            textBounceSpeed = 0.5f;
+            textBounceSpeed = 0.2f;
 
             scenarioQueue = new Queue<Scenario>();
             starsLoc = new List<Rectangle>();
@@ -633,13 +633,13 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(titleFont, "We Need a Doctor!", new Vector2(103, 103), Color.WhiteSmoke);
                     _spriteBatch.DrawString(titleFont, "We Need a Doctor!", new Vector2(100, 100), Color.DarkRed);
                     _spriteBatch.DrawString(subtitleFont, "You are the only doctor in town", new Vector2(100, 250), Color.Maroon);
-                    _spriteBatch.DrawString(mediumFont, "You need to find the ideal solution to all the towns ails", new Vector2(100, 350), Color.Firebrick);
+                    _spriteBatch.DrawString(mediumFont, "You need to find the ideal solution to all the towns ails", new Vector2(100, 370), Color.Crimson);
                     _spriteBatch.DrawString(mediumFont, "Drag items from your inventory to customers," +
-                        " Try and find the best solution from the items in your inventory", new Vector2(100, 410), Color.Red);
-                    _spriteBatch.DrawString(mediumFont, "Combine items by dragging one item onto another", new Vector2(100, 470), Color.OrangeRed);
-                    _spriteBatch.DrawString(mediumFont, "Bad solutions lower your reputation (to be added)", new Vector2(100, 530), Color.Orange);
-                    _spriteBatch.DrawString(mediumFont, "Buy items from the shop on the right", new Vector2(100, 590), Color.SandyBrown);
-                    _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO START THE DAY", new Vector2(100, 700), Color.PeachPuff);
+                        " Try and find the best solution from the items in your inventory", new Vector2(100, 430), Color.Crimson);
+                    _spriteBatch.DrawString(mediumFont, "Combine items by dragging one item onto another", new Vector2(100, 490), Color.Crimson);
+                    _spriteBatch.DrawString(mediumFont, "Bad solutions lower your reputation (to be added)", new Vector2(100, 550), Color.Crimson);
+                    _spriteBatch.DrawString(mediumFont, "Buy items from the shop on the right", new Vector2(100, 610), Color.Crimson);
+                    _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO START THE DAY", new Vector2(100, 950), Color.Maroon);
                     break;
 
                 case GameStates.GameScene:
