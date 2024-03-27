@@ -200,6 +200,13 @@
 /processorParam:TextureFormat=Color
 /build:Mealy Cider.webp
 
+#begin MediumFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:MediumFont.spritefont
+
 #begin Nasty Juice.webp
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -16,6 +16,7 @@ namespace MalpracticeMakesPerfect
     {
         TitleScreen,
         GameScene,
+        Instructions,
         GameShop,
         GameOver,
         DayEnd
@@ -80,6 +81,8 @@ namespace MalpracticeMakesPerfect
         private SpriteFont itemAmountFont;
         private SpriteFont titleFont;
         private SpriteFont subtitleFont;
+        private SpriteFont smallSubtitleFont;
+        private SpriteFont mediumFont;
 
         //item moving fields
         private List<Draggable> draggables = new List<Draggable>();
@@ -89,7 +92,6 @@ namespace MalpracticeMakesPerfect
         private TempSlot theMessenger;
         private Slot snapBack;
 
-        private ShopSlot testSS;
         private Shop myShop;
 
         //States
@@ -99,7 +101,6 @@ namespace MalpracticeMakesPerfect
         private Vector2 titlePos;
         private Vector2 subtitlePos;
         private float textBounceSpeed;
-        private SpriteFont smallSubtitleFont;
         private Texture2D star;
         private List<Rectangle> starsLoc;
 
@@ -119,7 +120,6 @@ namespace MalpracticeMakesPerfect
         private float speed = 5.0f;
 
         private string consoleLog;
-
 
         private Random rng = new Random();
 
@@ -161,9 +161,6 @@ namespace MalpracticeMakesPerfect
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            DatabaseManager databaseManager = new DatabaseManager();
-
-            allItems = databaseManager.GetItemsAndRecipes(Content, out allRecipes, out itemDict);
 
             //Loading textures
             slotSprite = Content.Load<Texture2D>("slot");
@@ -180,6 +177,18 @@ namespace MalpracticeMakesPerfect
             shopSlasset = Content.Load<Texture2D>("shopslot1");
             shopSlassetB = Content.Load<Texture2D>("shopslot2");
 
+            //menu fonts
+            titleFont = Content.Load<SpriteFont>("TitleFont");
+            subtitleFont = Content.Load<SpriteFont>("SubtitleFont");
+            smallSubtitleFont = Content.Load<SpriteFont>("SmallerSubtitleFont");
+            mediumFont = Content.Load<SpriteFont>("MediumFont");
+            star = Content.Load<Texture2D>("star.png");
+
+            //GET ITEMS
+            DatabaseManager databaseManager = new DatabaseManager();
+
+            allItems = databaseManager.GetItemsAndRecipes(Content, out allRecipes, out itemDict);
+
 
             //Load sky
             skyRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
@@ -189,33 +198,27 @@ namespace MalpracticeMakesPerfect
 
             groundRect = new Rectangle(0, -500, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight + 500);
 
-            //creating and filling slotList
-            List<Slot> slotList = new List<Slot>();
-            for (int i = 0; i < 10; i++)
-            {
-                slotList.Add(new Slot(slotSprite, new Rectangle(), itemAmountFont, allItems[rng.Next(9)], rng.Next(1,4)));
-            }
-
-            myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite, slotList);
+            myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite);
 
             theMessenger = null;
 
-            testSS = new ShopSlot(shopSlasset, shopSlassetB, new Rectangle(100, 100, 40, 60), itemAmountFont, itemDict["Green Apple"]);
-            testSS.Purchase += PurchaseItem;
+            List<Item> shopItems = new List<Item>();
+            foreach (Item i in allItems)
+            {
+                if (i.InShop)
+                {
+                    shopItems.Add(i);
+                }
+            }
+            myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 300, 600, 980), itemAmountFont, shopItems, PurchaseItem);
 
-            myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 300, 600, 980), allItems);
 
-            //menu fonts
-            titleFont = Content.Load<SpriteFont>("TitleFont");
-            subtitleFont = Content.Load<SpriteFont>("SubtitleFont");
-            smallSubtitleFont = Content.Load<SpriteFont>("SmallerSubtitleFont");
-            star = Content.Load<Texture2D>("star.png");
+            
 
             // Solutions
             List<Solution> solutionList = new List<Solution>();
-            JoobiScenario = new Scenario("My Tongue is Green", 2, solutionList, adventurer, "Give me Green Paint");
+            JoobiScenario = new Scenario(slotSprite, "My Tongue is Green", 2, solutionList, adventurer, "Give me Green Paint", smallSubtitleFont, shopSlassetB);
 
-            
 
         }
 
@@ -261,7 +264,8 @@ namespace MalpracticeMakesPerfect
             {
                 case GameStates.TitleScreen:
                     reputation = 1600;
-                    money = 100;
+                    money = 1000;
+                    myInventory.Clear();
                     titlePos.Y += textBounceSpeed;
                     subtitlePos.Y += textBounceSpeed;
                     if(titlePos.Y <= 55|| titlePos.Y >= 80)
@@ -269,10 +273,10 @@ namespace MalpracticeMakesPerfect
                         textBounceSpeed = -textBounceSpeed;
                     }
 
-                    //changing into play state
+                    //changing into Instructions
                     if (mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed)
                     {
-                        gameState = GameStates.GameScene;
+                        gameState = GameStates.Instructions;
                         starsLoc.Clear();
                         for (int i = 0; i < 18; i++)
                         {
@@ -281,8 +285,17 @@ namespace MalpracticeMakesPerfect
                     }
 
                     break;
+                    //changing to play state
+                case GameStates.Instructions:
+                    if (mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed)
+                    {
+                        gameState = GameStates.GameScene;
+                    }
+
+                        break;
 
                 case GameStates.GameScene:
+
                     //queuing scenarios
                     scenarioQueue.Enqueue(JoobiScenario);
 
@@ -306,22 +319,22 @@ namespace MalpracticeMakesPerfect
                     if (money <= 0)
                     {
                         money = 0;
-                        /* while(scenarioQueue.Count > 0) 
+                        while (scenarioQueue.Count > 0)
                         {
-                            if (scenarioQueue.Peek().Stopped == false)
+                            Scenario currentScenario = scenarioQueue.Peek();
+                            if (currentScenario.state == Scenario.ScenarioState.Leaving)
                             {
                                 scenarioQueue.Dequeue();
                             }
-                             */
+                        }
                     }
-                    if (scenarioQueue.Count == 0 && reputation >0)
+                    if (scenarioQueue.Count == 0 && reputation > 0)
                     {
                         gameState = GameStates.DayEnd;
 
                     }
 
 
-                    myInventory.Update();
                     //moving sky background
                     skyRect.X--;
                     skyRect2.X--;
@@ -339,8 +352,9 @@ namespace MalpracticeMakesPerfect
                     }
 
                     //INVENTORY HANDLING!!
-                    
-                    testSS.Update();
+                    myInventory.Update();
+
+                    myShop.Update();
 
                     //whether or not a slot is being highlighted
                     bool existsHighlight = false;
@@ -373,6 +387,31 @@ namespace MalpracticeMakesPerfect
                     if (theMessenger != null)
                     {
                         theMessenger.Update();
+                    }
+
+                    //scenario slot
+                    if (scenarioQueue.Peek().Slot.Position.Contains(mouseState.Position))
+                    {
+                        if (theMessenger != null
+                            && mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed
+                            && scenarioQueue.Peek().Slot.IsEmpty)
+                        {
+                            scenarioQueue.Peek().Slot.Item = theMessenger.Item;
+                            scenarioQueue.Peek().Slot.Amount = 1;
+                            theMessenger.Amount--;
+                            if (theMessenger.Amount <= 0)
+                            {
+                                theMessenger = null;
+                            }
+                        }
+
+                        if (!scenarioQueue.Peek().Slot.IsEmpty
+                            && mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
+                        {
+                            snapBack = scenarioQueue.Peek().Slot;
+                            theMessenger = new TempSlot(scenarioQueue.Peek().Slot.Position, itemAmountFont, scenarioQueue.Peek().Slot.Item, scenarioQueue.Peek().Slot.Amount);
+                            scenarioQueue.Peek().Slot.Item = null;
+                        }
                     }
 
                     //handle let go of click when item is being dragged
@@ -545,7 +584,7 @@ namespace MalpracticeMakesPerfect
                     break;
                 
                 case GameStates.GameOver:
-                    if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
+                    if (mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed)
                     {
                         gameState = GameStates.TitleScreen;
                     }
@@ -579,9 +618,22 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", new Vector2(subtitlePos.X - 1.5f, subtitlePos.Y - 1.5f), Color.White);
                     _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", new Vector2(subtitlePos.X + 1.5f, subtitlePos.Y + 1.5f), Color.Black);
                     _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", subtitlePos, Color.Red);
-                    _spriteBatch.DrawString(subtitleFont, "Left Click to Start", new Vector2(600, 850), Color.Black);
+                    _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO START", new Vector2(580, 850), Color.OrangeRed);
+                    break;
 
-                    
+
+                case GameStates.Instructions://Instructions text
+                    GraphicsDevice.Clear(Color.Black);
+                    _spriteBatch.DrawString(titleFont, "We Need a Doctor!", new Vector2(103, 103), Color.WhiteSmoke);
+                    _spriteBatch.DrawString(titleFont, "We Need a Doctor!", new Vector2(100, 100), Color.DarkRed);
+                    _spriteBatch.DrawString(subtitleFont, "You are the only doctor in town", new Vector2(100, 250), Color.Maroon);
+                    _spriteBatch.DrawString(mediumFont, "You need to find the ideal solution to all the towns ails", new Vector2(100, 350), Color.Firebrick);
+                    _spriteBatch.DrawString(mediumFont, "Drag items from your inventory to customers," +
+                        " Try and find the best solution from the items in your inventory", new Vector2(100, 410), Color.Red);
+                    _spriteBatch.DrawString(mediumFont, "Combine items by dragging one item onto another", new Vector2(100, 470), Color.OrangeRed);
+                    _spriteBatch.DrawString(mediumFont, "Bad solutions lower your reputation (to be added)", new Vector2(100, 530), Color.Orange);
+                    _spriteBatch.DrawString(mediumFont, "Buy items from the shop on the right", new Vector2(100, 590), Color.SandyBrown);
+                    _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO START THE DAY", new Vector2(100, 700), Color.PeachPuff);
                     break;
 
                 case GameStates.GameScene:
@@ -601,8 +653,6 @@ namespace MalpracticeMakesPerfect
                     JoobiScenario.Draw(_spriteBatch);
 
                     //INVENTORY DRAWING
-                    testSS.Draw(_spriteBatch);
-
                     myShop.Draw(_spriteBatch);
 
                     if (theMessenger != null)
@@ -649,33 +699,39 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(smallSubtitleFont,"Reputation:",new Vector2(10,20), Color.Black);
                     _spriteBatch.Draw(joobi,new Rectangle(190,30,reputation,20),Color.Black);
                     _spriteBatch.DrawString(smallSubtitleFont,"Money:", new Vector2(10,50),Color.Black);
-                    _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(110, 50), Color.Goldenrod);
+                    _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(111, 51), Color.DarkGoldenrod);
+                    _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(110, 50), Color.Gold);
+
 
                     break;
 
-                case GameStates.GameOver:
-                    _spriteBatch.DrawString(titleFont, "you got run out of town", new Vector2(150,150), Color.Black);
-                    _spriteBatch.DrawString(subtitleFont, "Left click to try again", new Vector2(150, 300), Color.Black);
+                case GameStates.GameOver://Game over screen art
+                    GraphicsDevice.Clear(Color.Black);
+                    for (int i = 0; i < starsLoc.Count; i++)
+                    {
+                        _spriteBatch.Draw(star, starsLoc[i], Color.OrangeRed);
+                    }
+                    _spriteBatch.DrawString(titleFont, "YOU GOT RUN OUT OF TOWN", new Vector2(100,140), Color.Red);
+                    _spriteBatch.DrawString(subtitleFont, "Your Reputation Sank Too Low", new Vector2(105, 260), Color.Tomato);
+                    _spriteBatch.DrawString(mediumFont, "Left Click To Try Again", new Vector2(105, 360), Color.Tomato);
+                    _spriteBatch.DrawString(mediumFont, "Your Final Stats: Reputation: " + reputation + $" Money: ${money:N2}", new Vector2(105, 415), Color.Tomato);
+
                     break;
 
-                case GameStates.DayEnd:
+                case GameStates.DayEnd://Day end art
                     GraphicsDevice.Clear(Color.DarkBlue);
-                    _spriteBatch.DrawString(titleFont, "The Day is Over", new Vector2(150, 150), Color.DarkGoldenrod);
-                    _spriteBatch.DrawString(subtitleFont, "Congrats you survived the day!", new Vector2(150, 300), Color.Gold);
-                    _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO PLAY AGAIN", new Vector2(150, 400), Color.Yellow);
-                    _spriteBatch.DrawString(smallSubtitleFont, "Your Final Stats: Reputation: "+reputation+ $" Money: ${money:N2}", new Vector2(150, 500), Color.LightYellow);
-
-                    
-                    for(int i = 0; i < starsLoc.Count; i++)
+                    for (int i = 0; i < starsLoc.Count; i++)
                     {
                         _spriteBatch.Draw(star, starsLoc[i], Color.White);
                     }
+                    _spriteBatch.DrawString(titleFont, "The Day Is Over", new Vector2(150, 150), Color.DarkGoldenrod);
+                    _spriteBatch.DrawString(subtitleFont, "Congrats You Survived The Day!", new Vector2(150, 300), Color.Gold);
+                    _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO PLAY AGAIN", new Vector2(150, 400), Color.Yellow);
+                    _spriteBatch.DrawString(smallSubtitleFont, "Your Final Stats: Reputation: " + reputation + $" Money: ${money:N2}"
+                        , new Vector2(150, 500), Color.LightYellow);
                     break;
 
-
             }
-
-            
 
             _spriteBatch.End();
 

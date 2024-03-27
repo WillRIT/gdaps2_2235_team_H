@@ -12,17 +12,22 @@ namespace MalpracticeMakesPerfect
     {
         private List<Item> items; // list of all items
         private List<ShopSlot> slots;
+        public List<ShopSlot> Slots
+        {
+            get { return slots; }
+        }
         private SpriteFont font;
         private Texture2D slotAsset;
         private Texture2D buttonAsset;
 
         private Point slotDims = new Point(100, 150);
 
-        public Shop(Texture2D asset, Texture2D slotAsset, Texture2D buttonAsset, Rectangle position, List<Item> items)
+        public Shop(Texture2D asset, Texture2D slotAsset, Texture2D buttonAsset, Rectangle position, SpriteFont font, List<Item> items, ShopSlot.PurchaseItem Purchase)
             : base(asset, position)
         {
             this.slotAsset = slotAsset;
             this.buttonAsset = buttonAsset;
+            this.font = font;
             this.items = items;
 
             slots = new List<ShopSlot>();
@@ -35,6 +40,7 @@ namespace MalpracticeMakesPerfect
             int padding = 0;
             for (int i = 0; i < items.Count; i++)
             {
+
                 //go to next row
                 if (slotDims.X * (col + 1) > position.Width)
                 {
@@ -58,6 +64,8 @@ namespace MalpracticeMakesPerfect
                 slots.Add(new ShopSlot(slotAsset, buttonAsset,
                     new Rectangle(position.X + slotDims.X * col + padding, position.Y + slotDims.Y * row, slotDims.X, slotDims.Y),
                     font, items[i]));
+                slots[i].Purchase += Purchase;
+
                 col++;
             }
         }

@@ -55,6 +55,7 @@ namespace MalpracticeMakesPerfect
                 hotbar[i] = hotbarItems[i];
             }
 
+            //create trash
             hotbar[hotbar.Length - 1].IsTrash = true;
         }
 
@@ -70,6 +71,14 @@ namespace MalpracticeMakesPerfect
             this.slotAsset = slotAsset;
             this.items = items;
             this.recipes = recipes;
+        }
+
+        public void Clear()
+        {
+            foreach (Slot s in hotbar)
+            {
+                s.Item = null;
+            }
         }
 
         /// <summary>
