@@ -40,6 +40,7 @@ namespace MalpracticeMakesPerfect
             int padding = 0;
             for (int i = 0; i < items.Count; i++)
             {
+
                 //go to next row
                 if (slotDims.X * (col + 1) > position.Width)
                 {

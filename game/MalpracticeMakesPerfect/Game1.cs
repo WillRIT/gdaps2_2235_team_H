@@ -117,8 +117,6 @@ namespace MalpracticeMakesPerfect
 
         private Random rng = new Random();
 
-        private Button testButton;
-
         /// <summary>
         /// Constructor
         /// </summary>
@@ -192,7 +190,15 @@ namespace MalpracticeMakesPerfect
 
             theMessenger = null;
 
-            myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 300, 600, 980), itemAmountFont, allItems, PurchaseItem);
+            List<Item> shopItems = new List<Item>();
+            foreach (Item i in allItems)
+            {
+                if (i.InShop)
+                {
+                    shopItems.Add(i);
+                }
+            }
+            myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 300, 600, 980), itemAmountFont, shopItems, PurchaseItem);
 
 
             
@@ -201,8 +207,6 @@ namespace MalpracticeMakesPerfect
             List<Solution> solutionList = new List<Solution>();
             JoobiScenario = new Scenario(slotSprite, "My Tongue is Green", 2, solutionList, adventurer, "Give me Green Paint", smallSubtitleFont, shopSlassetB);
 
-            testButton = new Button(joobi, new Rectangle(700, 700, 60, 60), itemAmountFont, "testing hai", Color.Black, Color.Red, Color.Green);
-            testButton.OnLeftButton += Exit;
 
         }
 
@@ -249,6 +253,7 @@ namespace MalpracticeMakesPerfect
                 case GameStates.TitleScreen:
                     reputation = 1600;
                     money = 1000;
+                    myInventory.Clear();
                     titlePos.Y += textBounceSpeed;
                     subtitlePos.Y += textBounceSpeed;
                     if(titlePos.Y <= 55|| titlePos.Y >= 80)
@@ -279,7 +284,6 @@ namespace MalpracticeMakesPerfect
 
                 case GameStates.GameScene:
 
-                    testButton.Update();
                     //queuing scenarios
                     scenarioQueue.Enqueue(JoobiScenario);
 
@@ -677,8 +681,6 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(smallSubtitleFont,"Money:", new Vector2(10,50),Color.Black);
                     _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(111, 51), Color.DarkGoldenrod);
                     _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(110, 50), Color.Gold);
-
-                    testButton.Draw(_spriteBatch);
 
 
                     break;
