@@ -307,13 +307,14 @@ namespace MalpracticeMakesPerfect
                     if (money <= 0)
                     {
                         money = 0;
-                        /* while(scenarioQueue.Count > 0) 
+                        while (scenarioQueue.Count > 0)
                         {
-                            if (scenarioQueue.Peek().Stopped == false)
+                            Scenario currentScenario = scenarioQueue.Peek();
+                            if (currentScenario.state == Scenario.ScenarioState.Leaving)
                             {
                                 scenarioQueue.Dequeue();
                             }
-                             */
+                        }
                     }
                     if (scenarioQueue.Count == 0 && reputation > 0)
                     {

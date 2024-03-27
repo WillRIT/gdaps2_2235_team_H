@@ -36,7 +36,7 @@ namespace MalpracticeMakesPerfect
             Waiting,
             Leaving
         }
-        ScenarioState state = ScenarioState.Walking;
+        public ScenarioState state = ScenarioState.Walking;
 
 
         /// <summary>
@@ -95,6 +95,10 @@ namespace MalpracticeMakesPerfect
                     if (!slot.IsEmpty)
                     {
                         sceneMessage = slot.ToString();
+                    }
+                    else if (slot.IsEmpty)
+                    {
+                        sceneMessage = "Hey!";
                     }
                     //state = ScenarioState.Leaving;
                     break;
