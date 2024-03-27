@@ -14,7 +14,7 @@ namespace MalpracticeMakesPerfect
         private List<ShopSlot> slots;
         public List<ShopSlot> Slots
         {
-            get { return Slots; }
+            get { return slots; }
         }
         private SpriteFont font;
         private Texture2D slotAsset;
@@ -22,11 +22,12 @@ namespace MalpracticeMakesPerfect
 
         private Point slotDims = new Point(100, 150);
 
-        public Shop(Texture2D asset, Texture2D slotAsset, Texture2D buttonAsset, Rectangle position, List<Item> items, ShopSlot.PurchaseItem Purchase)
+        public Shop(Texture2D asset, Texture2D slotAsset, Texture2D buttonAsset, Rectangle position, SpriteFont font, List<Item> items, ShopSlot.PurchaseItem Purchase)
             : base(asset, position)
         {
             this.slotAsset = slotAsset;
             this.buttonAsset = buttonAsset;
+            this.font = font;
             this.items = items;
 
             slots = new List<ShopSlot>();
@@ -39,6 +40,7 @@ namespace MalpracticeMakesPerfect
             int padding = 0;
             for (int i = 0; i < items.Count; i++)
             {
+
                 //go to next row
                 if (slotDims.X * (col + 1) > position.Width)
                 {

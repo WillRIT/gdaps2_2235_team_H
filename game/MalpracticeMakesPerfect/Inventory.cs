@@ -73,6 +73,14 @@ namespace MalpracticeMakesPerfect
             this.recipes = recipes;
         }
 
+        public void Clear()
+        {
+            foreach (Slot s in hotbar)
+            {
+                s.Item = null;
+            }
+        }
+
         /// <summary>
         /// Check if two items combine to make an item.
         /// </summary>

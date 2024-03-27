@@ -155,9 +155,6 @@ namespace MalpracticeMakesPerfect
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            DatabaseManager databaseManager = new DatabaseManager();
-
-            allItems = databaseManager.GetItemsAndRecipes(Content, out allRecipes, out itemDict);
 
             //Loading textures
             slotSprite = Content.Load<Texture2D>("slot");
@@ -172,6 +169,18 @@ namespace MalpracticeMakesPerfect
             shopSlasset = Content.Load<Texture2D>("shopslot1");
             shopSlassetB = Content.Load<Texture2D>("shopslot2");
 
+            //menu fonts
+            titleFont = Content.Load<SpriteFont>("TitleFont");
+            subtitleFont = Content.Load<SpriteFont>("SubtitleFont");
+            smallSubtitleFont = Content.Load<SpriteFont>("SmallerSubtitleFont");
+            mediumFont = Content.Load<SpriteFont>("MediumFont");
+            star = Content.Load<Texture2D>("star.png");
+
+            //GET ITEMS
+            DatabaseManager databaseManager = new DatabaseManager();
+
+            allItems = databaseManager.GetItemsAndRecipes(Content, out allRecipes, out itemDict);
+
 
             //Load sky
             skyRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
@@ -181,21 +190,23 @@ namespace MalpracticeMakesPerfect
 
             theMessenger = null;
 
-            myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 300, 600, 980), allItems, PurchaseItem);
+            List<Item> shopItems = new List<Item>();
+            foreach (Item i in allItems)
+            {
+                if (i.InShop)
+                {
+                    shopItems.Add(i);
+                }
+            }
+            myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 300, 600, 980), itemAmountFont, shopItems, PurchaseItem);
 
 
-            //menu fonts
-            titleFont = Content.Load<SpriteFont>("TitleFont");
-            subtitleFont = Content.Load<SpriteFont>("SubtitleFont");
-            smallSubtitleFont = Content.Load<SpriteFont>("SmallerSubtitleFont");
-            mediumFont = Content.Load<SpriteFont>("MediumFont");
-            star = Content.Load<Texture2D>("star.png");
+            
 
             // Solutions
             List<Solution> solutionList = new List<Solution>();
-            JoobiScenario = new Scenario(slotSprite, "My Tongue is Green", 2, solutionList, adventurer, "Give me Green Paint", smallSubtitleFont);
+            JoobiScenario = new Scenario(slotSprite, "My Tongue is Green", 2, solutionList, adventurer, "Give me Green Paint", smallSubtitleFont, shopSlassetB);
 
-            
 
         }
 
@@ -242,6 +253,7 @@ namespace MalpracticeMakesPerfect
                 case GameStates.TitleScreen:
                     reputation = 1600;
                     money = 1000;
+                    myInventory.Clear();
                     titlePos.Y += textBounceSpeed;
                     subtitlePos.Y += textBounceSpeed;
                     if(titlePos.Y <= 55|| titlePos.Y >= 80)
@@ -271,6 +283,7 @@ namespace MalpracticeMakesPerfect
                         break;
 
                 case GameStates.GameScene:
+
                     //queuing scenarios
                     scenarioQueue.Enqueue(JoobiScenario);
 
@@ -363,11 +376,16 @@ namespace MalpracticeMakesPerfect
                     if (scenarioQueue.Peek().Slot.Position.Contains(mouseState.Position))
                     {
                         if (theMessenger != null
-                            && mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed)
+                            && mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed
+                            && scenarioQueue.Peek().Slot.IsEmpty)
                         {
                             scenarioQueue.Peek().Slot.Item = theMessenger.Item;
-                            scenarioQueue.Peek().Slot.Amount = theMessenger.Amount;
-                            theMessenger = null;
+                            scenarioQueue.Peek().Slot.Amount = 1;
+                            theMessenger.Amount--;
+                            if (theMessenger.Amount <= 0)
+                            {
+                                theMessenger = null;
+                            }
                         }
 
                         if (!scenarioQueue.Peek().Slot.IsEmpty
@@ -663,7 +681,7 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(smallSubtitleFont,"Money:", new Vector2(10,50),Color.Black);
                     _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(111, 51), Color.DarkGoldenrod);
                     _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(110, 50), Color.Gold);
-                   
+
 
                     break;
 

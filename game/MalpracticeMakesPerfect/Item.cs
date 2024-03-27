@@ -28,7 +28,11 @@ namespace MalpracticeMakesPerfect
         {
             get { return cost; }
         }
-        private bool inInventory;
+        private bool inShop;
+        public bool InShop
+        {
+            get { return inShop; }
+        }
 
         private enum itemAspects { };
 
@@ -45,7 +49,7 @@ namespace MalpracticeMakesPerfect
             this.name = itemName;
             this.description = itemDesc;
             this.cost = itemCost;
-            this.inInventory = inInventory;
+            this.inShop = inInventory;
         }
 
         public void Draw(SpriteBatch sb, Rectangle position, Color color)
