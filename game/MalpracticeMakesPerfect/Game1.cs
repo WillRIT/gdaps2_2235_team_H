@@ -253,6 +253,14 @@ namespace MalpracticeMakesPerfect
             consoleLog += $"Not enough room in inventory!\n";
         }
 
+        private void DrawItemLabel(SpriteFont font, string text, Vector2 position, Color color)
+        {
+            Vector2 textSize = font.MeasureString(text);
+
+            _spriteBatch.Draw(joobi, new Rectangle((int)position.X, (int)position.Y, (int)textSize.X, (int)textSize.Y), Color.Black);
+            _spriteBatch.DrawString(font, text, position, color);
+        }
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -681,26 +689,26 @@ namespace MalpracticeMakesPerfect
                             {
                                 for (int i = 0; i < combinePreview.Count; i++)
                                 {
-                                    _spriteBatch.Draw(combinePreview[i].Asset, new Rectangle(Mouse.GetState().X + i * 50, Mouse.GetState().Y, 50, 50), Color.Black);
+                                    _spriteBatch.Draw(combinePreview[i].Asset, new Rectangle(mouseState.X + i * 50, mouseState.Y, 50, 50), Color.Black);
                                 }
                             }
                             else if (highlighted.IsEmpty || theMessenger.Item.ItemName == highlighted.Item.ItemName)
                             {
-                                _spriteBatch.DrawString(itemAmountFont, theMessenger.Item.ToString(), new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Black);
+                                DrawItemLabel(itemAmountFont, theMessenger.Item.ToString(), new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
                             }
                             else
                             {
-                                _spriteBatch.DrawString(itemAmountFont, "?????????????????????????????????????????", new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Black);
+                                DrawItemLabel(itemAmountFont, "N/A", new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
                             }
                         }
                         else
                         {
-                            _spriteBatch.DrawString(itemAmountFont, theMessenger.Item.ToString(), new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Black);
+                            DrawItemLabel(itemAmountFont, theMessenger.Item.ToString(), new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
                         }
                     }
                     else if (highlighted != null && !highlighted.IsEmpty)
                     {
-                        _spriteBatch.DrawString(itemAmountFont, highlighted.ItemName, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.Black);
+                        DrawItemLabel(itemAmountFont, highlighted.ItemName, new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
                     }
                     _spriteBatch.DrawString(smallSubtitleFont,"Reputation:",new Vector2(10,20), Color.Black);
                     _spriteBatch.Draw(joobi,new Rectangle(190,30,reputation,20),Color.Black);
