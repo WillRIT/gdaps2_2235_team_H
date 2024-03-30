@@ -163,26 +163,29 @@ namespace MalpracticeMakesPerfect
 
 
             //Loading textures
-            slotSprite = Content.Load<Texture2D>("slot");
-            diamondSprite = Content.Load<Texture2D>("diamond");
-            itemAmountFont = Content.Load<SpriteFont>("item-amount");
-            joobi = Content.Load<Texture2D>("joobi");
-            adventurer = Content.Load<Texture2D>("better_patient");
-            sky = Content.Load<Texture2D>("pixelsky");
-            cloud = Content.Load<Texture2D>("cloud");
-            ground = Content.Load<Texture2D>("ground");
+            slotSprite = Content.Load<Texture2D>("ui/slot");
+            joobi = Content.Load<Texture2D>("ui/joobi");
+            
+            sky = Content.Load<Texture2D>("background/sky");
+            cloud = Content.Load<Texture2D>("background/cloud");
+            ground = Content.Load<Texture2D>("background/grass");
             office = Content.Load<Texture2D>("Shop Pack V2 4");
             officeLocation = new Vector2(1180, 350);
 
-            shopSlasset = Content.Load<Texture2D>("shopslot1");
-            shopSlassetB = Content.Load<Texture2D>("shopslot2");
+            //people
+            adventurer = Content.Load<Texture2D>("people/better_patient");
 
-            //menu fonts
-            titleFont = Content.Load<SpriteFont>("TitleFont");
-            subtitleFont = Content.Load<SpriteFont>("SubtitleFont");
-            smallSubtitleFont = Content.Load<SpriteFont>("SmallerSubtitleFont");
-            mediumFont = Content.Load<SpriteFont>("MediumFont");
-            star = Content.Load<Texture2D>("star.png");
+            shopSlasset = Content.Load<Texture2D>("ui/shopslot1");
+            shopSlassetB = Content.Load<Texture2D>("ui/shopslot2");
+
+            //fonts
+            itemAmountFont = Content.Load<SpriteFont>("fonts/item-amount");
+            titleFont = Content.Load<SpriteFont>("fonts/TitleFont");
+            subtitleFont = Content.Load<SpriteFont>("fonts/SubtitleFont");
+            smallSubtitleFont = Content.Load<SpriteFont>("fonts/SmallerSubtitleFont");
+            mediumFont = Content.Load<SpriteFont>("fonts/MediumFont");
+
+            star = Content.Load<Texture2D>("ui/star");
 
             //GET ITEMS
             DatabaseManager databaseManager = new DatabaseManager();
@@ -196,7 +199,7 @@ namespace MalpracticeMakesPerfect
             cloudRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             cloudRect2 = new Rectangle(_graphics.PreferredBackBufferWidth, 0, _graphics.PreferredBackBufferWidth + 1, _graphics.PreferredBackBufferHeight);
 
-            groundRect = new Rectangle(0, -500, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight + 500);
+            groundRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
             myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite);
 

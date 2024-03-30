@@ -52,7 +52,7 @@ namespace MalpracticeMakesPerfect
                         string desc = itemElements[1];
                         double cost = double.Parse(itemElements[2]);
                         bool inInventory = bool.Parse(itemElements[3]);
-                        Texture2D asset = Content.Load<Texture2D>(itemElements[4]);
+                        Texture2D asset = Content.Load<Texture2D>("items/" + itemElements[4]);
 
                         items.Add(new Item(asset, new Rectangle(0, 0, 50, 50), name, desc, cost, inInventory));
                         findItems.Add(name, new Item(asset, new Rectangle(0, 0, 50, 50), name, desc, cost, inInventory));

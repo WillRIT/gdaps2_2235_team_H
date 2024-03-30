@@ -82,18 +82,6 @@ namespace MalpracticeMakesPerfect
         }
 
         /// <summary>
-        /// Check if two items combine to make an item.
-        /// </summary>
-        /// <param name="item1">The first item checked</param>
-        /// <param name="item2">The second item</param>
-        /// <returns>If the items match up with any recipe, the resulting item is returned.</returns>
-        public Item CheckRecipe(Item item1, Item item2)
-        {
-            //TODO: code the method
-            return null;
-        }
-
-        /// <summary>
         /// Adds an item to the inventory if it doesn't already exist there
         /// </summary>
         /// <param name="item">Item to be added</param>
