@@ -22,7 +22,7 @@ namespace MalpracticeMakesPerfect
         private Texture2D personSprite;
         private string godModeText;
         private Vector2 spawnPoint = new Vector2(0, 650);
-        private Vector2 destinationPoint = new Vector2(800, 650);
+        private Vector2 destinationPoint = new Vector2(400, 650);
         private SpriteFont font;
         private MouseState mState;
         private Rectangle buttonRect;
@@ -72,8 +72,8 @@ namespace MalpracticeMakesPerfect
             }
             
 
-            slot = new Slot(slotAsset, new Rectangle(300, 400, 50, 50), font);
-            buttonRect = new Rectangle(250, 550, 100, 60);
+            slot = new Slot(slotAsset, new Rectangle(600, 650, 50, 50), font);
+            buttonRect = new Rectangle(600, 700, 100, 60);
 
             button = new Button(buttonAsset, buttonRect, font, "SUBMIT", Color.Black, Color.Red, Color.Green);
             button.OnLeftButton += GiveCure;
@@ -149,7 +149,7 @@ namespace MalpracticeMakesPerfect
 
                 case ScenarioState.Waiting:
                     sb.Draw(personSprite, destinationPoint, Color.White);
-                    sb.DrawString(font, sceneMessage,new Vector2 (320, 280), Color.Black);
+                    MessageBox.DrawItemLabel(sb, buttonAsset, font, sceneMessage, new Vector2 (320, 280), Color.White);
                     slot.Draw(sb);
                     button.Draw(sb);
                     break;

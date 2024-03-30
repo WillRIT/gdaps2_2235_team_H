@@ -57,6 +57,8 @@ namespace MalpracticeMakesPerfect
         private MouseState mouseState;
         private MouseState mousePrev;
 
+        private KeyboardState keyboardState;
+
         //items and slots
         private Rectangle itemPos;
         private Item diamond;
@@ -201,7 +203,7 @@ namespace MalpracticeMakesPerfect
 
             groundRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
-            myInventory = new Inventory(joobi, new Rectangle(500, 500, 500, 200), itemAmountFont, slotSprite);
+            myInventory = new Inventory(joobi, new Rectangle(700, 500, 500, 200), itemAmountFont, slotSprite);
 
             theMessenger = null;
 
@@ -256,18 +258,18 @@ namespace MalpracticeMakesPerfect
             consoleLog += $"Not enough room in inventory!\n";
         }
 
-        private void DrawItemLabel(SpriteFont font, string text, Vector2 position, Color color)
-        {
-            Vector2 textSize = font.MeasureString(text);
-
-            _spriteBatch.Draw(joobi, new Rectangle((int)position.X, (int)position.Y, (int)textSize.X, (int)textSize.Y), Color.Black);
-            _spriteBatch.DrawString(font, text, position, color);
-        }
-
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.F))
+            {
+                _graphics.IsFullScreen = !_graphics.IsFullScreen;
+                _graphics.ApplyChanges();
+            }
 
             mouseState = Mouse.GetState();
 
@@ -697,21 +699,21 @@ namespace MalpracticeMakesPerfect
                             }
                             else if (highlighted.IsEmpty || theMessenger.Item.ItemName == highlighted.Item.ItemName)
                             {
-                                DrawItemLabel(itemAmountFont, theMessenger.Item.ToString(), new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
+                                MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, theMessenger.Item.ToString(), new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
                             }
                             else
                             {
-                                DrawItemLabel(itemAmountFont, "N/A", new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
+                                MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, "N/A", new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
                             }
                         }
                         else
                         {
-                            DrawItemLabel(itemAmountFont, theMessenger.Item.ToString(), new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
+                            MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, theMessenger.Item.ToString(), new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
                         }
                     }
                     else if (highlighted != null && !highlighted.IsEmpty)
                     {
-                        DrawItemLabel(itemAmountFont, highlighted.ItemName, new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
+                        MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, highlighted.ItemName, new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
                     }
                     _spriteBatch.DrawString(smallSubtitleFont,"Reputation:",new Vector2(10,20), Color.Black);
                     _spriteBatch.Draw(joobi,new Rectangle(190,30,reputation,20),Color.Black);
