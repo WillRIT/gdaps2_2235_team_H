@@ -370,6 +370,7 @@ namespace MalpracticeMakesPerfect
                         cloudRect2.X = _graphics.PreferredBackBufferWidth;
                     }
 
+                    //fuck this shit up; restructuring style B)
                     //INVENTORY HANDLING!!
                     myInventory.Update();
 
