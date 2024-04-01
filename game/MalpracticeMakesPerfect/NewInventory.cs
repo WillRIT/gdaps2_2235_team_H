@@ -8,23 +8,26 @@ using System.Threading.Tasks;
 
 namespace MalpracticeMakesPerfect
 {
-    internal class Inventory : GameObject
+    internal delegate void OnSlotClicked(Rectangle position, string itemName, int itemAmount, NewSlot guy);
+
+    internal class NewInventory : GameObject
     {
         private List<Item> items;
-        private NewSlot[] hotbar = new NewSlot[10];
-        public NewSlot[] Hotbar
+        private List<Recipe> recipes;
+        private Slot[] hotbar = new Slot[10];
+        public Slot[] Hotbar
         {
             get { return hotbar; }
         }
-        private List<NewSlot> shopItems;
+        private List<Slot> shopItems;
         private SpriteFont font;
         private Texture2D slotAsset;
 
         private int slotSize;
 
 
-        public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, OnLeftPress pickUpItem, OnLeftRelease putDownItem, OnRightPress putSingleItem)
-            :base(asset, position)
+        public NewInventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset)
+            : base(asset, position)
         {
             this.font = font;
             this.slotAsset = slotAsset;
@@ -34,21 +37,14 @@ namespace MalpracticeMakesPerfect
             //initialize hotbar as empty slots
             for (int i = 0; i < hotbar.Length - 1; i++)
             {
-                hotbar[i] = new NewSlot(slotAsset, new Rectangle(0, 0, slotSize, slotSize), font);
+                hotbar[i] = new Slot(slotAsset, new Rectangle(0, 0, slotSize, slotSize), font);
             }
 
             //create trash
-            hotbar[hotbar.Length - 1] = new NewSlot(slotAsset, new Rectangle(0, 0, slotSize, slotSize), font, true);
-
-            foreach (NewSlot s in hotbar)
-            {
-                s.PickUpItem += pickUpItem;
-                s.PutDownItem += putDownItem;
-                s.PutSingleItem += putSingleItem;
-            }
+            hotbar[hotbar.Length - 1] = new Slot(slotAsset, new Rectangle(0, 0, slotSize, slotSize), font, true);
         }
 
-        public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, List<NewSlot> hotbarItems)
+        public NewInventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, List<Slot> hotbarItems)
             : base(asset, position)
         {
             this.font = font;
@@ -57,7 +53,7 @@ namespace MalpracticeMakesPerfect
             //initialize hotbar as empty slots
             for (int i = 0; i < hotbar.Length - 1; i++)
             {
-                hotbar[i] = new NewSlot(slotAsset, new Rectangle(0, 0, slotSize, slotSize), font);
+                hotbar[i] = new Slot(slotAsset, new Rectangle(0, 0, slotSize, slotSize), font);
             }
 
             for (int i = 0; i < Math.Min(hotbarItems.Count, hotbar.Length); i++)
@@ -69,9 +65,23 @@ namespace MalpracticeMakesPerfect
             hotbar[hotbar.Length - 1].IsTrash = true;
         }
 
+        /// <summary>
+        /// Creates inventory
+        /// </summary>
+        /// <param name="items">Every item</param>
+        /// <param name="recipes">All possible combinations of items</param>
+        public NewInventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, List<Item> items, List<Recipe> recipes)
+            : base(asset, position)
+        {
+            this.font = font;
+            this.slotAsset = slotAsset;
+            this.items = items;
+            this.recipes = recipes;
+        }
+
         public void Clear()
         {
-            foreach (NewSlot s in hotbar)
+            foreach (Slot s in hotbar)
             {
                 s.Item = null;
             }
@@ -106,7 +116,7 @@ namespace MalpracticeMakesPerfect
                 {
                     hotbar[i].Position = new Rectangle(position.X + (hotbar[i].Position.Width * i), position.Y + (position.Height - slotSize), slotSize, slotSize);
                 }
-                
+
                 hotbar[i].Draw(sb);
             }
         }
@@ -120,21 +130,21 @@ namespace MalpracticeMakesPerfect
                     i.Update();
                 }
             }
-            
 
-            foreach (NewSlot s in hotbar)
+
+            foreach (Slot s in hotbar)
             {
                 s.Update();
             }
 
             if (shopItems != null)
             {
-                foreach (NewSlot s in shopItems)
+                foreach (Slot s in shopItems)
                 {
                     s.Update();
                 }
             }
-            
+
         }
     }
 }

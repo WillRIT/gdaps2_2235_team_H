@@ -19,7 +19,8 @@ namespace MalpracticeMakesPerfect
         Instructions,
         GameShop,
         GameOver,
-        DayEnd
+        DayEnd,
+        Yucky
     }
 
     /// <summary>
@@ -60,10 +61,6 @@ namespace MalpracticeMakesPerfect
         private KeyboardState keyboardState;
 
         //items and slots
-        private Rectangle itemPos;
-        private Item diamond;
-        private Slot diamondSlot;
-        private Slot emptySlot;
         private Inventory myInventory;
 
         private List<Item> allItems;
@@ -87,10 +84,6 @@ namespace MalpracticeMakesPerfect
         private SpriteFont mediumFont;
 
         //item moving fields
-        private List<Draggable> draggables = new List<Draggable>();
-        private Draggable testDrag;
-        private TempSlot testTemp;
-        private Slot highlighted;
         private TempSlot theMessenger;
         private Slot snapBack;
 
@@ -124,6 +117,9 @@ namespace MalpracticeMakesPerfect
         private string consoleLog;
 
         private Random rng = new Random();
+
+
+        private NewSlot newSnapBack;
 
         /// <summary>
         /// Constructor
@@ -203,7 +199,7 @@ namespace MalpracticeMakesPerfect
 
             groundRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
-            myInventory = new Inventory(joobi, new Rectangle(700, 500, 500, 200), itemAmountFont, slotSprite);
+            myInventory = new Inventory(joobi, new Rectangle(700, 500, 500, 200), itemAmountFont, slotSprite, PickUpItem, PutDownItem, PutSingleItem);
 
             theMessenger = null;
 
@@ -223,7 +219,8 @@ namespace MalpracticeMakesPerfect
             // Scenarios
             int indexOfCure = allItems.FindIndex(item => item.ItemName == "Hammer");
             GreenScenario = new Scenario(slotSprite, "My Tongue is Green", 2, allItems, allItems[indexOfCure], adventurer, "Give me Green Paint", smallSubtitleFont, shopSlassetB);
-
+            GreenScenario.Slot.PickUpItem += PickUpItem;
+            GreenScenario.Slot.PutDownItem += PutDownItemScenario;
 
         }
 
@@ -234,7 +231,7 @@ namespace MalpracticeMakesPerfect
         private void PurchaseItem(Item bought)
         {
             //check for empty slot
-            foreach (Slot s in myInventory.Hotbar)
+            foreach (NewSlot s in myInventory.Hotbar)
             {
                 //if same name or empty and not trash
                 if ((s.IsEmpty || s.ItemName == bought.ItemName) && !s.IsTrash)
@@ -256,6 +253,160 @@ namespace MalpracticeMakesPerfect
                 }
             }
             consoleLog += $"Not enough room in inventory!\n";
+        }
+
+        internal void PickUpItem(NewSlot mySlot) {
+            if (theMessenger == null)
+            {
+                //snapback assures item will be put back if player releases mouse button
+                newSnapBack = mySlot;
+
+                //messenger is a temporary slot that moves items
+                theMessenger = new TempSlot(mySlot.Position, itemAmountFont, mySlot.Item, mySlot.Amount);
+
+                mySlot.Clear();
+            }
+        }
+
+        internal void PutDownItem(NewSlot mySlot)
+        {
+            if (theMessenger != null)
+            {
+                //overwrite trash item
+                if (mySlot.IsTrash || mySlot.IsEmpty)
+                {
+                    mySlot.Item = theMessenger.Item;
+                    mySlot.Amount = theMessenger.Amount;
+
+                    theMessenger = null;
+                }
+                else if (mySlot.ItemName == theMessenger.Item.ItemName)
+                {
+                    mySlot.Amount += theMessenger.Amount;
+
+                    theMessenger = null;
+                }
+                else
+                {
+                    CombineItems(mySlot);
+                }
+            }
+        }
+
+        internal void PutDownItemScenario(NewSlot mySlot)
+        {
+            if (theMessenger != null)
+            {
+                if (mySlot.IsEmpty)
+                {
+                    mySlot.AddItem(theMessenger.Item, 1);
+                    theMessenger.Amount--;
+                }
+            }
+        }
+
+        internal void CombineItems(NewSlot mySlot)
+        {
+            Item[] recipeInputs = new Item[2];
+
+            bool existsRecipe = !(GetItemCombo(mySlot.Item, theMessenger.Item, out recipeInputs).Count == 0);
+
+            if (existsRecipe)
+            {
+                int outputAmount = 0; //handles quantity of the created items
+
+                //if dragged item is same quantity
+                if (mySlot.Amount == theMessenger.Amount)
+                {
+                    mySlot.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0];
+                    outputAmount = theMessenger.Amount;
+
+                    theMessenger = null;
+                }
+
+                //if dragged item has more
+                else if (mySlot.Amount < theMessenger.Amount)
+                {
+                    mySlot.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0];
+                    outputAmount = mySlot.Amount;
+
+                    //return remaining items to original location
+                    theMessenger.Amount -= mySlot.Amount;
+                }
+                //if dragged item has less
+                else if (mySlot.Amount > theMessenger.Amount)
+                {
+                    mySlot.Amount -= theMessenger.Amount;
+
+                    theMessenger.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0];
+                    outputAmount = theMessenger.Amount;
+                }
+
+                //log when items are created
+                consoleLog += $"Created {outputAmount} {allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0]}(s)";
+
+                //add excess outputs
+                for (int i = 1; i < allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs.Count; i++)
+                {
+                    //log excess items
+                    consoleLog += $", {outputAmount} {allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[i]}(s)";
+
+                    bool placedExcess = false;
+                    foreach (NewSlot s in myInventory.Hotbar)
+                    {
+                        //place in the first available empty slot (if dragged item will not be sent back to original slot) or in the trash
+                        if (!placedExcess && ((s != newSnapBack && theMessenger != null) || theMessenger == null) && ((s.IsEmpty && !s.IsTrash) || s.IsTrash))
+                        {
+                            s.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[i];
+                            s.Amount = outputAmount;
+                            placedExcess = true;
+                        }
+                    }
+                }
+
+                consoleLog += "\n";
+            }
+        }
+
+        internal List<Item> GetItemCombo(Item item1, Item item2, out Item[] recipeInputs)
+        {
+            //check if there is a recipe
+            if (allRecipes.ContainsKey($"{item1},{item2}"))
+            {
+                recipeInputs = new Item[]
+                {
+                    item1,
+                    item2
+                };
+                return allRecipes[$"{item1},{item2}"].Outputs;
+            }
+            else if (allRecipes.ContainsKey($"{item2},{item1}"))
+            {
+                recipeInputs = new Item[]
+                {
+                    item2,
+                    item1
+                };
+                return allRecipes[$"{item2},{item1}"].Outputs;
+            }
+
+            recipeInputs = null;
+
+            return new List<Item>();
+        }
+
+        internal void PutSingleItem(NewSlot mySlot)
+        {
+            if (theMessenger != null)
+            {
+                if (theMessenger.Amount > 1)
+                {
+                    if (mySlot.AddItem(theMessenger.Item, 1))
+                    {
+                        theMessenger.Amount -= 1;
+                    }
+                }
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -302,12 +453,12 @@ namespace MalpracticeMakesPerfect
                 case GameStates.Instructions:
                     if (mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed)
                     {
-                        gameState = GameStates.GameScene;
+                        gameState = GameStates.Yucky;
                     }
 
                         break;
 
-                case GameStates.GameScene:
+                case GameStates.Yucky:
 
                     //queuing scenarios
 
@@ -316,7 +467,7 @@ namespace MalpracticeMakesPerfect
 
                     if (currentScenario.state == Scenario.ScenarioState.Leaving)
                     {
-                           scenarioQueue.Dequeue();
+                        scenarioQueue.Dequeue();
                     }
                     if (scenarioQueue.Count == 0)
                     {
@@ -370,235 +521,23 @@ namespace MalpracticeMakesPerfect
                         cloudRect2.X = _graphics.PreferredBackBufferWidth;
                     }
 
-                    //fuck this shit up; restructuring style B)
-                    //INVENTORY HANDLING!!
-                    myInventory.Update();
-
+                    //inventory handling
                     myShop.Update();
 
-                    //whether or not a slot is being highlighted
-                    bool existsHighlight = false;
-                    //the "return" state assures that the dragged item is returned to its original place
-                    DragStates dragAction = DragStates.Return;
-                    //check for item pickup
-                    foreach (Slot s in myInventory.Hotbar)
-                    {
-                        if (s.Hovered)
-                        {
-                            existsHighlight = true;
-                            //highlighted = the slot the dragged item would return to
-                            highlighted = s;
-
-                            if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released && !s.IsEmpty)
-                            {
-                                //messenger = dragged item
-                                theMessenger = new TempSlot(highlighted.Position, itemAmountFont, highlighted.Item, highlighted.Amount);
-                                snapBack = highlighted;
-                                //remove item from the slot from which the item was dragged
-                                highlighted.Item = null;
-                            }
-                        }
-                    }
-                    if (!existsHighlight)
-                    {
-                        highlighted = null;
-                    }
+                    myInventory.Update();
 
                     if (theMessenger != null)
                     {
                         theMessenger.Update();
-                    }
 
-                    //scenario slot
-                    if (scenarioQueue.Peek().Slot.Position.Contains(mouseState.Position))
-                    {
-                        if (theMessenger != null
-                            && mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed
-                            && scenarioQueue.Peek().Slot.IsEmpty)
+                        //places item in its original spot
+                        if (mouseState.LeftButton == ButtonState.Released)
                         {
-                            scenarioQueue.Peek().Slot.Item = theMessenger.Item;
-                            scenarioQueue.Peek().Slot.Amount = 1;
-                            theMessenger.Amount--;
-                            if (theMessenger.Amount <= 0)
-                            {
-                                theMessenger = null;
-                            }
+                            newSnapBack.AddItem(theMessenger.Item, theMessenger.Amount);
+
+                            //removes messenger
+                            theMessenger = null;
                         }
-
-                        if (!scenarioQueue.Peek().Slot.IsEmpty
-                            && mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
-                        {
-                            snapBack = scenarioQueue.Peek().Slot;
-                            theMessenger = new TempSlot(scenarioQueue.Peek().Slot.Position, itemAmountFont, scenarioQueue.Peek().Slot.Item, scenarioQueue.Peek().Slot.Amount);
-                            scenarioQueue.Peek().Slot.Item = null;
-                        }
-                    }
-
-                    //handle let go of click when item is being dragged
-                    if (theMessenger != null && theMessenger.Placing && existsHighlight)
-                    {
-                        //item in trash is overwritten
-                        if (highlighted.IsTrash)
-                        {
-                            dragAction = DragStates.Empty;
-                            highlighted.Item = theMessenger.Item;
-                            highlighted.Amount = theMessenger.Amount;
-                        }
-                        else
-                        {
-                            dragAction = theMessenger.SnapIntersect(highlighted);
-
-                            switch (dragAction)
-                            {
-                                //simple move item to 
-                                case DragStates.Empty:
-                                    highlighted.Item = theMessenger.Item;
-                                    highlighted.Amount = theMessenger.Amount;
-
-                                    break;
-
-                                case DragStates.Combine:
-                                    bool existsRecipe = false;
-
-                                    Item[] recipeInputs = new Item[2];
-
-                                    //check if there is a recipe
-                                    if (allRecipes.ContainsKey($"{highlighted.Item},{theMessenger.Item}"))
-                                    {
-                                        recipeInputs = new Item[]
-                                        {
-                                            highlighted.Item,
-                                            theMessenger.Item
-                                        };
-                                        existsRecipe = true;
-                                    }
-                                    else if (allRecipes.ContainsKey($"{theMessenger.Item},{highlighted.Item}"))
-                                    {
-                                        recipeInputs = new Item[]
-                                        {
-                                            theMessenger.Item,
-                                            highlighted.Item
-                                        };
-                                        existsRecipe = true;
-                                    }
-
-                                    if (existsRecipe)
-                                    {
-                                        int outputAmount = 0; //handles quantity of the created items
-
-                                        //if dragged item is same quantity
-                                        if (highlighted.Amount == theMessenger.Amount)
-                                        {
-                                            highlighted.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0];
-                                            outputAmount = theMessenger.Amount;
-                                        }
-                                        //if dragged item has less
-                                        else if (highlighted.Amount < theMessenger.Amount)
-                                        {
-                                            highlighted.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0];
-                                            outputAmount = highlighted.Amount;
-
-                                            //return remaining items to original location
-                                            theMessenger.Amount -= highlighted.Amount;
-                                            dragAction = DragStates.Return;
-                                        }
-                                        //if dragged item has more
-                                        else if (highlighted.Amount > theMessenger.Amount)
-                                        {
-                                            highlighted.Amount -= theMessenger.Amount;
-
-                                            theMessenger.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0];
-                                            outputAmount = theMessenger.Amount;
-                                            dragAction = DragStates.Return;
-                                        }
-
-                                        //log when items are created
-                                        consoleLog += $"Created {outputAmount} {allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0]}(s)";
-
-                                        //add excess outputs
-                                        for (int i = 1; i < allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs.Count; i++)
-                                        {
-                                            //log excess items
-                                            consoleLog += $", {outputAmount} {allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[i]}(s)";
-
-                                            bool placedExcess = false;
-                                            foreach (Slot s in myInventory.Hotbar)
-                                            {
-                                                //place in the first available empty slot (if dragged item will not be sent back to that slot) or in the trash
-                                                if (!placedExcess && ((s != snapBack && dragAction == DragStates.Return) || dragAction != DragStates.Return) && ((s.IsEmpty && !s.IsTrash) || s.IsTrash))
-                                                {
-                                                    s.Item = allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[i];
-                                                    s.Amount = outputAmount;
-                                                    placedExcess = true;
-                                                }
-                                            }
-                                        }
-
-                                        consoleLog += "\n";
-                                    }
-
-                                    //item stacking
-                                    if (theMessenger.Item.ItemName == highlighted.Item.ItemName)
-                                    {
-                                        existsRecipe = true;
-
-                                        highlighted.Amount += theMessenger.Amount;
-                                    }
-
-                                    if (!existsRecipe)
-                                    {
-                                        dragAction = DragStates.Return;
-                                    }
-
-                                    break;
-                            }
-                        }
-
-                    }
-
-                    //right click to place one item of stack on empty slots or slots with the same as held item
-                    if (mouseState.RightButton == ButtonState.Pressed && mousePrev.RightButton == ButtonState.Released && theMessenger != null && existsHighlight)
-                    {
-                        if ((highlighted.IsEmpty || highlighted.ItemName == theMessenger.Item.ItemName) && theMessenger.Amount > 1)
-                        {
-                            highlighted.Item = theMessenger.Item;
-                            highlighted.Amount++;
-                            theMessenger.Amount--;
-                        }
-                    }
-
-                    if (mouseState.LeftButton == ButtonState.Released && theMessenger != null)
-                    {
-                        if (dragAction == DragStates.Return)
-                        {
-                            //assure recipe-output-snapback is not overriding a previously placed item
-                            if (snapBack.ItemName == theMessenger.Item.ItemName || snapBack.IsEmpty)
-                            {
-                                snapBack.Item = theMessenger.Item;
-                                snapBack.Amount += theMessenger.Amount;
-                            }
-                            else if (snapBack.IsTrash)
-                            {
-                                snapBack.Item = theMessenger.Item;
-                                snapBack.Amount = theMessenger.Amount;
-                            }
-                            else
-                            {
-                                bool placedExcess = false;
-                                foreach (Slot s in myInventory.Hotbar)
-                                {
-                                    //place in the first available empty slot (if dragged item will not be sent back to that slot) or in the trash
-                                    if (!placedExcess && (s != snapBack) && ((s.IsEmpty && !s.IsTrash) || s.IsTrash))
-                                    {
-                                        s.Item = theMessenger.Item;
-                                        s.Amount = theMessenger.Amount;
-                                        placedExcess = true;
-                                    }
-                                }
-                            }
-                        }
-
-                        theMessenger = null;
                     }
 
                     break;
@@ -656,6 +595,8 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO START THE DAY", new Vector2(100, 950), Color.Maroon);
                     break;
 
+
+                /*
                 case GameStates.GameScene:
 
                     _spriteBatch.Draw(sky, skyRect, Color.White);
@@ -722,6 +663,44 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(111, 51), Color.DarkGoldenrod);
                     _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(110, 50), Color.Gold);
 
+
+                    break;
+
+                */
+
+                case GameStates.Yucky:
+
+                    _spriteBatch.Draw(sky, skyRect, Color.White);
+                    _spriteBatch.Draw(sky, skyRect2, Color.White);
+                    _spriteBatch.Draw(cloud, cloudRect, Color.White);
+                    _spriteBatch.Draw(cloud, cloudRect2, Color.White);
+                    _spriteBatch.Draw(ground, groundRect, Color.White);
+
+                    _spriteBatch.Draw(office, officeLocation, Color.White);
+
+                    myInventory.DrawScene(_spriteBatch);
+
+                    GreenScenario.Draw(_spriteBatch);
+
+                    //INVENTORY DRAWING
+                    myShop.Draw(_spriteBatch);
+
+                    myInventory.DrawScene(_spriteBatch);
+
+                    if (theMessenger != null)
+                    {
+                        theMessenger.Draw(_spriteBatch);
+                    }
+
+                    //draw reputation
+                    _spriteBatch.DrawString(smallSubtitleFont, "Reputation:", new Vector2(10, 20), Color.Black);
+                    _spriteBatch.Draw(joobi, new Rectangle(190, 30, reputation, 20), Color.Black);
+                    _spriteBatch.DrawString(smallSubtitleFont, "Money:", new Vector2(10, 50), Color.Black);
+                    _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(111, 51), Color.DarkGoldenrod);
+                    _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(110, 50), Color.Gold);
+
+                    //draw console
+                    _spriteBatch.DrawString(itemAmountFont, consoleLog, new Vector2(1500, 10), Color.Black);
 
                     break;
 
