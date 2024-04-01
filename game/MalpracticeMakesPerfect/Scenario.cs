@@ -12,8 +12,8 @@ namespace MalpracticeMakesPerfect
     internal class Scenario
     {
         private string sceneMessage;
-        private NewSlot slot;
-        public NewSlot Slot
+        private Slot slot;
+        public Slot Slot
         {
             get { return slot; }
             set { slot = value; }
@@ -72,7 +72,7 @@ namespace MalpracticeMakesPerfect
             }
             
 
-            slot = new NewSlot(slotAsset, new Rectangle(600, 650, 50, 50), font);
+            slot = new Slot(slotAsset, new Rectangle(600, 650, 50, 50), font);
             buttonRect = new Rectangle(600, 700, 100, 60);
 
             button = new Button(buttonAsset, buttonRect, font, "SUBMIT", Color.Black, Color.Red, Color.Green);

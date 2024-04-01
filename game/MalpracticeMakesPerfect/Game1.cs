@@ -85,7 +85,6 @@ namespace MalpracticeMakesPerfect
 
         //item moving fields
         private TempSlot theMessenger;
-        private Slot snapBack;
 
         private Shop myShop;
 
@@ -119,8 +118,8 @@ namespace MalpracticeMakesPerfect
         private Random rng = new Random();
 
 
-        private NewSlot newSnapBack;
-        private NewSlot highlightedSlot;
+        private Slot newSnapBack;
+        private Slot highlightedSlot;
 
         /// <summary>
         /// Constructor
@@ -233,7 +232,7 @@ namespace MalpracticeMakesPerfect
         private void PurchaseItem(Item bought)
         {
             //check for empty slot
-            foreach (NewSlot s in myInventory.Hotbar)
+            foreach (Slot s in myInventory.Hotbar)
             {
                 //if same name or empty and not trash
                 if ((s.IsEmpty || s.ItemName == bought.ItemName) && !s.IsTrash)
@@ -257,7 +256,7 @@ namespace MalpracticeMakesPerfect
             consoleLog += $"Not enough room in inventory!\n";
         }
 
-        internal void PickUpItem(NewSlot mySlot) {
+        internal void PickUpItem(Slot mySlot) {
             if (theMessenger == null)
             {
                 //snapback assures item will be put back if player releases mouse button
@@ -270,7 +269,7 @@ namespace MalpracticeMakesPerfect
             }
         }
 
-        internal void PutDownItem(NewSlot mySlot)
+        internal void PutDownItem(Slot mySlot)
         {
             if (theMessenger != null)
             {
@@ -295,7 +294,7 @@ namespace MalpracticeMakesPerfect
             }
         }
 
-        internal void PutDownItemScenario(NewSlot mySlot)
+        internal void PutDownItemScenario(Slot mySlot)
         {
             if (theMessenger != null)
             {
@@ -307,7 +306,7 @@ namespace MalpracticeMakesPerfect
             }
         }
 
-        internal void CombineItems(NewSlot mySlot)
+        internal void CombineItems(Slot mySlot)
         {
             Item[] recipeInputs = new Item[2];
 
@@ -354,7 +353,7 @@ namespace MalpracticeMakesPerfect
                     consoleLog += $", {outputAmount} {allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[i]}(s)";
 
                     bool placedExcess = false;
-                    foreach (NewSlot s in myInventory.Hotbar)
+                    foreach (Slot s in myInventory.Hotbar)
                     {
                         //place in the first available empty slot (if dragged item will not be sent back to original slot) or in the trash
                         if (!placedExcess && ((s != newSnapBack && theMessenger != null) || theMessenger == null) && ((s.IsEmpty && !s.IsTrash) || s.IsTrash))
@@ -397,7 +396,7 @@ namespace MalpracticeMakesPerfect
             return new List<Item>();
         }
 
-        internal void PutSingleItem(NewSlot mySlot)
+        internal void PutSingleItem(Slot mySlot)
         {
             if (theMessenger != null)
             {
@@ -411,7 +410,7 @@ namespace MalpracticeMakesPerfect
             }
         }
 
-        internal void SetHighlighted(NewSlot mySlot)
+        internal void SetHighlighted(Slot mySlot)
         {
             highlightedSlot = mySlot;
         }
@@ -734,6 +733,10 @@ namespace MalpracticeMakesPerfect
                             if (GetItemCombo(theMessenger.Item, highlightedSlot.Item, out _).Count > 0)
                             {
                                 MessageBox.DrawItemPreviews(_spriteBatch, GetItemCombo(theMessenger.Item, highlightedSlot.Item, out _), mouseState, Color.Black);
+                            }
+                            else
+                            {
+                                MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, "(incompatible)", new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
                             }
                         }
                     }

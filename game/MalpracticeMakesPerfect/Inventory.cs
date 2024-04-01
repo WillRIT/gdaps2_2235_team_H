@@ -11,12 +11,12 @@ namespace MalpracticeMakesPerfect
     internal class Inventory : GameObject
     {
         private List<Item> items;
-        private NewSlot[] hotbar = new NewSlot[10];
-        public NewSlot[] Hotbar
+        private Slot[] hotbar = new Slot[10];
+        public Slot[] Hotbar
         {
             get { return hotbar; }
         }
-        private List<NewSlot> shopItems;
+        private List<Slot> shopItems;
         private SpriteFont font;
         private Texture2D slotAsset;
 
@@ -34,13 +34,13 @@ namespace MalpracticeMakesPerfect
             //initialize hotbar as empty slots
             for (int i = 0; i < hotbar.Length - 1; i++)
             {
-                hotbar[i] = new NewSlot(slotAsset, new Rectangle(0, 0, slotSize, slotSize), font);
+                hotbar[i] = new Slot(slotAsset, new Rectangle(0, 0, slotSize, slotSize), font);
             }
 
             //create trash
-            hotbar[hotbar.Length - 1] = new NewSlot(slotAsset, new Rectangle(0, 0, slotSize, slotSize), font, true);
+            hotbar[hotbar.Length - 1] = new Slot(slotAsset, new Rectangle(0, 0, slotSize, slotSize), font, true);
 
-            foreach (NewSlot s in hotbar)
+            foreach (Slot s in hotbar)
             {
                 s.PickUpItem += pickUpItem;
                 s.PutDownItem += putDownItem;
@@ -49,7 +49,7 @@ namespace MalpracticeMakesPerfect
             }
         }
 
-        public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, List<NewSlot> hotbarItems)
+        public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, List<Slot> hotbarItems)
             : base(asset, position)
         {
             this.font = font;
@@ -58,7 +58,7 @@ namespace MalpracticeMakesPerfect
             //initialize hotbar as empty slots
             for (int i = 0; i < hotbar.Length - 1; i++)
             {
-                hotbar[i] = new NewSlot(slotAsset, new Rectangle(0, 0, slotSize, slotSize), font);
+                hotbar[i] = new Slot(slotAsset, new Rectangle(0, 0, slotSize, slotSize), font);
             }
 
             for (int i = 0; i < Math.Min(hotbarItems.Count, hotbar.Length); i++)
@@ -72,7 +72,7 @@ namespace MalpracticeMakesPerfect
 
         public void Clear()
         {
-            foreach (NewSlot s in hotbar)
+            foreach (Slot s in hotbar)
             {
                 s.Item = null;
             }
@@ -123,14 +123,14 @@ namespace MalpracticeMakesPerfect
             }
             
 
-            foreach (NewSlot s in hotbar)
+            foreach (Slot s in hotbar)
             {
                 s.Update();
             }
 
             if (shopItems != null)
             {
-                foreach (NewSlot s in shopItems)
+                foreach (Slot s in shopItems)
                 {
                     s.Update();
                 }
