@@ -120,6 +120,7 @@ namespace MalpracticeMakesPerfect
 
 
         private NewSlot newSnapBack;
+        private NewSlot highlightedSlot;
 
         /// <summary>
         /// Constructor
@@ -167,7 +168,7 @@ namespace MalpracticeMakesPerfect
             sky = Content.Load<Texture2D>("background/sky");
             cloud = Content.Load<Texture2D>("background/cloud");
             ground = Content.Load<Texture2D>("background/grass");
-            office = Content.Load<Texture2D>("Shop Pack V2 4");
+            office = Content.Load<Texture2D>("background/Shop Pack V2 4");
             officeLocation = new Vector2(1180, 350);
 
             //people
@@ -199,7 +200,7 @@ namespace MalpracticeMakesPerfect
 
             groundRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
-            myInventory = new Inventory(joobi, new Rectangle(700, 500, 500, 200), itemAmountFont, slotSprite, PickUpItem, PutDownItem, PutSingleItem);
+            myInventory = new Inventory(joobi, new Rectangle(700, 500, 500, 200), itemAmountFont, slotSprite, PickUpItem, PutDownItem, PutSingleItem, SetHighlighted);
 
             theMessenger = null;
 
@@ -221,6 +222,7 @@ namespace MalpracticeMakesPerfect
             GreenScenario = new Scenario(slotSprite, "My Tongue is Green", 2, allItems, allItems[indexOfCure], adventurer, "Give me Green Paint", smallSubtitleFont, shopSlassetB);
             GreenScenario.Slot.PickUpItem += PickUpItem;
             GreenScenario.Slot.PutDownItem += PutDownItemScenario;
+            GreenScenario.Slot.SetHighlighted += SetHighlighted;
 
         }
 
@@ -409,6 +411,11 @@ namespace MalpracticeMakesPerfect
             }
         }
 
+        internal void SetHighlighted(NewSlot mySlot)
+        {
+            highlightedSlot = mySlot;
+        }
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -459,6 +466,8 @@ namespace MalpracticeMakesPerfect
                         break;
 
                 case GameStates.Yucky:
+
+                    highlightedSlot = null;
 
                     //queuing scenarios
 
@@ -539,6 +548,8 @@ namespace MalpracticeMakesPerfect
                             theMessenger = null;
                         }
                     }
+
+                    
 
                     break;
                 
@@ -701,6 +712,21 @@ namespace MalpracticeMakesPerfect
 
                     //draw console
                     _spriteBatch.DrawString(itemAmountFont, consoleLog, new Vector2(1500, 10), Color.Black);
+
+                    //draw hoverover
+                    if (theMessenger == null)
+                    {
+                        //hover over slot
+                        if (highlightedSlot !=  null && !highlightedSlot.IsEmpty)
+                        {
+                            MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, highlightedSlot.ItemName, new Vector2(mouseState.X + 15, mouseState.Y + 15), Color.White);
+                        }
+                    }
+                    //holding item
+                    else
+                    {
+
+                    }
 
                     break;
 

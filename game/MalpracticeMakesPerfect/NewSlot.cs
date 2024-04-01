@@ -13,6 +13,7 @@ namespace MalpracticeMakesPerfect
     internal delegate void OnLeftPress(NewSlot mySlot);
     internal delegate void OnLeftRelease(NewSlot mySlot);
     internal delegate void OnRightPress(NewSlot mySlot);
+    internal delegate void OnHover(NewSlot mySlot);
 
     internal class NewSlot : GameObject
     {
@@ -55,6 +56,7 @@ namespace MalpracticeMakesPerfect
             }
         }
         private SpriteFont font;
+        private MouseState mouseState;
         private MouseState mousePrev;
         private bool hovered;
         public bool Hovered
@@ -71,6 +73,7 @@ namespace MalpracticeMakesPerfect
         public event OnLeftPress PickUpItem;
         public event OnLeftRelease PutDownItem;
         public event OnRightPress PutSingleItem;
+        public event OnHover SetHighlighted;
 
         public NewSlot(Texture2D asset, Rectangle position, SpriteFont font)
             : base(asset, position)
@@ -137,9 +140,14 @@ namespace MalpracticeMakesPerfect
 
         public override void Update()
         {
-            MouseState mouseState = Mouse.GetState();
+            mouseState = Mouse.GetState();
 
             hovered = position.Contains(mouseState.Position);
+
+            if (amount == 0)
+            {
+                item = null;
+            }
 
             if (!IsEmpty)
             {
@@ -152,6 +160,11 @@ namespace MalpracticeMakesPerfect
 
             if (hovered)
             {
+                if (SetHighlighted != null)
+                {
+                    SetHighlighted(this);
+                }
+
                 if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released && !IsEmpty && PickUpItem != null)
                 {
                     PickUpItem(this);
@@ -180,7 +193,7 @@ namespace MalpracticeMakesPerfect
                 sb.Draw(asset, position, Color.White);
             }
 
-            if (!IsEmpty)
+            if (!IsEmpty && amount > 0)
             {
                 item.Draw(sb, new Rectangle((position.X + (int)(position.Width * 0.1)), (position.Y + (int)(position.Width * 0.1)), (int)(position.Width * 0.8), (int)(position.Width * 0.8)), Color.White);
                 sb.DrawString(font, $"{amount}", new Vector2(position.X + (int)(position.Width * (1.0 / 8.0)), position.Y + (int)(position.Height * (3.0 / 5.0))), Color.Black);

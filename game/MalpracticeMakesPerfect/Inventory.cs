@@ -23,7 +23,7 @@ namespace MalpracticeMakesPerfect
         private int slotSize;
 
 
-        public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, OnLeftPress pickUpItem, OnLeftRelease putDownItem, OnRightPress putSingleItem)
+        public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, OnLeftPress pickUpItem, OnLeftRelease putDownItem, OnRightPress putSingleItem, OnHover setHighlighted)
             :base(asset, position)
         {
             this.font = font;
@@ -45,6 +45,7 @@ namespace MalpracticeMakesPerfect
                 s.PickUpItem += pickUpItem;
                 s.PutDownItem += putDownItem;
                 s.PutSingleItem += putSingleItem;
+                s.SetHighlighted += setHighlighted;
             }
         }
 
