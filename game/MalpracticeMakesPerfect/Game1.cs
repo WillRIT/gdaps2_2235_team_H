@@ -171,7 +171,7 @@ namespace MalpracticeMakesPerfect
             sky = Content.Load<Texture2D>("background/sky");
             cloud = Content.Load<Texture2D>("background/cloud");
             ground = Content.Load<Texture2D>("background/grass");
-            office = Content.Load<Texture2D>("Shop Pack V2 4");
+            office = Content.Load<Texture2D>("background/Shop Pack V2 4");
             officeLocation = new Vector2(1180, 350);
 
             //people
