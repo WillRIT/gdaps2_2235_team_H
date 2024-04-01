@@ -719,13 +719,23 @@ namespace MalpracticeMakesPerfect
                         //hover over slot
                         if (highlightedSlot !=  null && !highlightedSlot.IsEmpty)
                         {
-                            MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, highlightedSlot.ItemName, new Vector2(mouseState.X + 15, mouseState.Y + 15), Color.White);
+                            MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, highlightedSlot.ItemName, new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
                         }
                     }
                     //holding item
                     else
                     {
-
+                        if (highlightedSlot == null || highlightedSlot.IsEmpty || highlightedSlot.ItemName == theMessenger.Item.ItemName)
+                        {
+                            MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, theMessenger.Item.ItemName, new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
+                        }
+                        else
+                        {
+                            if (GetItemCombo(theMessenger.Item, highlightedSlot.Item, out _).Count > 0)
+                            {
+                                MessageBox.DrawItemPreviews(_spriteBatch, GetItemCombo(theMessenger.Item, highlightedSlot.Item, out _), mouseState, Color.Black);
+                            }
+                        }
                     }
 
                     break;
