@@ -435,7 +435,7 @@ namespace MalpracticeMakesPerfect
                     }
 
                     //changing into Instructions
-                    if (mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed)
+                    if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                     {
                         gameState = GameStates.Instructions;
                         starsLoc.Clear();
@@ -448,7 +448,7 @@ namespace MalpracticeMakesPerfect
                     break;
                     //changing to play state
                 case GameStates.Instructions:
-                    if (mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed)
+                    if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                     {
                         gameState = GameStates.GameScene;
                     }
@@ -544,9 +544,9 @@ namespace MalpracticeMakesPerfect
                     break;
                 
                 case GameStates.GameOver:
-                    if (mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed)
+                    if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                     {
-                        gameState = GameStates.TitleScreen;
+                        //gameState = GameStates.TitleScreen;
                     }
                     break;
 
