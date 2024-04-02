@@ -25,6 +25,8 @@ namespace MalpracticeMakesPerfect
             get { return unknownItemResponses[rng.Next(unknownItemResponses.Length)];}
         }
 
+        private string name;
+        private double money;
         private string sceneMessage;
         private string shownMessage;
         private Slot slot;
@@ -64,12 +66,14 @@ namespace MalpracticeMakesPerfect
         /// <param name="solutions">A list of solutions that could work.</param>
         /// <param name="personSprite">The sprite of the character</param>
         /// <param name="godModeText">Text explaining the solutions</param>
-        public Scenario(Texture2D slotAsset,string sceneMessage, List<Item> items, Dictionary<string, string[]> cures, Texture2D personSprite, string godModeText, SpriteFont font, Texture2D buttonAsset)
+        public Scenario(List<Item> items, Texture2D slotAsset, SpriteFont font, Texture2D buttonAsset, OnLeftPress pickUpItem, OnLeftRelease putDownItem, OnHover setHighlight, string name, string sceneMessage, string godModeText, Texture2D personSprite, double money, Dictionary<string, string[]> cures)
         {
+            this.name = name;
             this.sceneMessage = sceneMessage;
             shownMessage = sceneMessage;
             this.personSprite = personSprite;
             this.godModeText = godModeText;
+            this.money = money;
             this.font = font;
             this.buttonAsset = buttonAsset;
             this.cures = cures;
@@ -86,6 +90,10 @@ namespace MalpracticeMakesPerfect
             
 
             slot = new Slot(slotAsset, new Rectangle(600, 650, 50, 50), font);
+            slot.PickUpItem += pickUpItem;
+            slot.PutDownItem += putDownItem;
+            slot.SetHighlighted += setHighlight;
+
             buttonRect = new Rectangle(600, 700, 100, 60);
 
             button = new Button(buttonAsset, buttonRect, font, "SUBMIT", Color.Black, Color.Red, Color.Green);
