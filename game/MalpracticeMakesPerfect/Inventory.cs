@@ -11,7 +11,6 @@ namespace MalpracticeMakesPerfect
     internal class Inventory : GameObject
     {
         private List<Item> items;
-        private List<Recipe> recipes;
         private Slot[] hotbar = new Slot[10];
         public Slot[] Hotbar
         {
@@ -24,7 +23,7 @@ namespace MalpracticeMakesPerfect
         private int slotSize;
 
 
-        public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset)
+        public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, OnLeftPress pickUpItem, OnLeftRelease putDownItem, OnRightPress putSingleItem, OnHover setHighlighted)
             :base(asset, position)
         {
             this.font = font;
@@ -40,6 +39,14 @@ namespace MalpracticeMakesPerfect
 
             //create trash
             hotbar[hotbar.Length - 1] = new Slot(slotAsset, new Rectangle(0, 0, slotSize, slotSize), font, true);
+
+            foreach (Slot s in hotbar)
+            {
+                s.PickUpItem += pickUpItem;
+                s.PutDownItem += putDownItem;
+                s.PutSingleItem += putSingleItem;
+                s.SetHighlighted += setHighlighted;
+            }
         }
 
         public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, List<Slot> hotbarItems)
@@ -51,7 +58,7 @@ namespace MalpracticeMakesPerfect
             //initialize hotbar as empty slots
             for (int i = 0; i < hotbar.Length - 1; i++)
             {
-                hotbar[i] = new Slot(slotAsset, new Rectangle(0, 0,slotSize, slotSize), font);
+                hotbar[i] = new Slot(slotAsset, new Rectangle(0, 0, slotSize, slotSize), font);
             }
 
             for (int i = 0; i < Math.Min(hotbarItems.Count, hotbar.Length); i++)
@@ -61,20 +68,6 @@ namespace MalpracticeMakesPerfect
 
             //create trash
             hotbar[hotbar.Length - 1].IsTrash = true;
-        }
-
-        /// <summary>
-        /// Creates inventory
-        /// </summary>
-        /// <param name="items">Every item</param>
-        /// <param name="recipes">All possible combinations of items</param>
-        public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, List<Item> items, List<Recipe> recipes)
-            :base(asset,position)
-        {
-            this.font = font;
-            this.slotAsset = slotAsset;
-            this.items = items;
-            this.recipes = recipes;
         }
 
         public void Clear()
