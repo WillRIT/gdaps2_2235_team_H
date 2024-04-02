@@ -159,7 +159,7 @@ namespace MalpracticeMakesPerfect
             officeLocation = new Vector2(1180, 350);
 
             //people
-            adventurer = Content.Load<Texture2D>("people/better_patient");
+            adventurer = Content.Load<Texture2D>("people/green_man");
 
             shopSlasset = Content.Load<Texture2D>("ui/shopslot1");
             shopSlassetB = Content.Load<Texture2D>("ui/shopslot2");
@@ -474,14 +474,6 @@ namespace MalpracticeMakesPerfect
                     }
 
                     currentScenario.Update();
-
-                    /*for testing rep decreases with right mouse button
-                    if (mouseState.RightButton == ButtonState.Pressed)
-                    {
-                        reputation -= 10;
-                    }
-                    */
-
                     if (Keyboard.GetState().IsKeyDown(Keys.Space))
                     {
                         money -= 10;

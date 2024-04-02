@@ -216,7 +216,7 @@
 /processorParam:TextureFormat=Color
 /build:items/Nasty Juice.webp
 
-#begin people/better_patient.png
+#begin people/green_man.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -226,7 +226,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:people/better_patient.png
+/build:people/green_man.png
 
 #begin UI/joobi.png
 /importer:TextureImporter
