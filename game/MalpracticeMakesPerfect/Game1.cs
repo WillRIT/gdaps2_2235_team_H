@@ -205,8 +205,11 @@ namespace MalpracticeMakesPerfect
 
 
             // Scenarios
-            int indexOfCure = allItems.FindIndex(item => item.ItemName == "Hammer");
-            GreenScenario = new Scenario(slotSprite, "My Tongue is Green", 2, allItems, allItems[indexOfCure], adventurer, "Give me Green Paint", smallSubtitleFont, shopSlassetB);
+            //for each scenario create dictionary of cures: 
+            //  key: item name
+            //  data: array of strings (int score to be parsed, message when showing item, message when submitted item
+
+            GreenScenario = new Scenario(slotSprite, "My tongue is GREEN! HELP!", allItems, new Dictionary<string, string[]>(), adventurer, "Give me smth idk not done yet", mediumFont, shopSlassetB);
             GreenScenario.Slot.PickUpItem += PickUpItem;
             GreenScenario.Slot.PutDownItem += PutDownItemScenario;
             GreenScenario.Slot.SetHighlighted += SetHighlighted;

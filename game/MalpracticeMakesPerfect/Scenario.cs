@@ -11,7 +11,22 @@ namespace MalpracticeMakesPerfect
 {
     internal class Scenario
     {
+        private Random rng = new Random();
+
+        private string[] unknownItemResponses = new string[]
+        {
+            "Yeah, no clue what I'm looking at right now.",
+            "I have never seen this in my life.",
+            "What?",
+            "HUH??"
+        };
+        private string getUnknownResponse
+        {
+            get { return unknownItemResponses[rng.Next(unknownItemResponses.Length)];}
+        }
+
         private string sceneMessage;
+        private string shownMessage;
         private Slot slot;
         public Slot Slot
         {
@@ -30,7 +45,7 @@ namespace MalpracticeMakesPerfect
         private Button button;
         private bool CureGiven;
 
-        Dictionary<Item, int> cures = new Dictionary<Item, int>();
+        Dictionary<string, string[]> cures = new Dictionary<string, string[]>();
 
         public enum ScenarioState
         {
@@ -49,25 +64,23 @@ namespace MalpracticeMakesPerfect
         /// <param name="solutions">A list of solutions that could work.</param>
         /// <param name="personSprite">The sprite of the character</param>
         /// <param name="godModeText">Text explaining the solutions</param>
-        public Scenario(Texture2D slotAsset,string sceneMessage, int slotNum, List<Item> items, Item cure, Texture2D personSprite, string godModeText, SpriteFont font, Texture2D buttonAsset)
+        public Scenario(Texture2D slotAsset,string sceneMessage, List<Item> items, Dictionary<string, string[]> cures, Texture2D personSprite, string godModeText, SpriteFont font, Texture2D buttonAsset)
         {
             this.sceneMessage = sceneMessage;
+            shownMessage = sceneMessage;
             this.personSprite = personSprite;
             this.godModeText = godModeText;
             this.font = font;
             this.buttonAsset = buttonAsset;
+            this.cures = cures;
 
 
             // Fill the dictionary of cures!
-            foreach (Item item in items)
+            foreach (Item i in items)
             {
-                if (item == cure)
+                if (!cures.ContainsKey(i.ItemName))
                 {
-                    cures.Add(cure, 10);
-                }
-                else
-                {
-                    cures.Add(item, -5);
+                    cures.Add(i.ItemName, new string[] { "0", getUnknownResponse, "??? ok" });
                 }
             }
             
@@ -89,17 +102,15 @@ namespace MalpracticeMakesPerfect
         /// </summary>
         public void GiveCure()
         {
-            if (cures.ContainsKey(slot.Item))
+            if (slot.Item != null && cures.ContainsKey(slot.ItemName))
             {
-                if (cures[slot.Item] > 0)
-                {
-                    sceneMessage = $"Oh! A {slot}! Thank you, this looks like it'll work!";
-                    CureGiven = true;
-                }
-                else
-                {
-                    sceneMessage = $"What kind of Quack doctor are you!??";
-                }
+                shownMessage = cures[slot.ItemName][2];
+
+                CureGiven = true;
+            }
+            else
+            {
+                shownMessage = "Look, guy, gimme SOMETHING here.";
             }
             slot.Item = null;
         }
@@ -119,17 +130,25 @@ namespace MalpracticeMakesPerfect
 
                 case ScenarioState.Waiting:
                     slot.Update();
-                    button.Update();
+                    
 
                     if (!slot.IsEmpty)
                     {
-                        sceneMessage = slot.ToString();
-
+                        shownMessage = cures[slot.ItemName][1];
                     }
+                    else
+                    {
+                        shownMessage = sceneMessage;
+                    }
+
+                    button.Update();
+
                     if (CureGiven == true)
                     {
                         state = ScenarioState.Leaving;
                     }
+
+                    
                     break;
 
                 case ScenarioState.Leaving:
@@ -149,14 +168,15 @@ namespace MalpracticeMakesPerfect
 
                 case ScenarioState.Waiting:
                     sb.Draw(personSprite, destinationPoint, Color.White);
-                    MessageBox.DrawItemLabel(sb, buttonAsset, font, sceneMessage, new Vector2 (320, 280), Color.White);
+                    MessageBox.DrawItemLabel(sb, buttonAsset, font, shownMessage, new Vector2 (320, 280), Color.White);
                     slot.Draw(sb);
                     button.Draw(sb);
                     break;
 
                 case ScenarioState.Leaving:
                     sb.Draw(personSprite, destinationPoint, Color.White);
-                 
+                    MessageBox.DrawItemLabel(sb, buttonAsset, font, shownMessage, new Vector2(320, 280), Color.White);
+
                     break;
             }
         }
