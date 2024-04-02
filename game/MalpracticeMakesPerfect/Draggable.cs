@@ -73,20 +73,6 @@ namespace MalpracticeMakesPerfect
             mousePrev = mouseState;
         }
 
-        public virtual DragStates SnapIntersect(Slot snap)
-        {
-            if (snap.Position.Contains(mouseState.Position))
-            {
-                position = snap.Position;
-                snapLocation = position;
-                snapped = true;
-
-                return DragStates.Empty;
-            }
-
-            return DragStates.Return;
-        }
-
         public override void Draw(SpriteBatch sb)
         {
             if (!dragging)

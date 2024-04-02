@@ -15,22 +15,11 @@ namespace MalpracticeMakesPerfect
     enum GameStates
     {
         TitleScreen,
-        GameScene,
         Instructions,
+        GameScene,
         GameShop,
         GameOver,
-        DayEnd,
-        Yucky
-    }
-
-    /// <summary>
-    /// the state of a moved item
-    /// </summary>
-    enum DragStates
-    {
-        Return,
-        Empty,
-        Combine
+        DayEnd
     }
 
     public class Game1 : Game
@@ -41,7 +30,6 @@ namespace MalpracticeMakesPerfect
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D slotSprite;
-        private Texture2D diamondSprite;
         private Texture2D joobi;
         private Texture2D patient;
         private Texture2D sky;
@@ -459,12 +447,12 @@ namespace MalpracticeMakesPerfect
                 case GameStates.Instructions:
                     if (mouseState.LeftButton == ButtonState.Released && mousePrev.LeftButton == ButtonState.Pressed)
                     {
-                        gameState = GameStates.Yucky;
+                        gameState = GameStates.GameScene;
                     }
 
                         break;
 
-                case GameStates.Yucky:
+                case GameStates.GameScene:
 
                     highlightedSlot = null;
 
@@ -605,80 +593,7 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO START THE DAY", new Vector2(100, 950), Color.Maroon);
                     break;
 
-
-                /*
                 case GameStates.GameScene:
-
-                    _spriteBatch.Draw(sky, skyRect, Color.White);
-                    _spriteBatch.Draw(sky, skyRect2, Color.White);
-                    _spriteBatch.Draw(cloud, cloudRect, Color.White);
-                    _spriteBatch.Draw(cloud, cloudRect2, Color.White);
-                    _spriteBatch.Draw(ground, groundRect, Color.White);
-
-                    _spriteBatch.Draw(office, officeLocation, Color.White);
-
-                    myInventory.DrawScene(_spriteBatch);
-
-                    _spriteBatch.DrawString(itemAmountFont, consoleLog, new Vector2(1500, 10), Color.Black);
-
-                    GreenScenario.Draw(_spriteBatch);
-
-                    //INVENTORY DRAWING
-                    myShop.Draw(_spriteBatch);
-
-                    if (theMessenger != null)
-                    {
-                        theMessenger.Draw(_spriteBatch);
-                        //preview possible output(s) of combination
-                        if (highlighted != null)
-                        {
-                            List<Item> combinePreview = new List<Item>();
-                            if (allRecipes.ContainsKey($"{highlighted.Item},{theMessenger.Item}"))
-                            {
-                                combinePreview = allRecipes[$"{highlighted.Item},{theMessenger.Item}"].Outputs;
-                            }
-                            else if (allRecipes.ContainsKey($"{theMessenger.Item},{highlighted.Item}"))
-                            {
-                                combinePreview = allRecipes[$"{theMessenger.Item},{highlighted.Item}"].Outputs;
-                            }
-
-                            if (combinePreview.Count > 0)
-                            {
-                                for (int i = 0; i < combinePreview.Count; i++)
-                                {
-                                    _spriteBatch.Draw(combinePreview[i].Asset, new Rectangle(mouseState.X + i * 50, mouseState.Y, 50, 50), Color.Black);
-                                }
-                            }
-                            else if (highlighted.IsEmpty || theMessenger.Item.ItemName == highlighted.Item.ItemName)
-                            {
-                                MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, theMessenger.Item.ToString(), new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
-                            }
-                            else
-                            {
-                                MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, "N/A", new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, theMessenger.Item.ToString(), new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
-                        }
-                    }
-                    else if (highlighted != null && !highlighted.IsEmpty)
-                    {
-                        MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, highlighted.ItemName, new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
-                    }
-                    _spriteBatch.DrawString(smallSubtitleFont,"Reputation:",new Vector2(10,20), Color.Black);
-                    _spriteBatch.Draw(joobi,new Rectangle(190,30,reputation,20),Color.Black);
-                    _spriteBatch.DrawString(smallSubtitleFont,"Money:", new Vector2(10,50),Color.Black);
-                    _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(111, 51), Color.DarkGoldenrod);
-                    _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(110, 50), Color.Gold);
-
-
-                    break;
-
-                */
-
-                case GameStates.Yucky:
 
                     _spriteBatch.Draw(sky, skyRect, Color.White);
                     _spriteBatch.Draw(sky, skyRect2, Color.White);
