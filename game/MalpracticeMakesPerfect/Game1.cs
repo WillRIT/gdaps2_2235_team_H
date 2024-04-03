@@ -90,8 +90,7 @@ namespace MalpracticeMakesPerfect
         private int reputation;
         private double money;
 
-        //for testing
-        private Scenario GreenScenario;
+        //scenarios
         private Texture2D adventurer;
 
         //scenario List
@@ -176,9 +175,8 @@ namespace MalpracticeMakesPerfect
             star = Content.Load<Texture2D>("ui/star");
 
             //GET ITEMS
-            DatabaseManager databaseManager = new DatabaseManager();
 
-            allItems = databaseManager.GetItemsAndRecipes(Content, out allRecipes, out itemDict);
+            allItems = DatabaseManager.GetItemsAndRecipes(Content, out allRecipes, out itemDict);
 
 
             //Load sky
@@ -209,6 +207,11 @@ namespace MalpracticeMakesPerfect
             // Scenarios
             //fix this shit
             scenarios = DatabaseManager.GetScenarios(Content, allItems, slotSprite, mediumFont, shopSlassetB, PickUpItem, PutDownItemScenario, SetHighlighted);
+
+            foreach (Scenario s in scenarios)
+            {
+                scenarioQueue.Enqueue(s);
+            }
 
         }
 
@@ -454,11 +457,9 @@ namespace MalpracticeMakesPerfect
                 case GameStates.GameScene:
 
                     highlightedSlot = null;
-
-                    //queuing scenarios
-
-                    scenarioQueue.Enqueue(GreenScenario);
+                    
                     Scenario currentScenario = scenarioQueue.Peek();
+                    currentScenario.Update();
 
                     if (currentScenario.state == Scenario.ScenarioState.Leaving)
                     {
@@ -596,12 +597,11 @@ namespace MalpracticeMakesPerfect
 
                     myInventory.DrawScene(_spriteBatch);
 
-                    GreenScenario.Draw(_spriteBatch);
-
                     //INVENTORY DRAWING
                     myShop.Draw(_spriteBatch);
 
                     myInventory.DrawScene(_spriteBatch);
+                    scenarioQueue.Peek().Draw(_spriteBatch);
 
                     if (theMessenger != null)
                     {
