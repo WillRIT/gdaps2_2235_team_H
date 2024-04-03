@@ -1,5 +1,4 @@
 name|description|cost|inInventory|assetPath
-Mealy Apple|A very mealy apple. The mealiest.|0.00|false|Mealy Apple
 Horsefeathers|Feathers of the Horse.|4.99|true|Horsefeathers
 Catnip|Nip of the Cat.|5.00|true|Catnip
 Green Apple|A very green apple. The greenest.|10.75|true|Green Apple
@@ -11,11 +10,11 @@ Stick|Pointy|2.00|true|Stick
 Hay|Makes you sneeze|3.00|true|Hay
 Scrubber|Good for deep cleaning|0.00|false|Scrubber
 Mealy Apple|A very mealy apple. The mealiest.|0.00|false|Mealy Apple
-Eggs|Very Egg-cellent haha|0.00|false|Eggs
+Eggs|Very Egg-cellent haha|0.00|true|Eggs
 Bandage|Good for bleeding|0.00|false|Bandage
 Octopus|8-Armed Friend|100.00|true|Octopus
 Bee|Sticky|6.00|true|Bee
-Needle|Also Pointy!|3.00|true|Needke
+Needle|Also Pointy!|3.00|true|Needle
 Cotton|good for fluffing!|5.00|true|Cotton
 Empty Jar|Good for holding!|4.00|true|Empty Jar
-
+Honey|Sticky and Icky |0.00|false|Honey

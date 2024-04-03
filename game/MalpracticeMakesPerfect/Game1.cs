@@ -538,7 +538,7 @@ namespace MalpracticeMakesPerfect
                 case GameStates.GameOver:
                     if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                     {
-                        //gameState = GameStates.TitleScreen;
+                        gameState = GameStates.TitleScreen;
                     }
                     break;
 
