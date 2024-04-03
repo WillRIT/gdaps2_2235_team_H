@@ -17,17 +17,7 @@ namespace MalpracticeMakesPerfect
     /// </summary>
     internal class DatabaseManager
     {
-        /// <summary>
-        /// Reads a file to get a list of all the items and recipes
-        /// </summary>
-        /// <returns>An inventory</returns>
-        public Inventory MakeInventory()
-        {
-            //TODO: code
-            return null;
-        }
-
-        public List<Item> GetItemsAndRecipes(ContentManager Content, out Dictionary<string,Recipe> recipes, out Dictionary<string, Item> itemDict)
+        public static List<Item> GetItemsAndRecipes(ContentManager Content, out Dictionary<string,Recipe> recipes, out Dictionary<string, Item> itemDict)
         {
             List<Item> items = new List<Item>();
             Dictionary<string, Item> findItems = new Dictionary<string, Item>();
@@ -116,14 +106,14 @@ namespace MalpracticeMakesPerfect
                     // Read all lines from the file
                     string[] lines = File.ReadAllLines(path);
 
-                    for (int i = 0; i < lines.Length; i++)
+                    for (int i = 1; i < lines.Length; i++)
                     {
                         string[] elements = lines[i].Split('|');
 
                         string name = elements[0];
                         string message = elements[1];
                         string godMessage = elements[2];
-                        Texture2D personSprite = Content.Load<Texture2D>("items/" + elements[3]);
+                        Texture2D personSprite = Content.Load<Texture2D>("people/" + elements[3]);
                         double money = double.Parse(elements[4]);
 
                         Dictionary<string, string[]> cures = new Dictionary<string, string[]>();
@@ -145,7 +135,7 @@ namespace MalpracticeMakesPerfect
             }
 
 
-            return null;
+            return list;
         }
     }
 }
