@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MalpracticeMakesPerfect
 {
+    internal delegate void UpdateStats(double money, int rep);
+
     internal class Scenario
     {
         private Random rng = new Random();
@@ -57,6 +59,7 @@ namespace MalpracticeMakesPerfect
         }
         public ScenarioState state = ScenarioState.Walking;
 
+        public event UpdateStats UpdateStats;
 
         /// <summary>
         /// Creates a scenario
@@ -115,6 +118,8 @@ namespace MalpracticeMakesPerfect
                 shownMessage = cures[slot.ItemName][2];
 
                 CureGiven = true;
+
+                UpdateStats(money, int.Parse(cures[slot.ItemName][0]));
             }
             else
             {

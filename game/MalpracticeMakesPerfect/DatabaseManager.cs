@@ -93,7 +93,7 @@ namespace MalpracticeMakesPerfect
         /// Reads a file to get all the scenarios
         /// </summary>
         /// <returns>A list of scenario</returns>
-        public static List<Scenario> GetScenarios(ContentManager Content, List<Item> items, Texture2D slotAsset, SpriteFont font, Texture2D buttonAsset, OnLeftPress pickUpItem, OnLeftRelease putDownItem, OnHover setHighlight)
+        public static List<Scenario> GetScenarios(ContentManager Content, List<Item> items, Texture2D slotAsset, SpriteFont font, Texture2D buttonAsset, OnLeftPress pickUpItem, OnLeftRelease putDownItem, OnHover setHighlight, UpdateStats updateStats)
         {
             List<Scenario> list = new List<Scenario>();
             string path = "../../../scenarios.csv";
@@ -106,7 +106,7 @@ namespace MalpracticeMakesPerfect
                     // Read all lines from the file
                     string[] lines = File.ReadAllLines(path);
 
-                    for (int i = 1; i < lines.Length; i++)
+                    for (int i = 1; i < lines.Length; i++) // i = 1 because data starts on second line
                     {
                         string[] elements = lines[i].Split('|');
 
@@ -125,6 +125,7 @@ namespace MalpracticeMakesPerfect
                         }
 
                         list.Add(new Scenario(items, slotAsset, font, buttonAsset, pickUpItem, putDownItem, setHighlight, name, message, godMessage, personSprite, money, cures));
+                        list[i-1].UpdateStats += updateStats; //-1 because of index
                     }
                 }
 

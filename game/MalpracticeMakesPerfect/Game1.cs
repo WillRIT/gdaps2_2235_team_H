@@ -87,7 +87,29 @@ namespace MalpracticeMakesPerfect
         private List<Rectangle> starsLoc;
 
         //Reputation and Money
+        private int maxRep = 1600;
+        private int minRep = 0;
         private int reputation;
+        private int Reputation
+        {
+            get { return reputation; }
+            set
+            {
+                if (reputation + value > maxRep)
+                {
+                    reputation = maxRep;
+                }
+                else if (reputation + value < minRep)
+                {
+                    reputation = minRep;
+                }
+                else
+                {
+                    reputation = value;
+                }
+            }
+        }
+
         private double money;
 
         //scenarios
@@ -205,8 +227,7 @@ namespace MalpracticeMakesPerfect
 
 
             // Scenarios
-            //fix this shit
-            scenarios = DatabaseManager.GetScenarios(Content, allItems, slotSprite, mediumFont, shopSlassetB, PickUpItem, PutDownItemScenario, SetHighlighted);
+            scenarios = DatabaseManager.GetScenarios(Content, allItems, slotSprite, mediumFont, shopSlassetB, PickUpItem, PutDownItemScenario, SetHighlighted, UpdateStats);
 
             foreach (Scenario s in scenarios)
             {
@@ -405,6 +426,12 @@ namespace MalpracticeMakesPerfect
             highlightedSlot = mySlot;
         }
 
+        internal void UpdateStats(double money, int rep)
+        {
+            this.money += money;
+            Reputation += rep;
+        }
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -423,7 +450,7 @@ namespace MalpracticeMakesPerfect
             switch (gameState)
             {
                 case GameStates.TitleScreen:
-                    reputation = 1600;
+                    Reputation = 1600;
                     money = 1000;
                     myInventory.Clear();
                     titlePos.Y += textBounceSpeed;
@@ -461,14 +488,12 @@ namespace MalpracticeMakesPerfect
                     Scenario currentScenario = scenarioQueue.Peek();
                     currentScenario.Update();
 
+                    /* currently breaks the game
                     if (currentScenario.state == Scenario.ScenarioState.Leaving)
                     {
                         scenarioQueue.Dequeue();
                     }
-                    if (scenarioQueue.Count == 0)
-                    {
-                        gameState = GameStates.DayEnd;
-                    }
+                    */
 
                     currentScenario.Update();
                     if (Keyboard.GetState().IsKeyDown(Keys.Space))
@@ -477,7 +502,7 @@ namespace MalpracticeMakesPerfect
                     }
 
                     //changing into game over state
-                   if(reputation <= 0)
+                   if(Reputation <= 0)
                     {
                         gameState = GameStates.GameOver;
                     }
@@ -486,11 +511,13 @@ namespace MalpracticeMakesPerfect
                         money = 0;
                         gameState = GameStates.GameOver;
                     }
+                    /* unused for testing
                     if (scenarioQueue.Count == 0 && reputation > 0)
                     {
                         gameState = GameStates.DayEnd;
 
                     }
+                    */
 
 
                     //moving sky background
@@ -610,7 +637,7 @@ namespace MalpracticeMakesPerfect
 
                     //draw reputation
                     _spriteBatch.DrawString(smallSubtitleFont, "Reputation:", new Vector2(10, 20), Color.Black);
-                    _spriteBatch.Draw(joobi, new Rectangle(190, 30, reputation, 20), Color.Black);
+                    _spriteBatch.Draw(joobi, new Rectangle(190, 30, Reputation, 20), Color.Black);
                     _spriteBatch.DrawString(smallSubtitleFont, "Money:", new Vector2(10, 50), Color.Black);
                     _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(111, 51), Color.DarkGoldenrod);
                     _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(110, 50), Color.Gold);
@@ -658,7 +685,7 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(titleFont, "YOU GOT RUN OUT OF TOWN", new Vector2(100,140), Color.Red);
                     _spriteBatch.DrawString(subtitleFont, "Your Reputation Sank Too Low", new Vector2(105, 260), Color.Tomato);
                     _spriteBatch.DrawString(mediumFont, "Left Click To Try Again", new Vector2(105, 360), Color.Tomato);
-                    _spriteBatch.DrawString(mediumFont, "Your Final Stats: Reputation: " + reputation + $" Money: ${money:N2}", new Vector2(105, 415), Color.Tomato);
+                    _spriteBatch.DrawString(mediumFont, "Your Final Stats: Reputation: " + Reputation + $" Money: ${money:N2}", new Vector2(105, 415), Color.Tomato);
 
                     break;
 
@@ -671,7 +698,7 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(titleFont, "The Day Is Over", new Vector2(150, 150), Color.DarkGoldenrod);
                     _spriteBatch.DrawString(subtitleFont, "Congrats You Survived The Day!", new Vector2(150, 300), Color.Gold);
                     _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO PLAY AGAIN", new Vector2(150, 400), Color.Yellow);
-                    _spriteBatch.DrawString(smallSubtitleFont, "Your Final Stats: Reputation: " + reputation + $" Money: ${money:N2}"
+                    _spriteBatch.DrawString(smallSubtitleFont, "Your Final Stats: Reputation: " + Reputation + $" Money: ${money:N2}"
                         , new Vector2(150, 500), Color.LightYellow);
                     break;
 
