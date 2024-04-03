@@ -109,6 +109,8 @@ namespace MalpracticeMakesPerfect
         private Slot newSnapBack;
         private Slot highlightedSlot;
 
+        private List<Scenario> scenarios;
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -205,14 +207,8 @@ namespace MalpracticeMakesPerfect
 
 
             // Scenarios
-            //for each scenario create dictionary of cures: 
-            //  key: item name
-            //  data: array of strings (int score to be parsed, message when showing item, message when submitted item
-
-            GreenScenario = new Scenario(slotSprite, "My tongue is GREEN! HELP!", allItems, new Dictionary<string, string[]>(), adventurer, "Give me smth idk not done yet", mediumFont, shopSlassetB);
-            GreenScenario.Slot.PickUpItem += PickUpItem;
-            GreenScenario.Slot.PutDownItem += PutDownItemScenario;
-            GreenScenario.Slot.SetHighlighted += SetHighlighted;
+            //fix this shit
+            scenarios = DatabaseManager.GetScenarios(Content, allItems, slotSprite, mediumFont, shopSlassetB, PickUpItem, PutDownItemScenario, SetHighlighted);
 
         }
 

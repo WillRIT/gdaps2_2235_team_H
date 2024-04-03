@@ -103,9 +103,48 @@ namespace MalpracticeMakesPerfect
         /// Reads a file to get all the scenarios
         /// </summary>
         /// <returns>A list of scenario</returns>
-        public List<Scenario> GetScenarios()
+        public static List<Scenario> GetScenarios(ContentManager Content, List<Item> items, Texture2D slotAsset, SpriteFont font, Texture2D buttonAsset, OnLeftPress pickUpItem, OnLeftRelease putDownItem, OnHover setHighlight)
         {
-            //TODO: code
+            List<Scenario> list = new List<Scenario>();
+            string path = "../../../scenarios.csv";
+
+            try
+            {
+                // Check if the file exists
+                if (File.Exists(path))
+                {
+                    // Read all lines from the file
+                    string[] lines = File.ReadAllLines(path);
+
+                    for (int i = 0; i < lines.Length; i++)
+                    {
+                        string[] elements = lines[i].Split('|');
+
+                        string name = elements[0];
+                        string message = elements[1];
+                        string godMessage = elements[2];
+                        Texture2D personSprite = Content.Load<Texture2D>("items/" + elements[3]);
+                        double money = double.Parse(elements[4]);
+
+                        Dictionary<string, string[]> cures = new Dictionary<string, string[]>();
+                        for (int j = 5; j < elements.Length; j++)
+                        {
+                            string[] strings = elements[j].Split(";");
+
+                            cures.Add(strings[0], new string[] { strings[1], strings[2], strings[3] });
+                        }
+
+                        list.Add(new Scenario(items, slotAsset, font, buttonAsset, pickUpItem, putDownItem, setHighlight, name, message, godMessage, personSprite, money, cures));
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
             return null;
         }
     }
