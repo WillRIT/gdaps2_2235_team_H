@@ -95,11 +95,11 @@ namespace MalpracticeMakesPerfect
             get { return reputation; }
             set
             {
-                if (reputation + value > maxRep)
+                if (value > maxRep)
                 {
                     reputation = maxRep;
                 }
-                else if (reputation + value < minRep)
+                else if (value < minRep)
                 {
                     reputation = minRep;
                 }
@@ -450,7 +450,7 @@ namespace MalpracticeMakesPerfect
             switch (gameState)
             {
                 case GameStates.TitleScreen:
-                    Reputation = 1600;
+                    Reputation = 800;
                     money = 1000;
                     myInventory.Clear();
                     titlePos.Y += textBounceSpeed;
@@ -484,25 +484,35 @@ namespace MalpracticeMakesPerfect
                 case GameStates.GameScene:
 
                     highlightedSlot = null;
-                    
-                    Scenario currentScenario = scenarioQueue.Peek();
-                    currentScenario.Update();
 
-                    /* currently breaks the game
-                    if (currentScenario.state == Scenario.ScenarioState.Leaving)
+                    if (scenarioQueue.Count > 0 && scenarioQueue.Peek().state == Scenario.ScenarioState.Left)
                     {
                         scenarioQueue.Dequeue();
                     }
-                    */
 
-                    currentScenario.Update();
+                    if (scenarioQueue.Count != 0)
+                    {
+                        Scenario currentScenario = scenarioQueue.Peek();
+                        currentScenario.Update();
+                    }
+                    else
+                    {
+                        if (reputation > 0)
+                        {
+                            gameState = GameStates.DayEnd;
+                        }
+                    }
+                    
+
+
+                    
                     if (Keyboard.GetState().IsKeyDown(Keys.Space))
                     {
                         money -= 10;
                     }
 
                     //changing into game over state
-                   if(Reputation <= 0)
+                   if(Reputation <= 0 && scenarioQueue.Peek().state == Scenario.ScenarioState.Left)
                     {
                         gameState = GameStates.GameOver;
                     }
@@ -563,6 +573,7 @@ namespace MalpracticeMakesPerfect
                     if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                     {
                         gameState = GameStates.TitleScreen;
+                        LoadContent(); //later replace this with ResetGame()
                     }
                     break;
 
@@ -570,6 +581,7 @@ namespace MalpracticeMakesPerfect
                     if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                     {
                         gameState = GameStates.TitleScreen;
+                        LoadContent();//get rid of this later i think
                     }
                     break;
             }
@@ -628,7 +640,11 @@ namespace MalpracticeMakesPerfect
                     myShop.Draw(_spriteBatch);
 
                     myInventory.DrawScene(_spriteBatch);
-                    scenarioQueue.Peek().Draw(_spriteBatch);
+
+                    if (scenarioQueue.Count != 0)
+                    {
+                        scenarioQueue.Peek().Draw(_spriteBatch);
+                    }
 
                     if (theMessenger != null)
                     {
@@ -683,7 +699,15 @@ namespace MalpracticeMakesPerfect
                         _spriteBatch.Draw(star, starsLoc[i], Color.OrangeRed);
                     }
                     _spriteBatch.DrawString(titleFont, "YOU GOT RUN OUT OF TOWN", new Vector2(100,140), Color.Red);
-                    _spriteBatch.DrawString(subtitleFont, "Your Reputation Sank Too Low", new Vector2(105, 260), Color.Tomato);
+                    if (money <= 0)
+                    {
+                        _spriteBatch.DrawString(subtitleFont, "You're broke. The banks got ya.", new Vector2(105, 260), Color.Tomato);
+                    }
+                    else
+                    {
+                        _spriteBatch.DrawString(subtitleFont, "Your reputation sank too low. Pitchforked.", new Vector2(105, 260), Color.Tomato);
+                    }
+                    
                     _spriteBatch.DrawString(mediumFont, "Left Click To Try Again", new Vector2(105, 360), Color.Tomato);
                     _spriteBatch.DrawString(mediumFont, "Your Final Stats: Reputation: " + Reputation + $" Money: ${money:N2}", new Vector2(105, 415), Color.Tomato);
 

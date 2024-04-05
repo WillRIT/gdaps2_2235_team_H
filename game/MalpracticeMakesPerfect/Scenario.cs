@@ -44,6 +44,7 @@ namespace MalpracticeMakesPerfect
         private Vector2 destinationPoint = new Vector2(400, 650);
         private SpriteFont font;
         private MouseState mState;
+        private MouseState mPrev;
         private Rectangle buttonRect;
         private Texture2D buttonAsset;
         private Button button;
@@ -55,7 +56,8 @@ namespace MalpracticeMakesPerfect
         {
             Walking,
             Waiting,
-            Leaving
+            Leaving,
+            Left
         }
         public ScenarioState state = ScenarioState.Walking;
 
@@ -123,7 +125,10 @@ namespace MalpracticeMakesPerfect
             }
             else
             {
-                shownMessage = "Look, guy, gimme SOMETHING here.";
+                shownMessage = "Look, in the full game I wouldn't be so mad,\nbut you're DONE pal.";
+
+                UpdateStats(0, -2000);
+                CureGiven = true;
             }
             slot.Item = null;
         }
@@ -166,9 +171,16 @@ namespace MalpracticeMakesPerfect
 
                 case ScenarioState.Leaving:
                     destinationPoint -= new Vector2(4, 0);
+
+                    if (mState.LeftButton == ButtonState.Pressed && mPrev.LeftButton == ButtonState.Released)
+                    {
+                        state = ScenarioState.Left;
+                    }
+
                     break;
 
             }
+            mPrev = mState;
         }
 
         public void Draw(SpriteBatch sb)
@@ -190,6 +202,10 @@ namespace MalpracticeMakesPerfect
                     sb.Draw(personSprite, destinationPoint, Color.White);
                     MessageBox.DrawItemLabel(sb, buttonAsset, font, shownMessage, new Vector2(320, 280), Color.White);
 
+                    if (destinationPoint.X < 0)
+                    {
+                        MessageBox.DrawItemLabel(sb, buttonAsset, font, "(click to continue)", new Vector2(320, 380), Color.White);
+                    }
                     break;
             }
         }
