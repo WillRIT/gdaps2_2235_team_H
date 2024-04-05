@@ -85,6 +85,10 @@ namespace MalpracticeMakesPerfect
         private float textBounceSpeed;
         private Texture2D star;
         private List<Rectangle> starsLoc;
+        private Button pauseButton;
+        private Button pauseMenu;
+        private bool isPaused;
+        private Texture2D pauseArt;
 
         //Reputation and Money
         private int maxRep = 1600;
@@ -148,9 +152,7 @@ namespace MalpracticeMakesPerfect
 
             scenarioQueue = new Queue<Scenario>();
             starsLoc = new List<Rectangle>();
-            
-
-
+           
         }
 
         protected override void Initialize()
@@ -234,6 +236,14 @@ namespace MalpracticeMakesPerfect
                 scenarioQueue.Enqueue(s);
             }
 
+            //Setting up pause buttons
+            isPaused = false;
+            pauseArt = Content.Load<Texture2D>("PauseMenuPlaceHolderArt");
+            pauseButton = new Button(sky, new Rectangle(1810, 25, 90, 50), smallSubtitleFont, "Pause", Color.Gray, Color.Black,Color.Yellow);
+            pauseButton.OnLeftButton += Pause;
+            pauseMenu = new Button(pauseArt, new Rectangle(220, 150, 1500, 800), smallSubtitleFont, "", Color.White, Color.White, Color.White);
+            pauseMenu.OnLeftButton += Pause;
+            
         }
 
         /// <summary>
@@ -432,6 +442,23 @@ namespace MalpracticeMakesPerfect
             Reputation += rep;
         }
 
+        /// <summary>
+        /// makes it so that the pause menu either displays or doesnt
+        /// </summary>
+        private void Pause()
+        {
+            if (isPaused)
+            {
+                isPaused = false;
+            }
+            else
+            {
+                isPaused = true;
+            }
+        }
+
+        
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -565,7 +592,9 @@ namespace MalpracticeMakesPerfect
                         }
                     }
 
-                    
+
+                    pauseButton.Update();
+                    pauseMenu.Update();
 
                     break;
                 
@@ -688,6 +717,12 @@ namespace MalpracticeMakesPerfect
                                 MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, "(incompatible)", new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
                             }
                         }
+                    }
+
+                    pauseButton.Draw(_spriteBatch);
+                    if (!isPaused)
+                    {
+                        pauseMenu.Draw(_spriteBatch);
                     }
 
                     break;
