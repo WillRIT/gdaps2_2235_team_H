@@ -240,9 +240,9 @@ namespace MalpracticeMakesPerfect
             isPaused = false;
             pauseArt = Content.Load<Texture2D>("PauseMenuPlaceHolderArt");
             pauseButton = new Button(sky, new Rectangle(1810, 25, 90, 50), smallSubtitleFont, "Pause", Color.Gray, Color.Black,Color.Yellow);
-            pauseButton.OnLeftButton += Pause;
+           // pauseButton.OnLeftButton += Pause;
             pauseMenu = new Button(pauseArt, new Rectangle(220, 150, 1500, 800), smallSubtitleFont, "", Color.White, Color.White, Color.White);
-            pauseMenu.OnLeftButton += Pause;
+           // pauseMenu.OnLeftButton += Pause;
             
         }
 
