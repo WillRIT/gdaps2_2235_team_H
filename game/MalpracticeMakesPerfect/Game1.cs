@@ -720,7 +720,7 @@ namespace MalpracticeMakesPerfect
                     }
 
                     pauseButton.Draw(_spriteBatch);
-                    if (!isPaused)
+                    if (isPaused)
                     {
                         pauseMenu.Draw(_spriteBatch);
                     }
