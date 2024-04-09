@@ -136,6 +136,8 @@ namespace MalpracticeMakesPerfect
 
         private List<Scenario> scenarios;
 
+        private RecipeBook recipeBook;
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -245,7 +247,10 @@ namespace MalpracticeMakesPerfect
             pauseButton.OnLeftButton += Pause;
             pauseMenu = new Button(pauseArt, new Rectangle(220, 150, 1500, 800), smallSubtitleFont, "", Color.White, Color.White, Color.White);
             pauseMenu.OnLeftButton += Pause;
-            
+
+
+            //setup recipe book
+            recipeBook = new RecipeBook(slotSprite, new Rectangle(40, 40, 1840, 1000) ,allItems, allRecipes);
         }
 
         /// <summary>
@@ -620,6 +625,8 @@ namespace MalpracticeMakesPerfect
                         }
                     }
 
+                    recipeBook.Update();
+
                     //Pause logic
                     pauseButton.Update();
                     if (isPaused)
@@ -751,6 +758,8 @@ namespace MalpracticeMakesPerfect
                             }
                         }
                     }
+
+                    recipeBook.Draw(_spriteBatch);
 
                     pauseButton.Draw(_spriteBatch);
                     if (isPaused)

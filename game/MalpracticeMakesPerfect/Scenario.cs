@@ -45,10 +45,19 @@ namespace MalpracticeMakesPerfect
         private SpriteFont font;
         private MouseState mState;
         private MouseState mPrev;
+        private KeyboardState kState;
+        private KeyboardState kPrev;
         private Rectangle buttonRect;
         private Texture2D buttonAsset;
         private Button button;
         private bool CureGiven;
+        private bool godModeOn = false;
+
+        public bool GodModeOn
+        {
+            get { return godModeOn; }
+            set { godModeOn = value; }
+        }
 
         Dictionary<string, string[]> cures = new Dictionary<string, string[]>();
 
@@ -136,6 +145,7 @@ namespace MalpracticeMakesPerfect
         public void Update()
         {
             mState = Mouse.GetState();
+            kState = Keyboard.GetState();
             switch (state)
             {
                 case ScenarioState.Walking:
@@ -148,18 +158,30 @@ namespace MalpracticeMakesPerfect
 
                 case ScenarioState.Waiting:
                     slot.Update();
-                    
 
+                    // Check for G being Hit, swaps Godmode to the inverse of what it was
+                    if (kState.IsKeyDown(Keys.G) && kPrev.IsKeyUp(Keys.G))
+                    {
+                        godModeOn = !godModeOn;
+                    }
+
+                    // Shows the message depending on the Effectiveness of the cure, if slot isn't empty
                     if (!slot.IsEmpty)
                     {
                         shownMessage = cures[slot.ItemName][1];
                     }
+                    // Shows the God Mode Text 
+                    else if (godModeOn)
+                    {
+                        shownMessage = godModeText;
+                    }
+                    // Shows the intital scene text
                     else
                     {
                         shownMessage = sceneMessage;
                     }
-
                     button.Update();
+
 
                     if (CureGiven == true)
                     {
@@ -170,8 +192,9 @@ namespace MalpracticeMakesPerfect
                     break;
 
                 case ScenarioState.Leaving:
-                    destinationPoint -= new Vector2(4, 0);
+                    destinationPoint -= new Vector2(4, 0); // Move off Screen
 
+                    // 
                     if (mState.LeftButton == ButtonState.Pressed && mPrev.LeftButton == ButtonState.Released)
                     {
                         state = ScenarioState.Left;
@@ -181,6 +204,7 @@ namespace MalpracticeMakesPerfect
 
             }
             mPrev = mState;
+            kPrev = kState;
         }
 
         public void Draw(SpriteBatch sb)
