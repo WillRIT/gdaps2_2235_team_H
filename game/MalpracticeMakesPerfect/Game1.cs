@@ -164,6 +164,8 @@ namespace MalpracticeMakesPerfect
             _graphics.ApplyChanges();
 
             consoleLog = string.Empty;
+            Reputation = 800;
+            money = 1000;
 
             base.Initialize();
         }
@@ -457,6 +459,27 @@ namespace MalpracticeMakesPerfect
             }
         }
 
+        private void Reset()
+        {
+            consoleLog = string.Empty;
+            Reputation = 800;
+            money = 1000;
+
+            myInventory = new Inventory(joobi, new Rectangle(700, 500, 500, 200), itemAmountFont, slotSprite, PickUpItem, PutDownItem, PutSingleItem, SetHighlighted);
+
+            theMessenger = null;
+
+            scenarios = DatabaseManager.GetScenarios(Content, allItems, slotSprite, mediumFont, shopSlassetB, PickUpItem, PutDownItemScenario, SetHighlighted, UpdateStats);
+
+            scenarioQueue.Clear();
+
+            foreach (Scenario s in scenarios)
+            {
+                scenarioQueue.Enqueue(s);
+            }
+
+            isPaused = false;
+        }
         
 
         protected override void Update(GameTime gameTime)
@@ -477,9 +500,7 @@ namespace MalpracticeMakesPerfect
             switch (gameState)
             {
                 case GameStates.TitleScreen:
-                    Reputation = 800;
-                    money = 1000;
-                    myInventory.Clear();
+                    
                     titlePos.Y += textBounceSpeed;
                     subtitlePos.Y += textBounceSpeed;
                     if(titlePos.Y <= 55|| titlePos.Y >= 80)
@@ -605,7 +626,8 @@ namespace MalpracticeMakesPerfect
                     if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                     {
                         gameState = GameStates.TitleScreen;
-                        LoadContent(); //later replace this with ResetGame()
+
+                        Reset();
                     }
                     break;
 
@@ -613,7 +635,8 @@ namespace MalpracticeMakesPerfect
                     if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                     {
                         gameState = GameStates.TitleScreen;
-                        LoadContent();//get rid of this later i think
+
+                        Reset();
                     }
                     break;
             }
