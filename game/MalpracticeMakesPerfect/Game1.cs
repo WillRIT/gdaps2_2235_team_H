@@ -146,9 +146,9 @@ namespace MalpracticeMakesPerfect
             IsMouseVisible = true;
             
             //Menu variables
-            titlePos = new Vector2(150, 60);
+            titlePos = new Vector2(100, 60);
             subtitlePos = new Vector2(450, 180);
-            textBounceSpeed = 0.2f;
+            textBounceSpeed = 0.22f;
 
             scenarioQueue = new Queue<Scenario>();
             starsLoc = new List<Rectangle>();
@@ -241,7 +241,7 @@ namespace MalpracticeMakesPerfect
             //Setting up pause buttons
             isPaused = false;
             pauseArt = Content.Load<Texture2D>("PauseMenuPlaceHolderArt");
-            pauseButton = new Button(sky, new Rectangle(1810, 25, 90, 50), smallSubtitleFont, "Pause", Color.Gray, Color.Black,Color.Yellow);
+            pauseButton = new Button(sky, new Rectangle(1810, 25, 90, 50), smallSubtitleFont, "Pause", Color.WhiteSmoke, Color.Maroon,Color.Yellow);
             pauseButton.OnLeftButton += Pause;
             pauseMenu = new Button(pauseArt, new Rectangle(220, 150, 1500, 800), smallSubtitleFont, "", Color.White, Color.White, Color.White);
             pauseMenu.OnLeftButton += Pause;
@@ -666,25 +666,24 @@ namespace MalpracticeMakesPerfect
                 case GameStates.TitleScreen://Main screen art
                     GraphicsDevice.Clear(Color.Maroon);
                     _spriteBatch.DrawString(titleFont, "MALPRACTICE MAKES PERFECT", titlePos, Color.Black);
-                    _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", new Vector2(subtitlePos.X - 1.5f, subtitlePos.Y - 1.5f), Color.White);
-                    _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", new Vector2(subtitlePos.X + 1.5f, subtitlePos.Y + 1.5f), Color.Black);
+                    _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", new Vector2(subtitlePos.X - 2f, subtitlePos.Y - 2f), Color.Tomato);
+                    _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", new Vector2(subtitlePos.X + 3f, subtitlePos.Y + 3f), Color.Black);
                     _spriteBatch.DrawString(subtitleFont, "-Team Borderline Doctors-", subtitlePos, Color.Red);
-                    _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO START", new Vector2(580, 850), Color.OrangeRed);
+                    _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO START", new Vector2(580, 850), Color.Tomato);
                     break;
 
 
                 case GameStates.Instructions://Instructions text
-                    GraphicsDevice.Clear(Color.Black);
-                    _spriteBatch.DrawString(titleFont, "We Need a Doctor!", new Vector2(103, 103), Color.WhiteSmoke);
-                    _spriteBatch.DrawString(titleFont, "We Need a Doctor!", new Vector2(100, 100), Color.DarkRed);
+                    GraphicsDevice.Clear(new Color(16,10,8));//Less harsh on the eyes
+                    _spriteBatch.DrawString(titleFont, "We Need a Doctor!", new Vector2(103, 103), Color.Red);
+                    _spriteBatch.DrawString(titleFont, "We Need a Doctor!", new Vector2(101, 101), Color.DarkRed);
                     _spriteBatch.DrawString(subtitleFont, "You are the only doctor in town", new Vector2(100, 250), Color.Maroon);
-                    _spriteBatch.DrawString(mediumFont, "You need to find the ideal solution to all the towns ails", new Vector2(100, 370), Color.Crimson);
-                    _spriteBatch.DrawString(mediumFont, "Drag items from your inventory to customers," +
-                        " Try and find the best solution from the items in your inventory", new Vector2(100, 430), Color.Crimson);
-                    _spriteBatch.DrawString(mediumFont, "Combine items by dragging one item onto another", new Vector2(100, 490), Color.Crimson);
-                    _spriteBatch.DrawString(mediumFont, "Bad solutions lower your reputation (to be added)", new Vector2(100, 550), Color.Crimson);
-                    _spriteBatch.DrawString(mediumFont, "Buy items from the shop on the right", new Vector2(100, 610), Color.Crimson);
-                    _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO START THE DAY", new Vector2(100, 950), Color.Maroon);
+                    _spriteBatch.DrawString(mediumFont, "You need to find the best solutions for patients", new Vector2(100, 380), Color.Red);
+                    _spriteBatch.DrawString(mediumFont, "Drag items from your inventory to customers" , new Vector2(100, 460), Color.Red);
+                    _spriteBatch.DrawString(mediumFont, "Combine items by dragging one onto another", new Vector2(100, 540), Color.Red);
+                    _spriteBatch.DrawString(mediumFont, "Bad solutions lower your reputation", new Vector2(100, 630), Color.Red);
+                    _spriteBatch.DrawString(mediumFont, "Buy items from the shop on the right", new Vector2(100, 710), Color.Red);
+                    _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO START THE DAY", new Vector2(100, 950), Color.DarkRed);
                     break;
 
                 case GameStates.GameScene:
@@ -762,10 +761,10 @@ namespace MalpracticeMakesPerfect
                     break;
 
                 case GameStates.GameOver://Game over screen art
-                    GraphicsDevice.Clear(Color.Black);
+                    GraphicsDevice.Clear(new Color(35, 18, 24));
                     for (int i = 0; i < starsLoc.Count; i++)
                     {
-                        _spriteBatch.Draw(star, starsLoc[i], Color.OrangeRed);
+                        _spriteBatch.Draw(star, starsLoc[i], Color.LightSalmon);
                     }
                     _spriteBatch.DrawString(titleFont, "YOU GOT RUN OUT OF TOWN", new Vector2(100,140), Color.Red);
                     if (money <= 0)
@@ -777,22 +776,22 @@ namespace MalpracticeMakesPerfect
                         _spriteBatch.DrawString(subtitleFont, "Your reputation sank too low. Pitchforked.", new Vector2(105, 260), Color.Tomato);
                     }
                     
-                    _spriteBatch.DrawString(mediumFont, "Left Click To Try Again", new Vector2(105, 360), Color.Tomato);
-                    _spriteBatch.DrawString(mediumFont, "Your Final Stats: Reputation: " + Reputation + $" Money: ${money:N2}", new Vector2(105, 415), Color.Tomato);
+                    _spriteBatch.DrawString(mediumFont, "Left Click To Try Again", new Vector2(105, 810), Color.Red);
+                    _spriteBatch.DrawString(mediumFont, "Your Final Stats: Reputation: " + Reputation + $" Money: ${money:N2}", new Vector2(105, 865), Color.Tomato);
 
                     break;
 
                 case GameStates.DayEnd://Day end art
-                    GraphicsDevice.Clear(Color.DarkBlue);
+                    GraphicsDevice.Clear(new Color(10,18,35));
                     for (int i = 0; i < starsLoc.Count; i++)
                     {
                         _spriteBatch.Draw(star, starsLoc[i], Color.White);
                     }
-                    _spriteBatch.DrawString(titleFont, "The Day Is Over", new Vector2(150, 150), Color.DarkGoldenrod);
-                    _spriteBatch.DrawString(subtitleFont, "Congrats You Survived The Day!", new Vector2(150, 300), Color.Gold);
-                    _spriteBatch.DrawString(subtitleFont, "LEFT CLICK TO PLAY AGAIN", new Vector2(150, 400), Color.Yellow);
-                    _spriteBatch.DrawString(smallSubtitleFont, "Your Final Stats: Reputation: " + Reputation + $" Money: ${money:N2}"
-                        , new Vector2(150, 500), Color.LightYellow);
+                    _spriteBatch.DrawString(titleFont, "The Day Is Over", new Vector2(100, 140), Color.Chocolate);
+                    _spriteBatch.DrawString(subtitleFont, "Congrats You Survived The Day!", new Vector2(100, 260), Color.Goldenrod);
+                    _spriteBatch.DrawString(mediumFont, "LEFT CLICK TO PLAY AGAIN", new Vector2(105, 810), Color.Gold);
+                    _spriteBatch.DrawString(mediumFont, "Your Final Stats: Reputation: " + Reputation + $" Money: ${money:N2}"
+                        , new Vector2(105, 865), Color.LightYellow);
                     break;
 
             }
