@@ -651,7 +651,7 @@ namespace MalpracticeMakesPerfect
         {
             GraphicsDevice.Clear(Color.Crimson);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
 
             switch (gameState)
             {
