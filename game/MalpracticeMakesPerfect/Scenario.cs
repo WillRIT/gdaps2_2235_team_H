@@ -99,7 +99,7 @@ namespace MalpracticeMakesPerfect
             slot.PutDownItem += putDownItem;
             slot.SetHighlighted += setHighlight;
 
-            buttonRect = new Rectangle(600, 700, 100, 60);
+            buttonRect = new Rectangle(570, 715, 170, 60);
 
             button = new Button(buttonAsset, buttonRect, font, "SUBMIT", Color.Black, Color.Red, Color.Green);
             button.OnLeftButton += GiveCure;
