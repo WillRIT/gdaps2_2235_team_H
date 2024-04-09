@@ -164,6 +164,8 @@ namespace MalpracticeMakesPerfect
             _graphics.ApplyChanges();
 
             consoleLog = string.Empty;
+            Reputation = 800;
+            money = 1000;
 
             base.Initialize();
         }
@@ -457,6 +459,27 @@ namespace MalpracticeMakesPerfect
             }
         }
 
+        private void Reset()
+        {
+            consoleLog = string.Empty;
+            Reputation = 800;
+            money = 1000;
+
+            myInventory = new Inventory(joobi, new Rectangle(700, 500, 500, 200), itemAmountFont, slotSprite, PickUpItem, PutDownItem, PutSingleItem, SetHighlighted);
+
+            theMessenger = null;
+
+            scenarios = DatabaseManager.GetScenarios(Content, allItems, slotSprite, mediumFont, shopSlassetB, PickUpItem, PutDownItemScenario, SetHighlighted, UpdateStats);
+
+            scenarioQueue.Clear();
+
+            foreach (Scenario s in scenarios)
+            {
+                scenarioQueue.Enqueue(s);
+            }
+
+            isPaused = false;
+        }
         
 
         protected override void Update(GameTime gameTime)
@@ -477,9 +500,7 @@ namespace MalpracticeMakesPerfect
             switch (gameState)
             {
                 case GameStates.TitleScreen:
-                    Reputation = 800;
-                    money = 1000;
-                    myInventory.Clear();
+                    
                     titlePos.Y += textBounceSpeed;
                     subtitlePos.Y += textBounceSpeed;
                     if(titlePos.Y <= 55|| titlePos.Y >= 80)
@@ -499,8 +520,9 @@ namespace MalpracticeMakesPerfect
                     }
 
                     break;
-                    //changing to play state
+                    
                 case GameStates.Instructions:
+                    //changing to play state
                     if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                     {
                         gameState = GameStates.GameScene;
@@ -520,7 +542,10 @@ namespace MalpracticeMakesPerfect
                     if (scenarioQueue.Count != 0)
                     {
                         Scenario currentScenario = scenarioQueue.Peek();
-                        currentScenario.Update();
+                        if (!isPaused)
+                        {
+                            currentScenario.Update();
+                        }
                     }
                     else
                     {
@@ -532,11 +557,12 @@ namespace MalpracticeMakesPerfect
                     
 
 
-                    
+                   /* Used for testing
                     if (Keyboard.GetState().IsKeyDown(Keys.Space))
                     {
                         money -= 10;
                     }
+                   */
 
                     //changing into game over state
                    if(Reputation <= 0 && scenarioQueue.Peek().state == Scenario.ScenarioState.Left)
@@ -548,7 +574,7 @@ namespace MalpracticeMakesPerfect
                         money = 0;
                         gameState = GameStates.GameOver;
                     }
-                    /* unused for testing
+                    /* used for testing
                     if (scenarioQueue.Count == 0 && reputation > 0)
                     {
                         gameState = GameStates.DayEnd;
@@ -572,31 +598,34 @@ namespace MalpracticeMakesPerfect
                         skyRect2.X = _graphics.PreferredBackBufferWidth;
                         cloudRect2.X = _graphics.PreferredBackBufferWidth;
                     }
-
-                    //inventory handling
-                    myShop.Update();
-
-                    myInventory.Update();
-
-                    if (theMessenger != null)
+                    if (!isPaused)
                     {
-                        theMessenger.Update();
+                        //inventory handling
+                        myShop.Update();
 
-                        //places item in its original spot
-                        if (mouseState.LeftButton == ButtonState.Released)
+                        myInventory.Update();
+
+                        if (theMessenger != null)
                         {
-                            newSnapBack.AddItem(theMessenger.Item, theMessenger.Amount);
+                            theMessenger.Update();
 
-                            //removes messenger
-                            theMessenger = null;
+                            //places item in its original spot
+                            if (mouseState.LeftButton == ButtonState.Released)
+                            {
+                                newSnapBack.AddItem(theMessenger.Item, theMessenger.Amount);
+
+                                //removes messenger
+                                theMessenger = null;
+                            }
                         }
                     }
 
-
+                    //Pause logic
                     pauseButton.Update();
                     if (isPaused)
                     {
                         pauseMenu.Update();
+                        
                     }
 
                     break;
@@ -605,7 +634,8 @@ namespace MalpracticeMakesPerfect
                     if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                     {
                         gameState = GameStates.TitleScreen;
-                        LoadContent(); //later replace this with ResetGame()
+
+                        Reset();
                     }
                     break;
 
@@ -613,7 +643,8 @@ namespace MalpracticeMakesPerfect
                     if (mouseState.LeftButton == ButtonState.Pressed && mousePrev.LeftButton == ButtonState.Released)
                     {
                         gameState = GameStates.TitleScreen;
-                        LoadContent();//get rid of this later i think
+
+                        Reset();
                     }
                     break;
             }
@@ -628,7 +659,7 @@ namespace MalpracticeMakesPerfect
         {
             GraphicsDevice.Clear(Color.Crimson);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
 
             switch (gameState)
             {
@@ -685,7 +716,7 @@ namespace MalpracticeMakesPerfect
 
                     //draw reputation
                     _spriteBatch.DrawString(smallSubtitleFont, "Reputation:", new Vector2(10, 20), Color.Black);
-                    _spriteBatch.Draw(joobi, new Rectangle(190, 30, Reputation, 20), Color.Black);
+                    _spriteBatch.Draw(sky, new Rectangle(190, 30, Reputation, 20), Color.Black);
                     _spriteBatch.DrawString(smallSubtitleFont, "Money:", new Vector2(10, 50), Color.Black);
                     _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(111, 51), Color.DarkGoldenrod);
                     _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(110, 50), Color.Gold);
