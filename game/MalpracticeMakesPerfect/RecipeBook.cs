@@ -35,20 +35,20 @@ namespace MalpracticeMakesPerfect
             int row = 0;
             int col = 0;
             //center items
-            int slotsPerLine = (int)Math.Floor((double)position.Width / slotDims.X);
+            //int slotsPerLine = (int)Math.Floor((double)position.Width / slotDims.X);
             int padding = 0;
             for (int i = 0; i < craftableItems.Count; i++)
             {
 
                 //go to next row
-                if (slotDims.X * (col + 1) > position.Width)
+                if (slotDims.X * (col + 1) + 100 > position.Width - 100)
                 {
                     row++;
                     col = 0;
                 }
 
                 //centering
-                if (col == 0)
+                /*if (col == 0)
                 {
                     if (craftableItems.Count - i < slotsPerLine)
                     {
@@ -58,9 +58,9 @@ namespace MalpracticeMakesPerfect
                     {
                         padding = (position.Width - (slotDims.X * slotsPerLine)) / 2;
                     }
-                }
+                }*/
 
-                slots.Add(new RecipeBookSlot(new Rectangle(position.X + slotDims.X * col + padding, position.Y + slotDims.Y * row, slotDims.X, slotDims.Y), allItems[i]));
+                slots.Add(new RecipeBookSlot(new Rectangle(position.X + 125 + (slotDims.X * col) + padding, position.Y + 75 + (slotDims.Y * row), slotDims.X, slotDims.Y), craftableItems[i]));
 
                 col++;
             }
@@ -89,6 +89,15 @@ namespace MalpracticeMakesPerfect
                 foreach (RecipeBookSlot slot in slots)
                 {
                     slot.Draw(sb);
+
+                    //draw preview if hover
+                    if (slot.Position.Contains(Mouse.GetState().Position))
+                    {
+                        if (slot.Unlocked)
+                        {
+                            //TODO: add recipe preview here
+                        }
+                    }
                 }
             }
         }
