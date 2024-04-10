@@ -1,7 +1,8 @@
 input1,input2|output1,output2
-Green Apple,Horsefeathers|Mealy Apple
-Catnip,Green Cider|Green Juice
+Green Apple,Horsefeathers|Mealy Apple,
+Catnip,Green Cider|Green Juice,
 Catnip,Mealy Cider|Nasty Juice,Green Juice
-Bee,Empty Jar|Honey
-Cotton,Needle|Bandage
-Hay,Stick|Scrubber
+Bee,Empty Jar|Honey,
+Cotton,Needle|Bandage,
+Hay,Stick|Scrubber,
+Old Shirt,Hammer|Tourniquet,
