@@ -597,7 +597,7 @@ namespace MalpracticeMakesPerfect
                     }
                    */
 
-                    //changing into game over state
+                    //changing into game over state at the end of the day
                     if (scenarioQueue.Count == 0 && (Reputation <= 0 || money <= 0))
                     {
                         gameState = GameStates.GameOver;
