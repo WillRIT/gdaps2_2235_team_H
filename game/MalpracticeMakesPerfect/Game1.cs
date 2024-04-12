@@ -86,6 +86,7 @@ namespace MalpracticeMakesPerfect
         private Texture2D star;
         private List<Rectangle> starsLoc;
         private Button pauseButton;
+        private Button recipeBookButton;
         private Button pauseMenu;
         private bool isPaused;
         private Texture2D pauseArt;
@@ -137,6 +138,8 @@ namespace MalpracticeMakesPerfect
         private List<Scenario> scenarios;
 
         private RecipeBook recipeBook;
+
+        private List<Recipe> unlockedRecipes;
 
         /// <summary>
         /// Constructor
@@ -251,6 +254,11 @@ namespace MalpracticeMakesPerfect
 
             //setup recipe book
             recipeBook = new RecipeBook(slotSprite, new Rectangle(40, 40, 1840, 1000) ,allItems, allRecipes);
+
+            recipeBookButton = new Button(sky, new Rectangle(1600, 25, 190, 50), smallSubtitleFont, "Recipe Book", Color.WhiteSmoke, Color.Maroon, Color.Yellow);
+            recipeBookButton.OnLeftButton += recipeBook.Show;
+
+            unlockedRecipes = new List<Recipe>();
         }
 
         /// <summary>
@@ -342,6 +350,10 @@ namespace MalpracticeMakesPerfect
 
             if (existsRecipe)
             {
+                //for recipebook
+                NewRecipe(allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"]);
+
+
                 int outputAmount = 0; //handles quantity of the created items
 
                 //if dragged item is same quantity
@@ -424,6 +436,16 @@ namespace MalpracticeMakesPerfect
             return new List<Item>();
         }
 
+        internal void NewRecipe(Recipe recipe)
+        {
+            if (!unlockedRecipes.Contains(recipe))
+            {
+                unlockedRecipes.Add(recipe);
+
+                recipeBook.NewRecipe(recipe);
+            }
+        }
+
         internal void PutSingleItem(Slot mySlot)
         {
             if (theMessenger != null)
@@ -484,6 +506,12 @@ namespace MalpracticeMakesPerfect
             }
 
             isPaused = false;
+
+            unlockedRecipes = new List<Recipe>();
+
+            recipeBook = new RecipeBook(slotSprite, new Rectangle(40, 40, 1840, 1000), allItems, allRecipes);
+            recipeBookButton = new Button(sky, new Rectangle(1600, 25, 190, 50), smallSubtitleFont, "Recipe Book", Color.WhiteSmoke, Color.Maroon, Color.Yellow);
+            recipeBookButton.OnLeftButton += recipeBook.Show;
         }
         
 
@@ -605,27 +633,36 @@ namespace MalpracticeMakesPerfect
                     }
                     if (!isPaused)
                     {
-                        //inventory handling
-                        myShop.Update();
-
-                        myInventory.Update();
-
-                        if (theMessenger != null)
+                        if (!recipeBook.IsShown)
                         {
-                            theMessenger.Update();
+                            //inventory handling
+                            myShop.Update();
 
-                            //places item in its original spot
-                            if (mouseState.LeftButton == ButtonState.Released)
+                            myInventory.Update();
+
+                            if (theMessenger != null)
                             {
-                                newSnapBack.AddItem(theMessenger.Item, theMessenger.Amount);
+                                theMessenger.Update();
 
-                                //removes messenger
-                                theMessenger = null;
+                                //places item in its original spot
+                                if (mouseState.LeftButton == ButtonState.Released)
+                                {
+                                    newSnapBack.AddItem(theMessenger.Item, theMessenger.Amount);
+
+                                    //removes messenger
+                                    theMessenger = null;
+                                }
                             }
                         }
+
+                        recipeBook.Update();
+
+                        recipeBookButton.Update();
                     }
 
-                    recipeBook.Update();
+                    
+
+
 
                     //Pause logic
                     pauseButton.Update();
@@ -759,9 +796,13 @@ namespace MalpracticeMakesPerfect
                         }
                     }
 
-                    recipeBook.Draw(_spriteBatch);
 
                     pauseButton.Draw(_spriteBatch);
+                    recipeBookButton.Draw(_spriteBatch);
+
+
+                    recipeBook.Draw(_spriteBatch);
+
                     if (isPaused)
                     {
                         pauseMenu.Draw(_spriteBatch);

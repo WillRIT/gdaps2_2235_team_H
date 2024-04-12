@@ -17,6 +17,9 @@ namespace MalpracticeMakesPerfect
 
         private Point slotDims = new Point(100, 100);
 
+        private MouseState mState;
+        private MouseState mPrev;
+
         public RecipeBook(Texture2D asset, Rectangle position, List<Item> allItems, Dictionary<string, Recipe> recipes)
             :base(asset, position)
         {
@@ -63,21 +66,62 @@ namespace MalpracticeMakesPerfect
                 slots.Add(new RecipeBookSlot(new Rectangle(position.X + 125 + (slotDims.X * col) + padding, position.Y + 75 + (slotDims.Y * row), slotDims.X, slotDims.Y), craftableItems[i]));
 
                 col++;
+
+                //add recipe
+                foreach (Recipe rec in recipes.Values)
+                {
+                    foreach (Item item in rec.Outputs)
+                    {
+                        if (craftableItems[i].ItemName == item.ItemName)
+                        {
+                            slots[i].Recipes.Add(rec, false);
+                        }
+                    }
+                }
             }
 
             IsShown = false;
         }
 
+        public void NewRecipe(Recipe recipe)
+        {
+            foreach (RecipeBookSlot slot in slots)
+            {
+                bool isItem = false;
+
+                foreach (Item i in recipe.Outputs)
+                {
+                    isItem = i.ItemName == slot.Item.ItemName;
+                }
+
+                if (isItem)
+                {
+                    slot.Unlocked = true;
+
+                    foreach (Recipe r in slot.Recipes.Keys)
+                    {
+                        slot.Recipes[r] = r.ToString == recipe.ToString;
+                    }
+                }
+            }
+        }
+
+        public void Show()
+        {
+            IsShown = !IsShown;
+        }
+
         public override void Update()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.R))
+            mState = Mouse.GetState();
+
+            //do not show when clicked
+            if (IsShown && position.Contains(mState.Position) && mState.LeftButton == ButtonState.Pressed && mPrev.LeftButton == ButtonState.Released)
             {
-                IsShown = true;
+                Show();
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.T))
-            {
-                IsShown = false;
-            }
+
+            mPrev = mState;
         }
 
         public override void Draw(SpriteBatch sb)
@@ -89,13 +133,29 @@ namespace MalpracticeMakesPerfect
                 foreach (RecipeBookSlot slot in slots)
                 {
                     slot.Draw(sb);
+                }
 
+                //item preview (draw over other slots)
+                foreach (RecipeBookSlot slot in slots)
+                {
                     //draw preview if hover
                     if (slot.Position.Contains(Mouse.GetState().Position))
                     {
                         if (slot.Unlocked)
                         {
-                            //TODO: add recipe preview here
+                            //count row
+                            int recipeCount = 0;
+                            MouseState ms = Mouse.GetState();
+
+                            foreach (Recipe rec in slot.Recipes.Keys)
+                            {
+                                if (slot.Recipes[rec])
+                                {
+                                    MessageBox.DrawItemPreviews(sb, rec.Inputs.ToList(), new Vector2(ms.X, ms.Y + recipeCount * 50), Color.White);
+
+                                    recipeCount++;
+                                }
+                            }
                         }
                     }
                 }

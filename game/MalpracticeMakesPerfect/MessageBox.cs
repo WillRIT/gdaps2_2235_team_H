@@ -35,5 +35,13 @@ namespace MalpracticeMakesPerfect
                 items[i].Draw(sb, new Rectangle(ms.X + i * 50, ms.Y, 50, 50), color);
             }
         }
+
+        internal static void DrawItemPreviews(SpriteBatch sb, List<Item> items, Vector2 pos, Color color)
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                items[i].Draw(sb, new Rectangle((int)pos.X + i * 50, (int)pos.Y, 50, 50), color);
+            }
+        }
     }
 }

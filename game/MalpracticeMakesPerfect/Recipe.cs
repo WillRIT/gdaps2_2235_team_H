@@ -9,6 +9,7 @@ namespace MalpracticeMakesPerfect
     internal class Recipe
     {
         private Item[] inputs;
+        public Item[] Inputs { get { return inputs; } }
         private List<Item> outputs;
         public List<Item> Outputs
         {

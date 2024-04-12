@@ -12,11 +12,18 @@ namespace MalpracticeMakesPerfect
     {
         public Item Item { get; private set; }
         public bool Unlocked { get; set; }
-        public List<Recipe> Recipes { get; set; }
+        public Dictionary<Recipe, bool> Recipes { get; set; }
 
         public RecipeBookSlot(Rectangle position, Item item)
             : base(item.Asset, position)
         {
+            Recipes = new Dictionary<Recipe, bool>();
+            this.Item = item;
+        }
+
+        public override string ToString()
+        {
+            return $"{Item.ItemName}: " + (Unlocked ? "Unlocked" : "Locked") + $", {Recipes.Count} recipe(s)";
         }
 
         public override void Update()
@@ -26,7 +33,7 @@ namespace MalpracticeMakesPerfect
 
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(asset, new Rectangle((int)(position.X + position.Width * 0.1), (int)(position.Y + position.Width * 0.1), (int)(position.Width * 0.8), (int)(position.Width * 0.8)), (Unlocked) ? Color.White : Color.Green);
+            sb.Draw(asset, new Rectangle((int)(position.X + position.Width * 0.1), (int)(position.Y + position.Width * 0.1), (int)(position.Width * 0.8), (int)(position.Width * 0.8)), (Unlocked) ? Color.White : Color.Black);
         }
     }
 }
