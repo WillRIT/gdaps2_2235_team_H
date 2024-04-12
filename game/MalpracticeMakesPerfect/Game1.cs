@@ -598,15 +598,11 @@ namespace MalpracticeMakesPerfect
                    */
 
                     //changing into game over state
-                   if(Reputation <= 0 && scenarioQueue.Peek().state == Scenario.ScenarioState.Left)
+                    if (scenarioQueue.Count == 0 && (Reputation <= 0 || money <= 0))
                     {
                         gameState = GameStates.GameOver;
                     }
-                    if (money <= 0)
-                    {
-                        money = 0;
-                        gameState = GameStates.GameOver;
-                    }
+
                     /* used for testing
                     if (scenarioQueue.Count == 0 && reputation > 0)
                     {
