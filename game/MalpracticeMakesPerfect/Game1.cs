@@ -70,6 +70,7 @@ namespace MalpracticeMakesPerfect
         private SpriteFont subtitleFont;
         private SpriteFont smallSubtitleFont;
         private SpriteFont mediumFont;
+        private SpriteFont notifFont;
 
         //item moving fields
         private TempSlot theMessenger;
@@ -141,6 +142,12 @@ namespace MalpracticeMakesPerfect
 
         private List<Recipe> unlockedRecipes;
 
+        private List<Item> newRecipeNotifItems;
+        private float newRecipeNotifTimer;
+        
+
+        
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -172,6 +179,8 @@ namespace MalpracticeMakesPerfect
             Reputation = 800;
             money = 1000;
 
+            newRecipeNotifItems = new List<Item>();
+
             base.Initialize();
         }
 
@@ -202,6 +211,7 @@ namespace MalpracticeMakesPerfect
             subtitleFont = Content.Load<SpriteFont>("fonts/SubtitleFont");
             smallSubtitleFont = Content.Load<SpriteFont>("fonts/SmallerSubtitleFont");
             mediumFont = Content.Load<SpriteFont>("fonts/MediumFont");
+            notifFont = Content.Load<SpriteFont>("fonts/Notif");
 
             star = Content.Load<Texture2D>("ui/star");
 
@@ -253,7 +263,7 @@ namespace MalpracticeMakesPerfect
 
 
             //setup recipe book
-            recipeBook = new RecipeBook(slotSprite, new Rectangle(40, 40, 1840, 1000) ,allItems, allRecipes);
+            recipeBook = new RecipeBook(slotSprite, new Rectangle(40, 40, 1840, 1000), itemAmountFont, allItems, allRecipes);
 
             recipeBookButton = new Button(sky, new Rectangle(1600, 25, 190, 50), smallSubtitleFont, "Recipe Book", Color.WhiteSmoke, Color.Maroon, Color.Yellow);
             recipeBookButton.OnLeftButton += recipeBook.Show;
@@ -443,6 +453,9 @@ namespace MalpracticeMakesPerfect
                 unlockedRecipes.Add(recipe);
 
                 recipeBook.NewRecipe(recipe);
+
+                newRecipeNotifItems = recipe.Outputs;
+                newRecipeNotifTimer = 130;
             }
         }
 
@@ -509,7 +522,7 @@ namespace MalpracticeMakesPerfect
 
             unlockedRecipes = new List<Recipe>();
 
-            recipeBook = new RecipeBook(slotSprite, new Rectangle(40, 40, 1840, 1000), allItems, allRecipes);
+            recipeBook = new RecipeBook(slotSprite, new Rectangle(40, 40, 1840, 1000), itemAmountFont, allItems, allRecipes);
             recipeBookButton = new Button(sky, new Rectangle(1600, 25, 190, 50), smallSubtitleFont, "Recipe Book", Color.WhiteSmoke, Color.Maroon, Color.Yellow);
             recipeBookButton.OnLeftButton += recipeBook.Show;
         }
@@ -587,29 +600,12 @@ namespace MalpracticeMakesPerfect
                             gameState = GameStates.DayEnd;
                         }
                     }
-                    
-
-
-                   /* Used for testing
-                    if (Keyboard.GetState().IsKeyDown(Keys.Space))
-                    {
-                        money -= 10;
-                    }
-                   */
 
                     //changing into game over state at the end of the day
                     if (scenarioQueue.Count == 0 && (Reputation <= 0 || money <= 0))
                     {
                         gameState = GameStates.GameOver;
                     }
-
-                    /* used for testing
-                    if (scenarioQueue.Count == 0 && reputation > 0)
-                    {
-                        gameState = GameStates.DayEnd;
-
-                    }
-                    */
 
 
                     //moving sky background
@@ -627,8 +623,11 @@ namespace MalpracticeMakesPerfect
                         skyRect2.X = _graphics.PreferredBackBufferWidth;
                         cloudRect2.X = _graphics.PreferredBackBufferWidth;
                     }
+
+                    //menus etc, things that will not function when paused
                     if (!isPaused)
                     {
+                        //things that will not work when recipebook is shown
                         if (!recipeBook.IsShown)
                         {
                             //inventory handling
@@ -656,7 +655,11 @@ namespace MalpracticeMakesPerfect
                         recipeBookButton.Update();
                     }
 
-                    
+                    //make recipe timer go away after a certain time
+                    if (newRecipeNotifTimer > 0)
+                    {
+                        newRecipeNotifTimer--;
+                    }
 
 
 
@@ -762,6 +765,14 @@ namespace MalpracticeMakesPerfect
 
                     //draw console
                     _spriteBatch.DrawString(itemAmountFont, consoleLog, new Vector2(1500, 10), Color.Black);
+
+                    //draw notification for new recipe/item
+                    if (newRecipeNotifItems != null && newRecipeNotifTimer > 0)
+                    {
+                        //change opacity as timer gets lower
+                        MessageBox.DrawItemPreviews(_spriteBatch, newRecipeNotifItems, new Vector2(1600, 90), 60, Color.White * ((newRecipeNotifTimer) / 25.0F));
+                        MessageBox.DrawItemLabel(_spriteBatch, joobi, notifFont, "New recipe unlocked!", new Vector2(1600, 155), Color.White);
+                    }
 
                     //draw hoverover
                     if (theMessenger == null)

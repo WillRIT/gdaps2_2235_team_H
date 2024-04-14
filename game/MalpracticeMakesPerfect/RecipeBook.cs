@@ -20,9 +20,13 @@ namespace MalpracticeMakesPerfect
         private MouseState mState;
         private MouseState mPrev;
 
-        public RecipeBook(Texture2D asset, Rectangle position, List<Item> allItems, Dictionary<string, Recipe> recipes)
+        private SpriteFont font;
+
+        public RecipeBook(Texture2D asset, Rectangle position, SpriteFont font,List<Item> allItems, Dictionary<string, Recipe> recipes)
             :base(asset, position)
         {
+            this.font = font;
+
             craftableItems = new List<Item>();
             foreach (Item i in allItems)
             {
@@ -156,6 +160,10 @@ namespace MalpracticeMakesPerfect
                                     recipeCount++;
                                 }
                             }
+                        }
+                        else
+                        {
+                            MessageBox.DrawItemLabel(sb, asset, font, "Item not unlocked!", new Vector2(mState.X + 10, mState.Y + 10), Color.Red);
                         }
                     }
                 }
