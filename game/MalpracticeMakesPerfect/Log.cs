@@ -79,6 +79,13 @@ namespace MalpracticeMakesPerfect
             }
         }
 
+        public void Clear()
+        {
+            Text = string.Empty;
+
+            firstLine = 0;
+        }
+
         public override void Update()
         {
             if (prevCount < Count && Count > firstLine + 5)

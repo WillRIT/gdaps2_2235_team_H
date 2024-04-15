@@ -510,7 +510,7 @@ namespace MalpracticeMakesPerfect
 
             scenarios = DatabaseManager.GetScenarios(Content, allItems, slotSprite, mediumFont, shopSlassetB, PickUpItem, PutDownItemScenario, SetHighlighted, UpdateStats);
 
-            myLog.Text = string.Empty;
+            myLog.Clear();
 
             scenarioQueue.Clear();
 
