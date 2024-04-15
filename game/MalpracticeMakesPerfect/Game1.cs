@@ -128,8 +128,6 @@ namespace MalpracticeMakesPerfect
         private Vector2 path = new Vector2(10f, 400f);
         private float speed = 5.0f;
 
-        private string consoleLog;
-
         private Random rng = new Random();
 
 
@@ -144,6 +142,8 @@ namespace MalpracticeMakesPerfect
 
         private List<Item> newRecipeNotifItems;
         private float newRecipeNotifTimer;
+
+        private Log myLog;
         
 
         
@@ -175,7 +175,6 @@ namespace MalpracticeMakesPerfect
             _graphics.PreferredBackBufferHeight = 1080;
             _graphics.ApplyChanges();
 
-            consoleLog = string.Empty;
             Reputation = 800;
             money = 1000;
 
@@ -242,7 +241,8 @@ namespace MalpracticeMakesPerfect
             }
             myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 300, 600, 980), itemAmountFont, shopItems, PurchaseItem);
 
-
+            //activity log
+            myLog = new Log(slotSprite, new Rectangle(781, 730, 420, 100), itemAmountFont);
 
 
             // Scenarios
@@ -289,17 +289,17 @@ namespace MalpracticeMakesPerfect
                         s.AddItem(bought, 1);
                         money -= bought.Cost;
 
-                        consoleLog += $"Bought 1 {bought.ItemName} for ${bought.Cost:N2}\n";
+                        myLog.Text += $"Bought 1 {bought.ItemName} for ${bought.Cost:N2}\n";
                         return;
                     }
                     else
                     {
-                        consoleLog += $"Not enough money for {bought.ItemName}!\n";
+                        myLog.Text += $"Not enough money for {bought.ItemName}!\n";
                         return;
                     }
                 }
             }
-            consoleLog += $"Not enough room in inventory!\n";
+            myLog.Text += $"Not enough room in inventory!\n";
         }
 
         internal void PickUpItem(Slot mySlot) {
@@ -394,13 +394,13 @@ namespace MalpracticeMakesPerfect
                 }
 
                 //log when items are created
-                consoleLog += $"Created {outputAmount} {allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0]}(s)";
+                myLog.Text += $"Created {outputAmount} {allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[0]}(s)";
 
                 //add excess outputs
                 for (int i = 1; i < allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs.Count; i++)
                 {
                     //log excess items
-                    consoleLog += $", {outputAmount} {allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[i]}(s)";
+                    myLog.Text += $", {outputAmount} {allRecipes[$"{recipeInputs[0]},{recipeInputs[1]}"].Outputs[i]}(s)";
 
                     bool placedExcess = false;
                     foreach (Slot s in myInventory.Hotbar)
@@ -415,7 +415,7 @@ namespace MalpracticeMakesPerfect
                     }
                 }
 
-                consoleLog += "\n";
+                myLog.Text += "\n";
             }
         }
 
@@ -501,7 +501,6 @@ namespace MalpracticeMakesPerfect
 
         private void Reset()
         {
-            consoleLog = string.Empty;
             Reputation = 800;
             money = 1000;
 
@@ -510,6 +509,8 @@ namespace MalpracticeMakesPerfect
             theMessenger = null;
 
             scenarios = DatabaseManager.GetScenarios(Content, allItems, slotSprite, mediumFont, shopSlassetB, PickUpItem, PutDownItemScenario, SetHighlighted, UpdateStats);
+
+            myLog.Text = string.Empty;
 
             scenarioQueue.Clear();
 
@@ -630,6 +631,8 @@ namespace MalpracticeMakesPerfect
                         //things that will not work when recipebook is shown
                         if (!recipeBook.IsShown)
                         {
+                            myLog.Update();
+
                             //inventory handling
                             myShop.Update();
 
@@ -764,14 +767,14 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(110, 50), Color.Gold);
 
                     //draw console
-                    _spriteBatch.DrawString(itemAmountFont, consoleLog, new Vector2(1500, 10), Color.Black);
+                    myLog.Draw(_spriteBatch);
 
                     //draw notification for new recipe/item
                     if (newRecipeNotifItems != null && newRecipeNotifTimer > 0)
                     {
                         //change opacity as timer gets lower
-                        MessageBox.DrawItemPreviews(_spriteBatch, newRecipeNotifItems, new Vector2(1600, 90), 60, Color.White * ((newRecipeNotifTimer) / 25.0F));
-                        MessageBox.DrawItemLabel(_spriteBatch, joobi, notifFont, "New recipe unlocked!", new Vector2(1600, 155), Color.White);
+                        MessageBox.DrawItemPreviews(_spriteBatch, newRecipeNotifItems, new Vector2(1600, 90), 60, Color.White * (newRecipeNotifTimer / 25.0F));
+                        MessageBox.DrawItemLabel(_spriteBatch, joobi, notifFont, "New recipe unlocked!", new Vector2(1600, 155), Color.White, newRecipeNotifTimer / 25.0F);
                     }
 
                     //draw hoverover

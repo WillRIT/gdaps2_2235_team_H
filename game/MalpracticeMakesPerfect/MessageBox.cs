@@ -20,6 +20,14 @@ namespace MalpracticeMakesPerfect
             sb.DrawString(font, text, position, color);
         }
 
+        public static void DrawItemLabel(SpriteBatch sb, Texture2D texture, SpriteFont font, string text, Vector2 position, Color color, float opacity)
+        {
+            Vector2 textSize = font.MeasureString(text);
+
+            sb.Draw(texture, new Rectangle((int)position.X, (int)position.Y, (int)textSize.X, (int)textSize.Y), Color.Black * opacity);
+            sb.DrawString(font, text, position, color * opacity);
+        }
+
         public static void DrawItemLabel(SpriteBatch sb, Texture2D texture, SpriteFont font, string text, MouseState ms, Color color)
         {
             Vector2 textSize = font.MeasureString(text);

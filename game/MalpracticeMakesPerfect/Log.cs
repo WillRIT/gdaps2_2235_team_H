@@ -1,0 +1,105 @@
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MalpracticeMakesPerfect
+{
+    internal class Log : GameObject
+    {
+        private SpriteFont font;
+
+        public string Text { get; set; }
+
+        public int Count
+        {
+            get
+            {
+                return Text.Split('\n').Length;
+            }
+        }
+
+        private Button upB;
+        private Button downB;
+
+        private int firstLine;
+        private int LastLine
+        {
+            get
+            {
+                return Math.Min(firstLine + 5, Count - 1);
+            }
+        }
+
+        private int prevCount;
+
+        public Log(Texture2D asset, Rectangle position, SpriteFont font)
+            : base(asset, position)
+        {
+            this.font = font;
+            Text = String.Empty;
+
+            firstLine = 0;
+
+            upB = new Button(asset, new Rectangle(position.X + position.Width - 50, position.Y, 50, 50), font, "▲", Color.Black);
+            upB.OnLeftButton += Up;
+            downB = new Button(asset, new Rectangle(position.X + position.Width - 50, position.Y + position.Height - 50, 50, 50), font, "▼", Color.Black);
+            downB.OnLeftButton += Down;
+        }
+
+        private string GetTextSection()
+        {
+            string subSect = string.Empty;
+            string[] lines = Text.Split("\n");
+
+            for (int i = firstLine; i < LastLine; i++)
+            {
+                subSect += lines[i] + "\n";
+            }
+
+            return subSect;
+        }
+
+        private void Up()
+        {
+            if (firstLine != 0)
+            {
+                firstLine--;
+            }
+        }
+
+        private void Down()
+        {
+            if (firstLine + 6 < Count)
+            {
+                firstLine++;
+            }
+        }
+
+        public override void Update()
+        {
+            if (prevCount < Count && Count > firstLine + 5)
+            {
+                firstLine = Count - 6;
+            }
+
+            upB.Update();
+            downB.Update();
+
+            prevCount = Count;
+        }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            sb.Draw(asset, position, Color.White);
+
+            upB.Draw(sb);
+            downB.Draw(sb);
+
+            sb.DrawString(font, GetTextSection(), new Vector2(position.X, position.Y), Color.Black);
+        }
+    }
+}
