@@ -87,6 +87,10 @@ namespace MalpracticeMakesPerfect
             IsShown = false;
         }
 
+        /// <summary>
+        /// If new unlocked recipe outputs one of the items, unlock the recipe and item
+        /// </summary>
+        /// <param name="recipe">New unlocked recipe</param>
         public void NewRecipe(Recipe recipe)
         {
             foreach (RecipeBookSlot slot in slots)

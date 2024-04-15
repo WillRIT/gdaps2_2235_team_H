@@ -50,6 +50,10 @@ namespace MalpracticeMakesPerfect
             downB.OnLeftButton += Down;
         }
 
+        /// <summary>
+        /// Returns select lines of the log given beginning and end indices
+        /// </summary>
+        /// <returns>Subsection of the text</returns>
         private string GetTextSection()
         {
             string subSect = string.Empty;
@@ -63,6 +67,9 @@ namespace MalpracticeMakesPerfect
             return subSect;
         }
 
+        /// <summary>
+        /// Go up one line of text
+        /// </summary>
         private void Up()
         {
             if (firstLine != 0)
@@ -71,6 +78,7 @@ namespace MalpracticeMakesPerfect
             }
         }
 
+        //Go down one line of text
         private void Down()
         {
             if (firstLine + 6 < Count)
@@ -79,6 +87,9 @@ namespace MalpracticeMakesPerfect
             }
         }
 
+        /// <summary>
+        /// Reset log
+        /// </summary>
         public void Clear()
         {
             Text = string.Empty;
@@ -88,6 +99,7 @@ namespace MalpracticeMakesPerfect
 
         public override void Update()
         {
+            //put subsection of the end of the log when the log updates
             if (prevCount < Count && Count > firstLine + 5)
             {
                 firstLine = Count - 6;

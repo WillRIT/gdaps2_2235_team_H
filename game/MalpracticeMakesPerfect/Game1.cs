@@ -239,7 +239,7 @@ namespace MalpracticeMakesPerfect
                     shopItems.Add(i);
                 }
             }
-            myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 300, 600, 980), itemAmountFont, shopItems, PurchaseItem);
+            myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 200, 600, 980), itemAmountFont, shopItems, PurchaseItem);
 
             //activity log
             myLog = new Log(slotSprite, new Rectangle(781, 730, 420, 100), itemAmountFont);
