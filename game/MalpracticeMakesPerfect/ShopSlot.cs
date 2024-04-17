@@ -41,6 +41,11 @@ namespace MalpracticeMakesPerfect
             
         }
 
+        /// <summary>
+        /// Get centered position of text based on font
+        /// </summary>
+        /// <param name="words">String to be centered</param>
+        /// <returns>Position of text</returns>
         private Vector2 TextPos(string words)
         {
             Vector2 textSize = font.MeasureString(words);

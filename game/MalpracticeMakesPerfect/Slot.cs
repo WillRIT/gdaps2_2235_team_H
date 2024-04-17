@@ -132,6 +132,9 @@ namespace MalpracticeMakesPerfect
             return false;
         }
 
+        /// <summary>
+        /// Clears the slot
+        /// </summary>
         public void Clear()
         {
             item = null;

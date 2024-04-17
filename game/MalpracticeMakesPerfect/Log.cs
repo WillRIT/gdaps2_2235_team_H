@@ -78,7 +78,9 @@ namespace MalpracticeMakesPerfect
             }
         }
 
-        //Go down one line of text
+        /// <summary>
+        /// Go down one line of text
+        /// </summary>
         private void Down()
         {
             if (firstLine + 6 < Count)

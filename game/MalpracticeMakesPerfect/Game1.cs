@@ -31,7 +31,6 @@ namespace MalpracticeMakesPerfect
         private SpriteBatch _spriteBatch;
         private Texture2D slotSprite;
         private Texture2D joobi;
-        private Texture2D patient;
         private Texture2D sky;
         private Texture2D cloud;
         private Texture2D ground;
@@ -118,9 +117,6 @@ namespace MalpracticeMakesPerfect
 
         private double money;
 
-        //scenarios
-        private Texture2D adventurer;
-
         //scenario List
         private Queue<Scenario> scenarioQueue;
 
@@ -197,9 +193,6 @@ namespace MalpracticeMakesPerfect
             ground = Content.Load<Texture2D>("background/grass");
             office = Content.Load<Texture2D>("background/Shop Pack V2 4");
             officeLocation = new Vector2(1180, 350);
-
-            //people
-            adventurer = Content.Load<Texture2D>("people/green_man");
 
             shopSlasset = Content.Load<Texture2D>("ui/shopslot1");
             shopSlassetB = Content.Load<Texture2D>("ui/shopslot2");
@@ -302,6 +295,10 @@ namespace MalpracticeMakesPerfect
             myLog.Text += $"Not enough room in inventory!\n";
         }
 
+        /// <summary>
+        /// Pick up item from slot
+        /// </summary>
+        /// <param name="mySlot">Slot to pick up item from</param>
         internal void PickUpItem(Slot mySlot) {
             if (theMessenger == null)
             {
@@ -315,6 +312,10 @@ namespace MalpracticeMakesPerfect
             }
         }
 
+        /// <summary>
+        /// Put down stack of items into slot
+        /// </summary>
+        /// <param name="mySlot">Slot to place itemstack</param>
         internal void PutDownItem(Slot mySlot)
         {
             if (theMessenger != null)
@@ -340,6 +341,10 @@ namespace MalpracticeMakesPerfect
             }
         }
 
+        /// <summary>
+        /// Place down single item of itemstack in slot
+        /// </summary>
+        /// <param name="mySlot">Slot to place item</param>
         internal void PutDownItemScenario(Slot mySlot)
         {
             if (theMessenger != null)
@@ -352,6 +357,10 @@ namespace MalpracticeMakesPerfect
             }
         }
 
+        /// <summary>
+        /// Combine held item with item in given slot
+        /// </summary>
+        /// <param name="mySlot">Slot with item to be combined</param>
         internal void CombineItems(Slot mySlot)
         {
             Item[] recipeInputs = new Item[2];
@@ -419,6 +428,13 @@ namespace MalpracticeMakesPerfect
             }
         }
 
+        /// <summary>
+        /// Check if two items are a valid recipe, put them in the right order for the recipe
+        /// </summary>
+        /// <param name="item1">First item in recipe</param>
+        /// <param name="item2">Second item in recipe</param>
+        /// <param name="recipeInputs">Correct order of items for recipe</param>
+        /// <returns>Outputs of recipe</returns>
         internal List<Item> GetItemCombo(Item item1, Item item2, out Item[] recipeInputs)
         {
             //check if there is a recipe
@@ -446,6 +462,10 @@ namespace MalpracticeMakesPerfect
             return new List<Item>();
         }
 
+        /// <summary>
+        /// Unlock a new recipe
+        /// </summary>
+        /// <param name="recipe">Recipe to be unlocked</param>
         internal void NewRecipe(Recipe recipe)
         {
             if (!unlockedRecipes.Contains(recipe))
@@ -459,6 +479,10 @@ namespace MalpracticeMakesPerfect
             }
         }
 
+        /// <summary>
+        /// Place single item from itemstack
+        /// </summary>
+        /// <param name="mySlot">Slot for item to be placed</param>
         internal void PutSingleItem(Slot mySlot)
         {
             if (theMessenger != null)
@@ -473,11 +497,20 @@ namespace MalpracticeMakesPerfect
             }
         }
 
+        /// <summary>
+        /// Set given slot as the highlighted slot
+        /// </summary>
+        /// <param name="mySlot">Given slot</param>
         internal void SetHighlighted(Slot mySlot)
         {
             highlightedSlot = mySlot;
         }
 
+        /// <summary>
+        /// Update reputation and money
+        /// </summary>
+        /// <param name="money">Money to be added</param>
+        /// <param name="rep">Reputation to be added</param>
         internal void UpdateStats(double money, int rep)
         {
             this.money += money;
@@ -499,6 +532,9 @@ namespace MalpracticeMakesPerfect
             }
         }
 
+        /// <summary>
+        /// Reset the game on win/game over for another round
+        /// </summary>
         private void Reset()
         {
             Reputation = 800;

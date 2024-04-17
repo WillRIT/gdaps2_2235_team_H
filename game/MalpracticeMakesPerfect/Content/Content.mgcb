@@ -103,6 +103,18 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/TitleFont.spritefont
 
+#begin items/Apple.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:items/Apple.png
+
 #begin items/Bandage.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -187,18 +199,6 @@
 /processorParam:TextureFormat=Color
 /build:items/Empty Jar.png
 
-#begin items/Green Apple.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:items/Green Apple.png
-
 #begin items/Green Cider.webp
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -271,7 +271,7 @@
 /processorParam:TextureFormat=Color
 /build:items/Horsefeathers.webp
 
-#begin items/Mealy Apple.webp
+#begin items/Mealy Apple.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -281,7 +281,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:items/Mealy Apple.webp
+/build:items/Mealy Apple.png
 
 #begin items/Mealy Cider.webp
 /importer:TextureImporter

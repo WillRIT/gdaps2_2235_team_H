@@ -69,7 +69,10 @@ namespace MalpracticeMakesPerfect
             //create trash
             hotbar[hotbar.Length - 1].IsTrash = true;
         }
-
+        
+        /// <summary>
+        /// Clears inventory
+        /// </summary>
         public void Clear()
         {
             foreach (Slot s in hotbar)
@@ -82,6 +85,7 @@ namespace MalpracticeMakesPerfect
         /// Adds an item to the inventory if it doesn't already exist there
         /// </summary>
         /// <param name="item">Item to be added</param>
+        /// <param name="slotIndex">Slot for item to be added</param>
         public void AddItem(Item item, int slotIndex)
         {
 

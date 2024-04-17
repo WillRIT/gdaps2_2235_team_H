@@ -114,6 +114,9 @@ namespace MalpracticeMakesPerfect
             }
         }
 
+        /// <summary>
+        /// Toggle whether recipebook is shown
+        /// </summary>
         public void Show()
         {
             IsShown = !IsShown;

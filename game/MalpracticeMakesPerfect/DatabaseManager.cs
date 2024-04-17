@@ -17,6 +17,13 @@ namespace MalpracticeMakesPerfect
     /// </summary>
     internal class DatabaseManager
     {
+        /// <summary>
+        /// Get list of items and recipes from file
+        /// </summary>
+        /// <param name="Content">Content manager for textures</param>
+        /// <param name="recipes">List of recipes to be output</param>
+        /// <param name="itemDict">Dictionary of items for item lookup</param>
+        /// <returns>Complete list of items</returns>
         public static List<Item> GetItemsAndRecipes(ContentManager Content, out Dictionary<string,Recipe> recipes, out Dictionary<string, Item> itemDict)
         {
             List<Item> items = new List<Item>();
@@ -90,9 +97,18 @@ namespace MalpracticeMakesPerfect
         }
 
         /// <summary>
-        /// Reads a file to get all the scenarios
+        /// Gets every scenario from a file
         /// </summary>
-        /// <returns>A list of scenario</returns>
+        /// <param name="Content">Content manager for textures</param>
+        /// <param name="items">A list of every item</param>
+        /// <param name="slotAsset">Asset for the slot to be used by the scenario</param>
+        /// <param name="font">Font to be used by the scenario</param>
+        /// <param name="buttonAsset">Asset for scenario button</param>
+        /// <param name="pickUpItem">Method for picking up and item</param>
+        /// <param name="putDownItem">Method for placing an item</param>
+        /// <param name="setHighlight">Method for setting the highlighted slot</param>
+        /// <param name="updateStats">Method for updating money/reputation</param>
+        /// <returns>Complete list of scenarios</returns>
         public static List<Scenario> GetScenarios(ContentManager Content, List<Item> items, Texture2D slotAsset, SpriteFont font, Texture2D buttonAsset, OnLeftPress pickUpItem, OnLeftRelease putDownItem, OnHover setHighlight, UpdateStats updateStats)
         {
             List<Scenario> list = new List<Scenario>();
