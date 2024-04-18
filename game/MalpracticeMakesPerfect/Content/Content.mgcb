@@ -379,6 +379,18 @@
 /processorParam:TextureFormat=Color
 /build:items/Tourniquet.png
 
+#begin items/WIG.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:items/WIG.png;items/Wig.png
+
 #begin PauseMenuPlaceHolderArt.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -390,6 +402,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:PauseMenuPlaceHolderArt.png
+
+#begin people/bald_man.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:people/bald_man.png
 
 #begin people/green_man.png
 /importer:TextureImporter
