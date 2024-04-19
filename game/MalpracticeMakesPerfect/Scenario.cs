@@ -217,14 +217,14 @@ namespace MalpracticeMakesPerfect
 
                 case ScenarioState.Waiting:
                     sb.Draw(personSprite, destinationPoint, Color.White);
-                    MessageBox.DrawItemLabel(sb, buttonAsset, font, shownMessage, new Vector2 (320, 280), Color.White);
+                    MessageBox.DrawItemLabel(sb, buttonAsset, font, shownMessage, new Vector2 (220, 280), Color.White);
                     slot.Draw(sb);
                     button.Draw(sb);
                     break;
 
                 case ScenarioState.Leaving:
                     sb.Draw(personSprite, destinationPoint, Color.White);
-                    MessageBox.DrawItemLabel(sb, buttonAsset, font, shownMessage, new Vector2(320, 280), Color.White);
+                    MessageBox.DrawItemLabel(sb, buttonAsset, font, shownMessage, new Vector2(290, 280), Color.White);
 
                     if (destinationPoint.X < 0)
                     {

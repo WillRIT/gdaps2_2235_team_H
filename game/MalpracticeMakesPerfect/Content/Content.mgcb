@@ -163,6 +163,18 @@
 /processorParam:TextureFormat=Color
 /build:items/Cotton.png
 
+#begin items/Cure All.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:items/Cure All.png
+
 #begin items/diamond.gif
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -294,6 +306,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:items/Mealy Cider.webp
+
+#begin items/MF_Items_juice_8.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:items/MF_Items_juice_8.png
 
 #begin items/Nasty Juice.webp
 /importer:TextureImporter
