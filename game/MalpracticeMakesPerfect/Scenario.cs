@@ -37,7 +37,7 @@ namespace MalpracticeMakesPerfect
             get { return slot; }
             set { slot = value; }
         }
-        private List<Solution> solutions;
+
         private Texture2D personSprite;
         private string godModeText;
         private Vector2 spawnPoint = new Vector2(0, 650);
