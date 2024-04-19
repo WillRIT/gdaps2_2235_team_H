@@ -790,6 +790,9 @@ namespace MalpracticeMakesPerfect
                         scenarioQueue.Peek().Draw(_spriteBatch);
                     }
 
+                    //draw console
+                    myLog.Draw(_spriteBatch);
+
                     if (theMessenger != null)
                     {
                         theMessenger.Draw(_spriteBatch);
@@ -802,8 +805,7 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(111, 51), Color.DarkGoldenrod);
                     _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(110, 50), Color.Gold);
 
-                    //draw console
-                    myLog.Draw(_spriteBatch);
+                    
 
                     //draw notification for new recipe/item
                     if (newRecipeNotifItems != null && newRecipeNotifTimer > 0)

@@ -120,7 +120,7 @@ namespace MalpracticeMakesPerfect
             upB.Draw(sb);
             downB.Draw(sb);
 
-            sb.DrawString(font, GetTextSection(), new Vector2(position.X, position.Y), Color.Black);
+            sb.DrawString(font, GetTextSection(), new Vector2(position.X + 25, position.Y + 5), Color.Black);
         }
     }
 }
