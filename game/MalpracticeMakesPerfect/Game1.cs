@@ -220,7 +220,7 @@ namespace MalpracticeMakesPerfect
 
             groundRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
-            myInventory = new Inventory(joobi, new Rectangle(700, 500, 500, 200), itemAmountFont, slotSprite, PickUpItem, PutDownItem, PutSingleItem, SetHighlighted);
+            myInventory = new Inventory(joobi, new Rectangle(700, 550, 588, 288), itemAmountFont, slotSprite, PickUpItem, PutDownItem, PutSingleItem, SetHighlighted);
 
             theMessenger = null;
 
@@ -235,7 +235,7 @@ namespace MalpracticeMakesPerfect
             myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 200, 600, 980), itemAmountFont, shopItems, PurchaseItem);
 
             //activity log
-            myLog = new Log(slotSprite, new Rectangle(781, 730, 420, 100), itemAmountFont);
+            myLog = new Log(slotSprite, new Rectangle(744, 694, 420, 100), itemAmountFont);
 
 
             // Scenarios

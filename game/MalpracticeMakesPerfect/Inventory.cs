@@ -29,7 +29,7 @@ namespace MalpracticeMakesPerfect
             this.font = font;
             this.slotAsset = slotAsset;
 
-            slotSize = position.Width / hotbar.Length;
+            slotSize = (int)(position.Width - position.Width * 0.15) / hotbar.Length;
 
             //initialize hotbar as empty slots
             for (int i = 0; i < hotbar.Length - 1; i++)
@@ -105,11 +105,11 @@ namespace MalpracticeMakesPerfect
             {
                 if (!hotbar[i].IsTrash)
                 {
-                    hotbar[i].Position = new Rectangle(position.X + (hotbar[i].Position.Width * i), position.Y, slotSize, slotSize);
+                    hotbar[i].Position = new Rectangle(position.X + (int)(position.Width * 0.075) + (hotbar[i].Position.Width * i), position.Y + (int)(position.Width * 0.075), slotSize, slotSize);
                 }
                 else
                 {
-                    hotbar[i].Position = new Rectangle(position.X + (hotbar[i].Position.Width * i), position.Y + (position.Height - slotSize), slotSize, slotSize);
+                    hotbar[i].Position = new Rectangle(position.X + (int)(position.Width * 0.075) + (hotbar[i].Position.Width * i), position.Y + (int)(position.Height - slotSize - position.Width * 0.075), slotSize, slotSize);
                 }
                 
                 hotbar[i].Draw(sb);

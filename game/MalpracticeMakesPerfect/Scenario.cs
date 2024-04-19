@@ -103,12 +103,12 @@ namespace MalpracticeMakesPerfect
             }
             
 
-            slot = new Slot(slotAsset, new Rectangle(600, 650, 50, 50), font);
+            slot = new Slot(slotAsset, new Rectangle(625, 813, 50, 50), font);
             slot.PickUpItem += pickUpItem;
             slot.PutDownItem += putDownItem;
             slot.SetHighlighted += setHighlight;
 
-            buttonRect = new Rectangle(570, 715, 170, 60);
+            buttonRect = new Rectangle(570, 888, 170, 60);
 
             button = new Button(buttonAsset, buttonRect, font, "SUBMIT", Color.Black, Color.Red, Color.Green);
             button.OnLeftButton += GiveCure;
