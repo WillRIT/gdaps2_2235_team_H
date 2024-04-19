@@ -1,6 +1,5 @@
 name|description|cost|inInventory|assetPath
-Horsefeathers|Feathers of the Horse.|4.99|true|Horsefeathers
-Catnip|Nip of the Cat.|5.00|true|Catnip
+Cure All|Works for whatever!!!|200.00|true|Cure All
 Apple|A very green apple. The greenest.|10.75|true|Apple
 Green Cider|A very green cider. The greenest.|0.00|false|Green Cider
 Mealy Cider|A very mealy cider. The mealiest.|0.00|false|Mealy Cider
