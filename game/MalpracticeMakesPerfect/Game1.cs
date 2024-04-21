@@ -91,6 +91,12 @@ namespace MalpracticeMakesPerfect
         private bool isPaused;
         private Texture2D pauseArt;
 
+        //Hint variables
+        private Button hintButton;
+        private bool hintShown;
+        private bool isClicked;
+        private Dictionary<string, string> hints;
+
         //Reputation and Money
         private int maxRep = 1600;
         private int minRep = 0;
@@ -262,6 +268,15 @@ namespace MalpracticeMakesPerfect
             recipeBookButton.OnLeftButton += recipeBook.Show;
 
             unlockedRecipes = new List<Recipe>();
+
+
+            //Setting up hints
+            hintShown = false;
+            isClicked = false;
+            hints = new Dictionary<string, string>();
+            hintButton = new Button(sky, new Rectangle(150, 150, 160, 50), smallSubtitleFont, "Hint: $20", Color.WhiteSmoke, Color.Maroon, Color.Yellow);
+            hintButton.OnLeftButton += Hint;
+            DatabaseManager.GetHintList(hints);
         }
 
         /// <summary>
@@ -533,6 +548,23 @@ namespace MalpracticeMakesPerfect
         }
 
         /// <summary>
+        /// Spends money to show a hint for the current scenario
+        /// </summary>
+        private void Hint()
+        {
+            if (hintShown)
+            {
+                hintShown = false;
+            }
+            else if (!hintShown && money >= 20)
+            {
+                hintShown = true;
+                isClicked = true;
+                money -= 20;
+            }
+        }
+
+        /// <summary>
         /// Reset the game on win/game over for another round
         /// </summary>
         private void Reset()
@@ -556,6 +588,9 @@ namespace MalpracticeMakesPerfect
             }
 
             isPaused = false;
+
+            hintShown = false;
+            isClicked = false;
 
             unlockedRecipes = new List<Recipe>();
 
@@ -620,6 +655,9 @@ namespace MalpracticeMakesPerfect
                     if (scenarioQueue.Count > 0 && scenarioQueue.Peek().state == Scenario.ScenarioState.Left)
                     {
                         scenarioQueue.Dequeue();
+
+                        hintShown = false;
+                        isClicked = false;
                     }
 
                     if (scenarioQueue.Count != 0)
@@ -688,6 +726,8 @@ namespace MalpracticeMakesPerfect
                                 }
                             }
                         }
+
+                        hintButton.Update();
 
                         recipeBook.Update();
 
@@ -847,6 +887,15 @@ namespace MalpracticeMakesPerfect
 
                     pauseButton.Draw(_spriteBatch);
                     recipeBookButton.Draw(_spriteBatch);
+
+                    if (isClicked == false)
+                    {
+                        hintButton.Draw(_spriteBatch);
+                    }
+                    else
+                    {
+                        MessageBox.DrawItemLabel(_spriteBatch, sky, smallSubtitleFont, scenarioQueue.Peek().GetHint(hints), new Vector2(150, 150), Color.White);
+                    }
 
 
                     recipeBook.Draw(_spriteBatch);

@@ -142,6 +142,23 @@ namespace MalpracticeMakesPerfect
             slot.Item = null;
         }
 
+
+        /// <summary>
+        /// Gets a hint based on the name of the current scenario
+        /// </summary>
+        /// <returns>The scenario specific hint</returns>
+        public string GetHint(Dictionary<string, string> hints)
+        {
+            if (hints.ContainsKey(name))
+            {
+                return hints[name];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public void Update()
         {
             mState = Mouse.GetState();

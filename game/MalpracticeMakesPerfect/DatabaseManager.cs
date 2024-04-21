@@ -154,5 +154,34 @@ namespace MalpracticeMakesPerfect
 
             return list;
         }
+        
+        /// <summary>
+        /// Gets scenario specific hints from a file
+        /// </summary>
+        /// <param name="hints"></param>
+        public static void GetHintList(Dictionary<string, string> hints)
+        {
+            string hintPath = "../../../Hints.txt";
+
+            try
+            {
+                //Checks if the file exists
+                if (File.Exists(hintPath))
+                {
+                    string[] lines = File.ReadAllLines(hintPath);
+
+                    //Adds each hint to the dictionary
+                    for (int i = 0; i < lines.Length; i++)
+                    {
+                        string[] elements = lines[i].Split('|');
+                        hints.Add(elements[0], elements[1]);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 }
