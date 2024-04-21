@@ -101,6 +101,7 @@ namespace MalpracticeMakesPerfect
         private int maxRep = 1600;
         private int minRep = 0;
         private int reputation;
+        private int repChange;
         private int Reputation
         {
             get { return reputation; }
@@ -530,6 +531,7 @@ namespace MalpracticeMakesPerfect
         {
             this.money += money;
             Reputation += rep;
+            repChange = rep;
         }
 
         /// <summary>
@@ -905,6 +907,20 @@ namespace MalpracticeMakesPerfect
                         pauseMenu.Draw(_spriteBatch);
                     }
 
+                    if(scenarioQueue.Count >0 && scenarioQueue.Peek().IsLeaving)
+                    {
+                        if(repChange> 0)
+                        {
+                            _spriteBatch.Draw(sky, new Rectangle(290, 52, 170, 35), Color.Black);
+                            _spriteBatch.DrawString(smallSubtitleFont, "Rep: +"+repChange, new Vector2(300, 50), Color.LightGreen);
+                        }
+                        else
+                        {
+                            _spriteBatch.Draw(sky, new Rectangle(290, 52, 170, 35), Color.Black);
+                            _spriteBatch.DrawString(smallSubtitleFont, "Rep: " + repChange, new Vector2(300, 50), Color.Red);
+                        }
+                    }
+                   
                     break;
 
                 case GameStates.GameOver://Game over screen art

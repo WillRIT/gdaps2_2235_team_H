@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
@@ -57,6 +58,12 @@ namespace MalpracticeMakesPerfect
         {
             get { return godModeOn; }
             set { godModeOn = value; }
+        }
+
+        private bool isLEaving;
+        public bool IsLeaving
+        {
+            get { return (state == ScenarioState.Leaving); }
         }
 
         Dictionary<string, string[]> cures = new Dictionary<string, string[]>();
