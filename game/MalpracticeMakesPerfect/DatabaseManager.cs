@@ -88,7 +88,7 @@ namespace MalpracticeMakesPerfect
             }
             catch (Exception ex)
             {
-                Console.WriteLine("An error occurred: " + ex.Message);
+                Console.WriteLine("ITEM error occurred: " + ex.Message);
             }
 
             recipes = recipeList;
@@ -148,7 +148,7 @@ namespace MalpracticeMakesPerfect
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("SCENARIO ERROR:" + ex.Message);
             }
 
 
