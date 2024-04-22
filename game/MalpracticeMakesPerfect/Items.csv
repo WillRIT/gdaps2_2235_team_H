@@ -1,10 +1,6 @@
 name|description|cost|inInventory|assetPath
 Cure All|Works for whatever!!!|200.00|true|Cure All
 Apple|A very green apple. The greenest.|10.75|true|Apple
-Green Cider|A very green cider. The greenest.|0.00|false|Green Cider
-Mealy Cider|A very mealy cider. The mealiest.|0.00|false|Mealy Cider
-Green Juice|Green apple green nip.|0.00|false|Green Juice
-Nasty Juice|ewww|0.00|false|Nasty Juice
 Stick|Pointy|2.00|true|Stick
 Hay|Makes you sneeze|3.00|true|Hay
 Scrubber|Good for deep cleaning|0.00|false|Scrubber

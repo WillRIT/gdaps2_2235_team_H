@@ -13,6 +13,18 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin ../../../../../../../Desktop/BELGH ASSETS/Mealy Apple.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../../../../../../Desktop/BELGH ASSETS/Mealy Apple.png;items/Mealy Apple.png
+
 #begin background/cloud.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -319,30 +331,6 @@
 /processorParam:TextureFormat=Color
 /build:items/Horsefeathers.webp
 
-#begin items/Mealy Apple.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:items/Mealy Apple.png
-
-#begin items/Mealy Cider.webp
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:items/Mealy Cider.webp
-
 #begin items/MF_Items_juice_8.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -354,18 +342,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:items/MF_Items_juice_8.png
-
-#begin items/Nasty Juice.webp
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:items/Nasty Juice.webp
 
 #begin items/Needle.png
 /importer:TextureImporter
