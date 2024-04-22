@@ -23,7 +23,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:../../../../../../../Desktop/BELGH ASSETS/Mealy Apple.png;items/Mealy Apple.png
+/build:items/Mealy Apple.png
 
 #begin background/cloud.png
 /importer:TextureImporter
