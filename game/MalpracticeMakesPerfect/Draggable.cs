@@ -31,6 +31,11 @@ namespace MalpracticeMakesPerfect
         }
         protected Rectangle snapLocation;
 
+        /// <summary>
+        /// Create draggable
+        /// </summary>
+        /// <param name="asset">Object asset</param>
+        /// <param name="position">Object dimensions/initial position</param>
         public Draggable(Texture2D asset, Rectangle position) : base(asset, position)
         {
             snapped = false;

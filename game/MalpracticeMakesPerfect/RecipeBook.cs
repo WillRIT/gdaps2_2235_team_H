@@ -22,6 +22,14 @@ namespace MalpracticeMakesPerfect
 
         private SpriteFont font;
 
+        /// <summary>
+        /// Create recipebook
+        /// </summary>
+        /// <param name="asset">Background asset</param>
+        /// <param name="position">Dimensions/position of recipebook</param>
+        /// <param name="font">Font for text</param>
+        /// <param name="allItems">Complete list of items</param>
+        /// <param name="recipes">Complete list of recipes</param>
         public RecipeBook(Texture2D asset, Rectangle position, SpriteFont font,List<Item> allItems, Dictionary<string, Recipe> recipes)
             :base(asset, position)
         {
@@ -54,7 +62,7 @@ namespace MalpracticeMakesPerfect
                     col = 0;
                 }
 
-                //centering
+                //centering (use is optional)
                 /*if (col == 0)
                 {
                     if (craftableItems.Count - i < slotsPerLine)

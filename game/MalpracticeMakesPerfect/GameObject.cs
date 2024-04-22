@@ -18,6 +18,11 @@ namespace MalpracticeMakesPerfect
             set { position = value; }
         }
 
+        /// <summary>
+        /// Create game object
+        /// </summary>
+        /// <param name="asset">Object asset</param>
+        /// <param name="position">Object dimensions/position</param>
         public GameObject(Texture2D asset, Rectangle position)
         {
             this.asset = asset;

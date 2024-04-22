@@ -22,6 +22,16 @@ namespace MalpracticeMakesPerfect
 
         private Point slotDims = new Point(100, 150);
 
+        /// <summary>
+        /// Create shop
+        /// </summary>
+        /// <param name="asset">Shop background (not currently implemented</param>
+        /// <param name="slotAsset">Asset of shop slots</param>
+        /// <param name="buttonAsset">Asset of bottons</param>
+        /// <param name="position">Dimensions/position</param>
+        /// <param name="font">Text font</param>
+        /// <param name="items">List of items that start in the shop</param>
+        /// <param name="Purchase">Method for purchasing an item</param>
         public Shop(Texture2D asset, Texture2D slotAsset, Texture2D buttonAsset, Rectangle position, SpriteFont font, List<Item> items, ShopSlot.PurchaseItem Purchase)
             : base(asset, position)
         {

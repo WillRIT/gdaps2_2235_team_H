@@ -24,6 +24,13 @@ namespace MalpracticeMakesPerfect
             set { amount = value; }
         }
 
+        /// <summary>
+        /// Create temp (draggable) slot
+        /// </summary>
+        /// <param name="position">Dimensions/position</param>
+        /// <param name="font">Text font</param>
+        /// <param name="item">Item in slot</param>
+        /// <param name="amount">Amount of item in slot</param>
         public TempSlot(Rectangle position, SpriteFont font, Item item, int amount)
             : base(item.Asset, position)
         {

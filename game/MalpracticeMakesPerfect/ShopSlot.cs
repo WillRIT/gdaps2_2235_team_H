@@ -28,6 +28,14 @@ namespace MalpracticeMakesPerfect
         public delegate void PurchaseItem(Item bought);
         public event PurchaseItem Purchase;
 
+        /// <summary>
+        /// Create shop slot
+        /// </summary>
+        /// <param name="asset">Background asset</param>
+        /// <param name="buttonAsset">Button asset</param>
+        /// <param name="position">Dimensions/position</param>
+        /// <param name="font">Text font</param>
+        /// <param name="item">Item in slot</param>
         public ShopSlot(Texture2D asset, Texture2D buttonAsset, Rectangle position, SpriteFont font, Item item)
             : base(asset, position)
         {

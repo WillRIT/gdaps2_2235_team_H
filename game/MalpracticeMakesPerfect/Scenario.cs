@@ -60,7 +60,6 @@ namespace MalpracticeMakesPerfect
             set { godModeOn = value; }
         }
 
-        private bool isLEaving;
         public bool IsLeaving
         {
             get { return (state == ScenarioState.Leaving); }
