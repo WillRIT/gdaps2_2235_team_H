@@ -104,6 +104,7 @@ namespace MalpracticeMakesPerfect
         private int reputation;
         private int repChange;
 
+
         private int Reputation
         {
             get { return reputation; }
@@ -864,6 +865,16 @@ namespace MalpracticeMakesPerfect
                     _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(111, 51), Color.DarkGoldenrod);
                     _spriteBatch.DrawString(smallSubtitleFont, $"${money:N2}", new Vector2(110, 50), Color.Gold);
 
+                    if(Reputation <= 150)
+                    {
+                        _spriteBatch.Draw(sky, new Rectangle(190, 30, Reputation, 20), Color.Crimson);
+                        
+                    }
+                    if(reputation == 0)
+                    {
+                        _spriteBatch.DrawString(smallSubtitleFont, "DANGER", new Vector2(200, 20), Color.Crimson);
+                    }
+
                     
 
                     //draw notification for new recipe/item
@@ -928,15 +939,20 @@ namespace MalpracticeMakesPerfect
 
                     if(scenarioQueue.Count >0 && scenarioQueue.Peek().IsLeaving)
                     {
-                        if(repChange>= 0)
+                        if(repChange> 0)
                         {
                             _spriteBatch.Draw(sky, new Rectangle(290, 52, 170, 35), Color.Black);
                             _spriteBatch.DrawString(smallSubtitleFont, "Rep: +"+repChange, new Vector2(300, 50), Color.LightGreen);
                         }
-                        else
+                        else if(repChange <0)
                         {
                             _spriteBatch.Draw(sky, new Rectangle(290, 52, 170, 35), Color.Black);
                             _spriteBatch.DrawString(smallSubtitleFont, "Rep: " + repChange, new Vector2(300, 50), Color.Red);
+                        }
+                        else
+                        {
+                            _spriteBatch.Draw(sky, new Rectangle(290, 52, 230, 35), Color.Black);
+                            _spriteBatch.DrawString(smallSubtitleFont, "No Rep change" , new Vector2(300, 50), Color.Yellow);
                         }
                     }
                    
