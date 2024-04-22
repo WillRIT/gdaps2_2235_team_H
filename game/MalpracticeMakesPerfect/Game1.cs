@@ -90,6 +90,7 @@ namespace MalpracticeMakesPerfect
         private Button pauseMenu;
         private bool isPaused;
         private Texture2D pauseArt;
+        private Button mainMenuButton;
 
         //Hint variables
         private Button hintButton;
@@ -102,6 +103,7 @@ namespace MalpracticeMakesPerfect
         private int minRep = 0;
         private int reputation;
         private int repChange;
+
         private int Reputation
         {
             get { return reputation; }
@@ -256,10 +258,14 @@ namespace MalpracticeMakesPerfect
             //Setting up pause buttons
             isPaused = false;
             pauseArt = Content.Load<Texture2D>("PauseMenuPlaceHolderArt");
-            pauseButton = new Button(sky, new Rectangle(1810, 25, 90, 50), smallSubtitleFont, "Help", Color.WhiteSmoke, Color.Maroon,Color.Yellow);
+            pauseButton = new Button(sky, new Rectangle(1490, 25, 90, 50), smallSubtitleFont, "Help", Color.WhiteSmoke, Color.Maroon,Color.Yellow);
             pauseButton.OnLeftButton += Pause;
             pauseMenu = new Button(pauseArt, new Rectangle(220, 150, 1500, 800), smallSubtitleFont, "", Color.White, Color.White, Color.White);
             pauseMenu.OnLeftButton += Pause;
+
+            mainMenuButton = new Button(sky, new Rectangle(1810, 25, 90, 50), smallSubtitleFont, "Quit", Color.WhiteSmoke, Color.Maroon, Color.Yellow);
+            mainMenuButton.OnLeftButton += QuitToMenu;
+
 
 
             //setup recipe book
@@ -532,6 +538,8 @@ namespace MalpracticeMakesPerfect
             this.money += money;
             Reputation += rep;
             repChange = rep;
+
+
         }
 
         /// <summary>
@@ -599,6 +607,12 @@ namespace MalpracticeMakesPerfect
             recipeBook = new RecipeBook(slotSprite, new Rectangle(360, 203, 1200, 675), itemAmountFont, allItems, allRecipes);
             recipeBookButton = new Button(sky, new Rectangle(1600, 25, 190, 50), smallSubtitleFont, "Recipe Book", Color.WhiteSmoke, Color.Maroon, Color.Yellow);
             recipeBookButton.OnLeftButton += recipeBook.Show;
+        }
+
+        private void QuitToMenu()
+        {
+            Reset();
+            gameState = GameStates.TitleScreen;
         }
         
 
@@ -735,6 +749,7 @@ namespace MalpracticeMakesPerfect
 
                         recipeBookButton.Update();
                     }
+                 
 
                     //make recipe timer go away after a certain time
                     if (newRecipeNotifTimer > 0)
@@ -750,7 +765,9 @@ namespace MalpracticeMakesPerfect
                     {
                         pauseMenu.Update();
                         
+                        
                     }
+                    mainMenuButton.Update();
 
                     break;
                 
@@ -905,11 +922,13 @@ namespace MalpracticeMakesPerfect
                     if (isPaused)
                     {
                         pauseMenu.Draw(_spriteBatch);
+
                     }
+                    mainMenuButton.Draw(_spriteBatch);
 
                     if(scenarioQueue.Count >0 && scenarioQueue.Peek().IsLeaving)
                     {
-                        if(repChange> 0)
+                        if(repChange>= 0)
                         {
                             _spriteBatch.Draw(sky, new Rectangle(290, 52, 170, 35), Color.Black);
                             _spriteBatch.DrawString(smallSubtitleFont, "Rep: +"+repChange, new Vector2(300, 50), Color.LightGreen);
