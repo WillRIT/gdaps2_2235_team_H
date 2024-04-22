@@ -20,7 +20,7 @@ namespace MalpracticeMakesPerfect
         /// <param name="text">Text to be displayed</param>
         /// <param name="position">Position of label</param>
         /// <param name="color">Color of the text</param>
-        public static void DrawItemLabel(SpriteBatch sb, Texture2D texture, SpriteFont font, string text, Vector2 position, Color color)
+        public static void DrawMessage(SpriteBatch sb, Texture2D texture, SpriteFont font, string text, Vector2 position, Color color)
         {
             Vector2 textSize = font.MeasureString(text);
 
@@ -38,7 +38,7 @@ namespace MalpracticeMakesPerfect
         /// <param name="position">Position of label</param>
         /// <param name="color">Color of the text</param>
         /// <param name="opacity">Opacity of label</param>
-        public static void DrawItemLabel(SpriteBatch sb, Texture2D texture, SpriteFont font, string text, Vector2 position, Color color, float opacity)
+        public static void DrawMessage(SpriteBatch sb, Texture2D texture, SpriteFont font, string text, Vector2 position, Color color, float opacity)
         {
             Vector2 textSize = font.MeasureString(text);
 
@@ -55,7 +55,7 @@ namespace MalpracticeMakesPerfect
         /// <param name="text">Text to be displayed</param>
         /// <param name="ms">Mouse state</param>
         /// <param name="color">Color of text</param>
-        public static void DrawItemLabel(SpriteBatch sb, Texture2D texture, SpriteFont font, string text, MouseState ms, Color color)
+        public static void DrawMessage(SpriteBatch sb, Texture2D texture, SpriteFont font, string text, MouseState ms, Color color)
         {
             Vector2 textSize = font.MeasureString(text);
 

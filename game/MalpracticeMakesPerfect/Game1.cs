@@ -201,7 +201,7 @@ namespace MalpracticeMakesPerfect
             cloud = Content.Load<Texture2D>("background/cloud");
             ground = Content.Load<Texture2D>("background/grass");
             office = Content.Load<Texture2D>("background/Shop Pack V2 4");
-            officeLocation = new Vector2(1180, 350);
+            officeLocation = new Vector2(1320, 350);
 
             shopSlasset = Content.Load<Texture2D>("ui/shopslot1");
             shopSlassetB = Content.Load<Texture2D>("ui/shopslot2");
@@ -241,7 +241,7 @@ namespace MalpracticeMakesPerfect
                     shopItems.Add(i);
                 }
             }
-            myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(1200, 200, 600, 980), itemAmountFont, shopItems, PurchaseItem);
+            myShop = new Shop(joobi, shopSlasset, shopSlassetB, new Rectangle(700, 200, 600, 980), itemAmountFont, shopItems, PurchaseItem);
 
             //activity log
             myLog = new Log(slotSprite, new Rectangle(744, 694, 420, 100), itemAmountFont);
@@ -871,7 +871,7 @@ namespace MalpracticeMakesPerfect
                     {
                         //change opacity as timer gets lower
                         MessageBox.DrawItemPreviews(_spriteBatch, newRecipeNotifItems, new Vector2(1600, 90), 60, Color.White * (newRecipeNotifTimer / 25.0F));
-                        MessageBox.DrawItemLabel(_spriteBatch, joobi, notifFont, "New recipe unlocked!", new Vector2(1600, 155), Color.White, newRecipeNotifTimer / 25.0F);
+                        MessageBox.DrawMessage(_spriteBatch, joobi, notifFont, "New recipe unlocked!", new Vector2(1600, 155), Color.White, newRecipeNotifTimer / 25.0F);
                     }
 
                     //draw hoverover
@@ -880,7 +880,7 @@ namespace MalpracticeMakesPerfect
                         //hover over slot
                         if (highlightedSlot !=  null && !highlightedSlot.IsEmpty)
                         {
-                            MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, highlightedSlot.ItemName, new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
+                            MessageBox.DrawMessage(_spriteBatch, joobi, itemAmountFont, highlightedSlot.ItemName, new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
                         }
                     }
                     //holding item
@@ -888,7 +888,7 @@ namespace MalpracticeMakesPerfect
                     {
                         if (highlightedSlot == null || highlightedSlot.IsEmpty || highlightedSlot.ItemName == theMessenger.Item.ItemName)
                         {
-                            MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, theMessenger.Item.ItemName, new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
+                            MessageBox.DrawMessage(_spriteBatch, joobi, itemAmountFont, theMessenger.Item.ItemName, new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
                         }
                         else
                         {
@@ -898,7 +898,7 @@ namespace MalpracticeMakesPerfect
                             }
                             else
                             {
-                                MessageBox.DrawItemLabel(_spriteBatch, joobi, itemAmountFont, "(incompatible)", new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
+                                MessageBox.DrawMessage(_spriteBatch, joobi, itemAmountFont, "(incompatible)", new Vector2(mouseState.X + 10, mouseState.Y + 10), Color.White);
                             }
                         }
                     }
@@ -913,7 +913,7 @@ namespace MalpracticeMakesPerfect
                     }
                     else
                     {
-                        MessageBox.DrawItemLabel(_spriteBatch, sky, smallSubtitleFont, scenarioQueue.Peek().GetHint(hints), new Vector2(150, 150), Color.White);
+                        MessageBox.DrawMessage(_spriteBatch, sky, smallSubtitleFont, scenarioQueue.Peek().GetHint(hints), new Vector2(150, 150), Color.White);
                     }
 
 

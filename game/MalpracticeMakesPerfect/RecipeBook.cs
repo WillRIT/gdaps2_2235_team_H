@@ -170,7 +170,7 @@ namespace MalpracticeMakesPerfect
                         }
                         else
                         {
-                            MessageBox.DrawItemLabel(sb, asset, font, "Item not unlocked!", new Vector2(mState.X + 10, mState.Y + 10), Color.Red);
+                            MessageBox.DrawMessage(sb, asset, font, "Item not unlocked!", new Vector2(mState.X + 10, mState.Y + 10), Color.Red);
                         }
                     }
                 }
