@@ -103,6 +103,18 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/TitleFont.spritefont
 
+#begin items/Apple Pie.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:items/Apple Pie.png
+
 #begin items/Apple.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -114,6 +126,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:items/Apple.png
+
+#begin items/Baked Good.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:items/Baked Good.png
 
 #begin items/Bandage.png
 /importer:TextureImporter
@@ -211,6 +235,18 @@
 /processorParam:TextureFormat=Color
 /build:items/Empty Jar.png
 
+#begin items/Flour.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:items/Flour.png
+
 #begin items/Green Cider.webp
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -235,7 +271,7 @@
 /processorParam:TextureFormat=Color
 /build:items/Green Juice.png
 
-#begin items/Hammer.webp
+#begin items/Hammer.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -245,7 +281,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:items/Hammer.webp
+/build:items/Hammer.png
 
 #begin items/Hay.png
 /importer:TextureImporter
@@ -378,6 +414,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:items/Scrubber.png
+
+#begin items/Sharp Object.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:items/Sharp Object.png
 
 #begin items/Stick.png
 /importer:TextureImporter
