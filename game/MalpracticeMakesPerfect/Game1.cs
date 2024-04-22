@@ -179,7 +179,7 @@ namespace MalpracticeMakesPerfect
             _graphics.ApplyChanges();
 
             Reputation = 800;
-            money = 1000;
+            money = 500;
 
             newRecipeNotifItems = new List<Item>();
 
@@ -263,7 +263,7 @@ namespace MalpracticeMakesPerfect
 
 
             //setup recipe book
-            recipeBook = new RecipeBook(slotSprite, new Rectangle(40, 40, 1840, 1000), itemAmountFont, allItems, allRecipes);
+            recipeBook = new RecipeBook(slotSprite, new Rectangle(360, 203, 1200, 675), itemAmountFont, allItems, allRecipes);
 
             recipeBookButton = new Button(sky, new Rectangle(1600, 25, 190, 50), smallSubtitleFont, "Recipe Book", Color.WhiteSmoke, Color.Maroon, Color.Yellow);
             recipeBookButton.OnLeftButton += recipeBook.Show;
@@ -572,9 +572,9 @@ namespace MalpracticeMakesPerfect
         private void Reset()
         {
             Reputation = 800;
-            money = 1000;
+            money = 500;
 
-            myInventory = new Inventory(joobi, new Rectangle(700, 500, 500, 200), itemAmountFont, slotSprite, PickUpItem, PutDownItem, PutSingleItem, SetHighlighted);
+            myInventory = new Inventory(joobi, new Rectangle(700, 550, 588, 288), itemAmountFont, slotSprite, PickUpItem, PutDownItem, PutSingleItem, SetHighlighted);
 
             theMessenger = null;
 
@@ -596,7 +596,7 @@ namespace MalpracticeMakesPerfect
 
             unlockedRecipes = new List<Recipe>();
 
-            recipeBook = new RecipeBook(slotSprite, new Rectangle(40, 40, 1840, 1000), itemAmountFont, allItems, allRecipes);
+            recipeBook = new RecipeBook(slotSprite, new Rectangle(360, 203, 1200, 675), itemAmountFont, allItems, allRecipes);
             recipeBookButton = new Button(sky, new Rectangle(1600, 25, 190, 50), smallSubtitleFont, "Recipe Book", Color.WhiteSmoke, Color.Maroon, Color.Yellow);
             recipeBookButton.OnLeftButton += recipeBook.Show;
         }

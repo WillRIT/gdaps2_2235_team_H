@@ -48,7 +48,7 @@ namespace MalpracticeMakesPerfect
             {
 
                 //go to next row
-                if (slotDims.X * (col + 1) + 100 > position.Width - 100)
+                if (slotDims.X * (col + 1) + 100 > position.Width - 200)
                 {
                     row++;
                     col = 0;
