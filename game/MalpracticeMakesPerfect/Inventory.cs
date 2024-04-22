@@ -22,7 +22,17 @@ namespace MalpracticeMakesPerfect
 
         private int slotSize;
 
-
+        /// <summary>
+        /// Create inventory object
+        /// </summary>
+        /// <param name="asset">Inventory background</param>
+        /// <param name="position">Dimensions/position of inventory</param>
+        /// <param name="font">Text font</param>
+        /// <param name="slotAsset">Asset for item slots</param>
+        /// <param name="pickUpItem">Method for picking up item</param>
+        /// <param name="putDownItem">Method for placing item</param>
+        /// <param name="putSingleItem">Method for right-click placing (single item)</param>
+        /// <param name="setHighlighted">Method for setting which slot is highlighted</param>
         public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, OnLeftPress pickUpItem, OnLeftRelease putDownItem, OnRightPress putSingleItem, OnHover setHighlighted)
             :base(asset, position)
         {
@@ -48,27 +58,6 @@ namespace MalpracticeMakesPerfect
                 s.SetHighlighted += setHighlighted;
             }
         }
-
-        public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, List<Slot> hotbarItems)
-            : base(asset, position)
-        {
-            this.font = font;
-            this.slotAsset = slotAsset;
-
-            //initialize hotbar as empty slots
-            for (int i = 0; i < hotbar.Length - 1; i++)
-            {
-                hotbar[i] = new Slot(slotAsset, new Rectangle(0, 0, slotSize, slotSize), font);
-            }
-
-            for (int i = 0; i < Math.Min(hotbarItems.Count, hotbar.Length); i++)
-            {
-                hotbar[i] = hotbarItems[i];
-            }
-
-            //create trash
-            hotbar[hotbar.Length - 1].IsTrash = true;
-        }
         
         /// <summary>
         /// Clears inventory
@@ -79,16 +68,6 @@ namespace MalpracticeMakesPerfect
             {
                 s.Item = null;
             }
-        }
-
-        /// <summary>
-        /// Adds an item to the inventory if it doesn't already exist there
-        /// </summary>
-        /// <param name="item">Item to be added</param>
-        /// <param name="slotIndex">Slot for item to be added</param>
-        public void AddItem(Item item, int slotIndex)
-        {
-
         }
 
         /// <summary>

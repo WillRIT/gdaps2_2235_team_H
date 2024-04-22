@@ -46,6 +46,7 @@ namespace MalpracticeMakesPerfect
         private MouseState mousePrev;
 
         private KeyboardState keyboardState;
+        private KeyboardState keyboardPrev;
 
         //items and slots
         private Inventory myInventory;
@@ -624,7 +625,7 @@ namespace MalpracticeMakesPerfect
 
             keyboardState = Keyboard.GetState();
 
-            if (keyboardState.IsKeyDown(Keys.F))
+            if (keyboardState.IsKeyDown(Keys.F) && keyboardPrev.IsKeyUp(Keys.F))
             {
                 _graphics.IsFullScreen = !_graphics.IsFullScreen;
                 _graphics.ApplyChanges();
@@ -793,6 +794,7 @@ namespace MalpracticeMakesPerfect
             
 
             mousePrev = mouseState;
+            keyboardPrev = keyboardState;
 
             base.Update(gameTime);
         }

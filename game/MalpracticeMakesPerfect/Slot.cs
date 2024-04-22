@@ -75,6 +75,12 @@ namespace MalpracticeMakesPerfect
         public event OnRightPress PutSingleItem;
         public event OnHover SetHighlighted;
 
+        /// <summary>
+        /// Create empty slot
+        /// </summary>
+        /// <param name="asset">Background asset</param>
+        /// <param name="position">Dimensions/position</param>
+        /// <param name="font">Text font</param>
         public Slot(Texture2D asset, Rectangle position, SpriteFont font)
             : base(asset, position)
         {
@@ -83,6 +89,14 @@ namespace MalpracticeMakesPerfect
             amount = 0;
         }
 
+        /// <summary>
+        /// Create slot with item
+        /// </summary>
+        /// <param name="asset">Background asset</param>
+        /// <param name="position">Dimensions/position</param>
+        /// <param name="font">Text font</param>
+        /// <param name="item">Item in slot</param>
+        /// <param name="amount">Amount of item in slot</param>
         public Slot(Texture2D asset, Rectangle position, SpriteFont font, Item item, int amount)
             : base(asset, position)
         {
@@ -91,6 +105,13 @@ namespace MalpracticeMakesPerfect
             this.amount = amount;
         }
 
+        /// <summary>
+        /// Create trash slot
+        /// </summary>
+        /// <param name="asset">Background asset</param>
+        /// <param name="position">Dimensions/position</param>
+        /// <param name="font">Text font</param>
+        /// <param name="isTrash">Override for creating trash slot</param>
         public Slot(Texture2D asset, Rectangle position, SpriteFont font, bool isTrash)
             : base(asset, position)
         {

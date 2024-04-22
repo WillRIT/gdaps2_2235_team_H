@@ -14,6 +14,11 @@ namespace MalpracticeMakesPerfect
         public bool Unlocked { get; set; }
         public Dictionary<Recipe, bool> Recipes { get; set; }
 
+        /// <summary>
+        /// Create recipebook slot
+        /// </summary>
+        /// <param name="position">Dimensions/position of slot</param>
+        /// <param name="item">Item in slot</param>
         public RecipeBookSlot(Rectangle position, Item item)
             : base(item.Asset, position)
         {

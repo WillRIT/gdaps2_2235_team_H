@@ -36,6 +36,12 @@ namespace MalpracticeMakesPerfect
 
         private int prevCount;
 
+        /// <summary>
+        /// Create log
+        /// </summary>
+        /// <param name="asset">Log background</param>
+        /// <param name="position">Log dimensions/position</param>
+        /// <param name="font">Log text font</param>
         public Log(Texture2D asset, Rectangle position, SpriteFont font)
             : base(asset, position)
         {

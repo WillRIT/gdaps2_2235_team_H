@@ -27,6 +27,14 @@ namespace MalpracticeMakesPerfect
         public event OnButtonClick OnLeftButton;
         public event OnButtonClick OnRightButton;
 
+        /// <summary>
+        /// Create button
+        /// </summary>
+        /// <param name="asset">Background asset</param>
+        /// <param name="position">Position/dimensions</param>
+        /// <param name="font">Text font</param>
+        /// <param name="text">Text string</param>
+        /// <param name="textColor">Text color</param>
         public Button(Texture2D asset, Rectangle position, SpriteFont font, string text, Color textColor) 
             : base(asset, position)
         {
@@ -41,6 +49,16 @@ namespace MalpracticeMakesPerfect
             );
         }
 
+        /// <summary>
+        /// Create button
+        /// </summary>
+        /// <param name="asset">Background asset</param>
+        /// <param name="position">Position/dimensions</param>
+        /// <param name="font">Text fpmt</param>
+        /// <param name="text">Text string</param>
+        /// <param name="textColor">Text color</param>
+        /// <param name="mainColor">Default background color</param>
+        /// <param name="hoverColor">Background color on hover</param>
         public Button(Texture2D asset, Rectangle position, SpriteFont font, string text, Color textColor, Color mainColor, Color hoverColor)
             :base(asset, position)
         {
