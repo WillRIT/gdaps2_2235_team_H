@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
@@ -37,7 +38,7 @@ namespace MalpracticeMakesPerfect
             get { return slot; }
             set { slot = value; }
         }
-        private List<Solution> solutions;
+
         private Texture2D personSprite;
         private string godModeText;
         private Vector2 spawnPoint = new Vector2(0, 650);
@@ -57,6 +58,12 @@ namespace MalpracticeMakesPerfect
         {
             get { return godModeOn; }
             set { godModeOn = value; }
+        }
+
+        private bool isLEaving;
+        public bool IsLeaving
+        {
+            get { return (state == ScenarioState.Leaving); }
         }
 
         Dictionary<string, string[]> cures = new Dictionary<string, string[]>();
@@ -140,6 +147,23 @@ namespace MalpracticeMakesPerfect
                 CureGiven = true;
             }
             slot.Item = null;
+        }
+
+
+        /// <summary>
+        /// Gets a hint based on the name of the current scenario
+        /// </summary>
+        /// <returns>The scenario specific hint</returns>
+        public string GetHint(Dictionary<string, string> hints)
+        {
+            if (hints.ContainsKey(name))
+            {
+                return hints[name];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public void Update()
