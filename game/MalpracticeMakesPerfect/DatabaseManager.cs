@@ -30,8 +30,8 @@ namespace MalpracticeMakesPerfect
             Dictionary<string, Item> findItems = new Dictionary<string, Item>();
             Dictionary<string, Recipe> recipeList = new Dictionary<string, Recipe>();
 
-            string itemFilePath = "../../../Items.csv";
-            string recipeFilePath = "../../../Recipes.csv";
+            string itemFilePath = "../../../Items.txt";
+            string recipeFilePath = "../../../Recipes.txt";
 
             try
             {
@@ -112,7 +112,7 @@ namespace MalpracticeMakesPerfect
         public static List<Scenario> GetScenarios(ContentManager Content, List<Item> items, Texture2D slotAsset, SpriteFont font, Texture2D buttonAsset, OnLeftPress pickUpItem, OnLeftRelease putDownItem, OnHover setHighlight, UpdateStats updateStats)
         {
             List<Scenario> list = new List<Scenario>();
-            string path = "../../../scenarios.csv";
+            string path = "../../../scenarios.txt";
 
             try
             {
