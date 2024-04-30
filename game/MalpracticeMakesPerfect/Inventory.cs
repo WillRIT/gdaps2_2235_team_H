@@ -33,7 +33,7 @@ namespace MalpracticeMakesPerfect
         /// <param name="putDownItem">Method for placing item</param>
         /// <param name="putSingleItem">Method for right-click placing (single item)</param>
         /// <param name="setHighlighted">Method for setting which slot is highlighted</param>
-        public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, OnLeftPress pickUpItem, OnLeftRelease putDownItem, OnRightPress putSingleItem, OnHover setHighlighted)
+        public Inventory(Texture2D asset, Rectangle position, SpriteFont font, Texture2D slotAsset, Texture2D slotTrash, OnLeftPress pickUpItem, OnLeftRelease putDownItem, OnRightPress putSingleItem, OnHover setHighlighted)
             :base(asset, position)
         {
             this.font = font;
@@ -48,7 +48,7 @@ namespace MalpracticeMakesPerfect
             }
 
             //create trash
-            hotbar[hotbar.Length - 1] = new Slot(slotAsset, new Rectangle(0, 0, slotSize, slotSize), font, true);
+            hotbar[hotbar.Length - 1] = new Slot(slotTrash, new Rectangle(0, 0, slotSize, slotSize), font, true);
 
             foreach (Slot s in hotbar)
             {

@@ -30,6 +30,7 @@ namespace MalpracticeMakesPerfect
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D slotSprite;
+        private Texture2D slotTrash;
         private Texture2D joobi;
         private Texture2D sky;
         private Texture2D cloud;
@@ -197,6 +198,7 @@ namespace MalpracticeMakesPerfect
 
             //Loading textures
             slotSprite = Content.Load<Texture2D>("ui/slot");
+            slotTrash = Content.Load<Texture2D>("ui/trash");
             joobi = Content.Load<Texture2D>("ui/joobi");
             
             sky = Content.Load<Texture2D>("background/sky");
@@ -231,7 +233,7 @@ namespace MalpracticeMakesPerfect
 
             groundRect = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
-            myInventory = new Inventory(joobi, new Rectangle(700, 550, 588, 288), itemAmountFont, slotSprite, PickUpItem, PutDownItem, PutSingleItem, SetHighlighted);
+            myInventory = new Inventory(joobi, new Rectangle(700, 550, 588, 288), itemAmountFont, slotSprite, slotTrash, PickUpItem, PutDownItem, PutSingleItem, SetHighlighted);
 
             theMessenger = null;
 
@@ -584,7 +586,7 @@ namespace MalpracticeMakesPerfect
             Reputation = 800;
             money = 500;
 
-            myInventory = new Inventory(joobi, new Rectangle(700, 550, 588, 288), itemAmountFont, slotSprite, PickUpItem, PutDownItem, PutSingleItem, SetHighlighted);
+            myInventory = new Inventory(joobi, new Rectangle(700, 550, 588, 288), itemAmountFont, slotSprite, slotTrash, PickUpItem, PutDownItem, PutSingleItem, SetHighlighted);
 
             theMessenger = null;
 
@@ -695,7 +697,7 @@ namespace MalpracticeMakesPerfect
                     }
 
                     //changing into game over state at the end of the day
-                    if (scenarioQueue.Count == 0 && (Reputation <= 0 || money <= 0))
+                    if (scenarioQueue.Count == 0 && (Reputation <= maxRep/4 || money <= 0))
                     {
                         gameState = GameStates.GameOver;
                     }

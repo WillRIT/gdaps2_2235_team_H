@@ -13,18 +13,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin ../../../../../../../Desktop/BELGH ASSETS/Mealy Apple.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:items/Mealy Apple.png
-
 #begin background/cloud.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -331,6 +319,18 @@
 /processorParam:TextureFormat=Color
 /build:items/Horsefeathers.webp
 
+#begin items/Mealy Apple.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:items/Mealy Apple.png
+
 #begin items/MF_Items_juice_8.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -558,4 +558,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:UI/star.png
+
+#begin UI/trash.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/trash.png
 
