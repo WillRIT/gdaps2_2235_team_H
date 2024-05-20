@@ -352,3 +352,6 @@ MigrationBackup/
 /game/MalpracticeMakesPerfect/Content/Realistic_Cloud_PNG_Transparent_Clip_Art_Image.png
 /game/MalpracticeMakesPerfect/Items.txt
 /game/MalpracticeMakesPerfect/Recipes.txt
+
+# Ignore MacOS's files
+.DS_Store
