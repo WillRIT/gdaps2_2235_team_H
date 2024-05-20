@@ -287,7 +287,7 @@ namespace MalpracticeMakesPerfect
             hints = new Dictionary<string, string>();
             hintButton = new Button(sky, new Rectangle(150, 150, 160, 50), smallSubtitleFont, "Hint: $20", Color.WhiteSmoke, Color.Maroon, Color.Yellow);
             hintButton.OnLeftButton += Hint;
-            DatabaseManager.GetHintList(hints);
+            DatabaseManager.GetHintList(Content, hints);
         }
 
         /// <summary>

@@ -1,0 +1,22 @@
+﻿name|description|cost|inInventory|assetPath
+Cure All|Works for whatever!!!|200.00|true|Cure All
+Apple|A very green apple. The greenest.|10.75|true|Apple
+Stick|Pointy|2.00|true|Stick
+Hay|Makes you sneeze|3.00|true|Hay
+Scrubber|Good for deep cleaning|0.00|false|Scrubber
+Mealy Apple|A very mealy apple. The mealiest.|0.00|false|Mealy Apple
+Eggs|Very Egg-cellent haha|100.00|true|Eggs
+Bandage|Good for bleeding|0.00|false|Bandage
+Octopus|8-Armed Friend|100.00|true|Octopus
+Bee|Sticky|6.00|true|Bee
+Needle|Also Pointy!|3.00|true|Needle
+Cotton|good for fluffing!|5.00|true|Cotton
+Empty Jar|Good for holding!|4.00|true|Empty Jar
+Honey|Sticky and Icky |0.00|false|Honey
+Tourniquet|Stops bleeding|0.00|false|Tourniquet
+Wig-Like Octopus|I Guess this could work?|0.00|false|Wig
+Hammer|Good for pounding!|40.00|true|Hammer
+Flour|Cough cough|0.00|false|Flour
+Apple Pie|Yum yum Yummy!|0.00|false|Apple Pie
+Baked Good|Kinda Plain but hey|0.00|false|Baked Good
+Sharp Object|YEOUCH!|0.00|false|Sharp Object

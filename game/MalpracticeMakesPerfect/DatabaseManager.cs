@@ -17,6 +17,12 @@ namespace MalpracticeMakesPerfect
     /// </summary>
     internal class DatabaseManager
     {
+
+        private static string DataPath(string ContentManagerRoot, string fileName)
+        {
+            return ContentManagerRoot + "/data/" + fileName;
+        }
+
         /// <summary>
         /// Get list of items and recipes from file
         /// </summary>
@@ -30,8 +36,8 @@ namespace MalpracticeMakesPerfect
             Dictionary<string, Item> findItems = new Dictionary<string, Item>();
             Dictionary<string, Recipe> recipeList = new Dictionary<string, Recipe>();
 
-            string itemFilePath = "../../../Items.txt";
-            string recipeFilePath = "../../../Recipes.txt";
+            string itemFilePath = DataPath(Content.RootDirectory, "Items.txt");
+            string recipeFilePath = DataPath(Content.RootDirectory, "Recipes.txt");
 
             try
             {
@@ -55,6 +61,10 @@ namespace MalpracticeMakesPerfect
                         findItems.Add(name, new Item(asset, new Rectangle(0, 0, 50, 50), name, desc, cost, inInventory));
                     }
                 }
+                else
+                {
+                    Console.WriteLine("Couldn't find Items.txt");
+                }
 
                 // Check if the file exists
                 if (File.Exists(recipeFilePath))
@@ -66,8 +76,8 @@ namespace MalpracticeMakesPerfect
                     for (int i = 1; i < lines.Length; i++)
                     {
                         string[] recipeElements = lines[i].Split('|');
-                        string[] inputs = recipeElements[0].Split(',');
                         string[] outputs = recipeElements[1].Split(',');
+                        string[] inputs = recipeElements[0].Split(',');
 
                         Item[] itemsIn = new Item[]
                         {
@@ -84,6 +94,10 @@ namespace MalpracticeMakesPerfect
 
                         recipeList.Add($"{itemsIn[0]},{itemsIn[1]}",new Recipe(itemsIn, itemsOut));
                     }
+                }
+                else
+                {
+                    Console.WriteLine("Cannot find Recipes.txt!");
                 }
             }
             catch (Exception ex)
@@ -112,15 +126,15 @@ namespace MalpracticeMakesPerfect
         public static List<Scenario> GetScenarios(ContentManager Content, List<Item> items, Texture2D slotAsset, SpriteFont font, Texture2D buttonAsset, OnLeftPress pickUpItem, OnLeftRelease putDownItem, OnHover setHighlight, UpdateStats updateStats)
         {
             List<Scenario> list = new List<Scenario>();
-            string path = "../../../scenarios.txt";
+            string scenariosFile = DataPath(Content.RootDirectory, "scenarios.txt");
 
             try
             {
                 // Check if the file exists
-                if (File.Exists(path))
+                if (File.Exists(scenariosFile))
                 {
                     // Read all lines from the file
-                    string[] lines = File.ReadAllLines(path);
+                    string[] lines = File.ReadAllLines(scenariosFile);
 
                     for (int i = 1; i < lines.Length; i++) // i = 1 because data starts on second line
                     {
@@ -159,10 +173,10 @@ namespace MalpracticeMakesPerfect
         /// Gets scenario specific hints from a file
         /// </summary>
         /// <param name="hints"></param>
-        public static void GetHintList(Dictionary<string, string> hints)
+        public static void GetHintList(ContentManager Content, Dictionary<string, string> hints)
         {
-            string hintPath = "../../../Hints.txt";
-
+            string hintPath = DataPath(Content.RootDirectory, "Hints.txt");
+            
             try
             {
                 //Checks if the file exists
